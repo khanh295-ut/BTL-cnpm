@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng ký{% endblock %}
+
+{% block content %}
+<section class="card auth-card">
+  <div class="card-header">
+    <h1>Đăng ký</h1>
+    <p class="subtitle">Tạo tài khoản mới để truy cập hệ thống.</p>
+  </div>
+
+  <div id="alertBox" class="alert-box"></div>
+
+  <form id="registerForm" class="form-grid">
+    <label class="form-label">Username</label>
+    <input type="text" name="username" class="form-input" placeholder="Username" required>
+
+    <label class="form-label">Email</label>
+    <input type="email" name="email" class="form-input" placeholder="email@example.com" required>
+
+    <label class="form-label">Mật khẩu</label>
+    <input type="password" name="password" class="form-input" placeholder="Mật khẩu" required>
+
+    <label class="form-label">Xác nhận mật khẩu</label>
+    <input type="password" name="confirm_password" class="form-input" placeholder="Xác nhận mật khẩu" required>
+
+    <button type="submit" class="button button-success">Đăng ký</button>
+  </form>
+
+  <div class="footnote">
+    Đã có tài khoản? <a href="/login">Đăng nhập</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/register.js"></script>
+{% endblock %}

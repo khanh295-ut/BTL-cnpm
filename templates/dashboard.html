@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+  <section class="card dashboard-card">
+    <div class="card-header">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Chào mừng bạn đến với trang quản lý cá nhân.</p>
+    </div>
+
+    <div id="alertBox" class="alert-box"></div>
+
+    <div class="dashboard-info">
+      <div class="info-row"><span>Username:</span> <strong id="usernameLabel">...</strong></div>
+      <div class="info-row"><span>Email:</span> <strong id="emailLabel">...</strong></div>
+      <div class="info-row"><span>Vai trò:</span> <strong id="roleLabel">...</strong></div>
+    </div>
+
+    <div class="actions-row">
+      <a class="button button-secondary" href="/profile">Hồ sơ cá nhân</a>
+      <button id="logoutButton" class="button button-danger">Đăng xuất</button>
+    </div>
+  </section>
+
+  <section class="card dashboard-card" id="adminCard">
+    <div class="card-header">
+      <h2>Quản lý người dùng</h2>
+      <p class="subtitle">Chỉ dành cho Admin.</p>
+    </div>
+
+    <div id="adminNotice" class="admin-notice">Chỉ Admin mới có thể xem nội dung này.</div>
+    <div id="adminPanel" class="admin-panel hidden">
+      <table class="table-users">
+        <thead>
+          <tr><th>ID</th><th>Username</th><th>Email</th><th>Vai trò</th><th>Hành động</th></tr>
+        </thead>
+        <tbody id="userTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

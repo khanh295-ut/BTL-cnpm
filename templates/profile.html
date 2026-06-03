@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Hồ sơ cá nhân{% endblock %}
+
+{% block content %}
+<section class="profile-grid">
+  <div class="card profile-card">
+    <div class="card-header">
+      <h1>Hồ sơ cá nhân</h1>
+      <p class="subtitle">Xem và cập nhật thông tin tài khoản của bạn.</p>
+    </div>
+
+    <div id="alertBox" class="alert-box"></div>
+
+    <form id="profileForm" class="form-grid">
+      <label class="form-label">Username</label>
+      <input type="text" name="username" class="form-input" disabled>
+
+      <label class="form-label">Họ và tên</label>
+      <input type="text" name="full_name" class="form-input" placeholder="Họ và tên">
+
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-input" placeholder="Email">
+
+      <label class="form-label">Giới thiệu</label>
+      <textarea name="bio" class="form-input" rows="4" placeholder="Thông tin cá nhân"></textarea>
+
+      <button type="submit" class="button button-primary">Lưu thay đổi</button>
+    </form>
+
+    <hr class="divider">
+
+    <div class="card-header">
+      <h2>Đổi mật khẩu</h2>
+    </div>
+    <form id="passwordForm" class="form-grid">
+      <label class="form-label">Mật khẩu hiện tại</label>
+      <input type="password" name="current_password" class="form-input" required>
+
+      <label class="form-label">Mật khẩu mới</label>
+      <input type="password" name="new_password" class="form-input" required>
+
+      <button type="submit" class="button button-success">Đổi mật khẩu</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}
