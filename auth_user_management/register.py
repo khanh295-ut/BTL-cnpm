@@ -9,7 +9,7 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
 
-    data = request.get_json() or request.form
+    data = request.get_json(silent=True) or request.form
     username = (data.get("username") or "").strip()
     email = (data.get("email") or "").strip().lower()
     password = data.get("password", "")

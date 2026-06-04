@@ -16,6 +16,10 @@ async function renderDashboard() {
   usernameLabel.textContent = data.user.username;
   emailLabel.textContent = data.user.email;
   roleLabel.textContent = data.user.role;
+  const avatar = document.getElementById("dashboardAvatar");
+  if (avatar) {
+    avatar.src = data.user.avatar || "/static/images/avatar-placeholder.svg";
+  }
 
   if (data.user.role === "Admin") {
     adminPanel.classList.remove("hidden");

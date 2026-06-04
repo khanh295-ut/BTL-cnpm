@@ -16,7 +16,7 @@ def login():
     if current_user.is_authenticated:
         return jsonify({"message": "Bạn đã đăng nhập."}), 200
 
-    data = request.get_json() or request.form
+    data = request.get_json(silent=True) or request.form
     login_input = (data.get("login") or data.get("username") or data.get("email") or "").strip()
     password = data.get("password", "")
 

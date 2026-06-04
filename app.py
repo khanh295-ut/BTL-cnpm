@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from flask_login import LoginManager
+from sqlalchemy import text
 from config import Config
 from models import db, bcrypt, User
 from auth_user_management import auth_bp
@@ -45,9 +46,31 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        migrate_database()
         create_sample_data()
 
     return app
+
+
+def migrate_database():
+    # Ensure the users table has any newer optional columns required by the current model.
+    try:
+        result = db.session.execute(text("PRAGMA table_info(users)"))
+        existing_columns = {row[1] for row in result}
+    except Exception:
+        existing_columns = set()
+
+    migrations = [
+        ("full_name", "VARCHAR(120)"),
+        ("bio", "VARCHAR(500)"),
+        ("avatar", "VARCHAR(255)"),
+    ]
+
+    for column_name, column_spec in migrations:
+        if column_name not in existing_columns:
+            db.session.execute(text(f"ALTER TABLE users ADD COLUMN {column_name} {column_spec}"))
+
+    db.session.commit()
 
 
 def create_sample_data():
