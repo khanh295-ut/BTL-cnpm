@@ -1,0 +1,92 @@
+\chapter{Kiểm thử hệ thống}
+
+\section{Kế hoạch kiểm thử}
+
+Nhóm thực hiện kiểm thử theo hai mức:
+\begin{itemize}
+  \item \textbf{Unit Test}: Kiểm thử từng hàm/module độc lập bằng
+        Jest (backend) và pytest (AI service).
+  \item \textbf{Integration Test}: Kiểm thử luồng nghiệp vụ end-to-end
+        qua API bằng Postman/Supertest.
+\end{itemize}
+
+\section{Test cases chức năng chính}
+
+\begin{table}[H]
+\centering
+\caption{Test cases kiểm thử chức năng đăng ký}
+\begin{tabular}{p{0.8cm} p{4cm} p{3.5cm} p{3.5cm} p{1.5cm}}
+\toprule
+\textbf{TC} & \textbf{Mô tả} & \textbf{Đầu vào} & \textbf{Kết quả mong đợi} & \textbf{Kết quả} \\
+\midrule
+TC-01 & Đăng ký hợp lệ
+  & Email mới, mật khẩu $\geq$8 ký tự
+  & Tạo tài khoản, trả token
+  & Đạt \\
+TC-02 & Email trùng
+  & Email đã tồn tại
+  & Lỗi 409 Conflict
+  & Đạt \\
+TC-03 & Mật khẩu yếu
+  & Mật khẩu $<$8 ký tự
+  & Lỗi 400 Bad Request
+  & Đạt \\
+TC-04 & Thiếu email
+  & Không có trường email
+  & Lỗi 400 validation
+  & Đạt \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Test cases kiểm thử thuật toán matching}
+\begin{tabular}{p{0.8cm} p{4cm} p{3.5cm} p{3.5cm} p{1.5cm}}
+\toprule
+\textbf{TC} & \textbf{Mô tả} & \textbf{Đầu vào} & \textbf{Kết quả mong đợi} & \textbf{Kết quả} \\
+\midrule
+TC-10 & Matching chính xác
+  & Dự án NLP, chuyên gia NLP
+  & Score $>$ 0.8
+  & Đạt \\
+TC-11 & Matching không phù hợp
+  & Dự án NLP, chuyên gia CV
+  & Score $<$ 0.2
+  & Đạt \\
+TC-12 & Không có chuyên gia
+  & DB rỗng
+  & Trả danh sách rỗng
+  & Đạt \\
+TC-13 & Top-K trả về đúng
+  & 10 chuyên gia, top\_k=5
+  & Trả đúng 5 kết quả cao nhất
+  & Đạt \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Kết quả kiểm thử}
+
+\begin{table}[H]
+\centering
+\caption{Tổng hợp kết quả kiểm thử}
+\begin{tabular}{p{4cm} p{2cm} p{2cm} p{2cm} p{2.5cm}}
+\toprule
+\textbf{Module} & \textbf{Tổng TC} & \textbf{Đạt} & \textbf{Không đạt} & \textbf{Tỉ lệ} \\
+\midrule
+Authentication   & 8  & 8  & 0 & 100\% \\
+Marketplace      & 10 & 9  & 1 & 90\%  \\
+AI Matching      & 6  & 6  & 0 & 100\% \\
+Contract         & 7  & 7  & 0 & 100\% \\
+Payment          & 5  & 4  & 1 & 80\%  \\
+\midrule
+\textbf{Tổng}   & \textbf{36} & \textbf{34} & \textbf{2} & \textbf{94.4\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Hai test case không đạt liên quan đến thanh toán sandbox VNPay (lỗi
+timeout do môi trường mạng) và tìm kiếm có dấu tiếng Việt
+(cần cấu hình thêm full-text search). Nhóm đã ghi nhận và
+đề xuất hướng xử lý trong phần kết luận.

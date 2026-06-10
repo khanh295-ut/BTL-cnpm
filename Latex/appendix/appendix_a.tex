@@ -1,0 +1,48 @@
+\chapter{Hướng dẫn cài đặt và chạy dự án}
+
+\section{Yêu cầu hệ thống}
+
+\begin{itemize}
+  \item Node.js $\geq$ 20.x
+  \item Python $\geq$ 3.11
+  \item Docker và Docker Compose
+  \item PostgreSQL 15.x (hoặc dùng Docker)
+\end{itemize}
+
+\section{Các bước cài đặt}
+
+\begin{lstlisting}[language=bash, caption={Cài đặt và khởi động hệ thống}]
+# 1. Clone source code
+git clone https://github.com/nhom/aiconnect.git
+cd aiconnect
+
+# 2. Khoi dong toan bo bang Docker Compose
+docker-compose up -d
+
+# 3. Chay migration database
+docker-compose exec backend npm run migrate
+
+# 4. Chay seed du lieu mau
+docker-compose exec backend npm run seed
+
+# 5. Truy cap he thong
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+# AI Service: http://localhost:8000
+\end{lstlisting}
+
+\section{Tài khoản demo}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Vai trò} & \textbf{Email} & \textbf{Mật khẩu} \\
+\midrule
+Admin      & admin@aiconnect.vn    & Admin@123 \\
+Doanh nghiệp & enterprise@demo.vn  & Demo@123  \\
+Chuyên gia & expert@demo.vn        & Demo@123  \\
+\bottomrule
+\end{tabular}
+\caption{Tài khoản demo hệ thống}
+\end{table}
