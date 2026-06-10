@@ -1,0 +1,116 @@
+\chapter{Cài đặt hệ thống}
+
+\section{Môi trường phát triển}
+
+\begin{table}[H]
+\centering
+\caption{Môi trường và công nghệ sử dụng}
+\begin{tabular}{p{4cm} p{4cm} p{5cm}}
+\toprule
+\textbf{Thành phần} & \textbf{Công nghệ} & \textbf{Phiên bản} \\
+\midrule
+Frontend        & React.js + Tailwind CSS & 18.x / 3.x \\
+Backend         & Node.js + Express.js    & 20.x / 4.x \\
+Database        & PostgreSQL              & 15.x \\
+Cache           & Redis                   & 7.x \\
+AI Service      & Python + FastAPI        & 3.11 / 0.100+ \\
+Realtime        & Socket.IO               & 4.x \\
+Authentication  & JWT + bcrypt            & --- \\
+Containerize    & Docker + Docker Compose & 24.x \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Cấu trúc thư mục dự án}
+
+\begin{lstlisting}[language=bash, caption={Cấu trúc thư mục AIConnect}]
+aiconnect/
+├── frontend/               # React.js SPA
+│   ├── src/
+│   │   ├── components/     # UI components dùng chung
+│   │   ├── pages/          # Các trang (Home, Dashboard,...)
+│   │   ├── services/       # Gọi API
+│   │   └── store/          # State management (Redux)
+│   └── package.json
+│
+├── backend/                # Node.js API Server
+│   ├── src/
+│   │   ├── controllers/    # Xử lý request
+│   │   ├── models/         # Định nghĩa DB model
+│   │   ├── routes/         # Định tuyến API
+│   │   ├── middlewares/    # Auth, error handling
+│   │   └── utils/          # Hàm tiện ích
+│   └── package.json
+│
+├── ai-service/             # Python FastAPI Matching
+│   ├── main.py
+│   ├── matching.py         # Thuật toan cosine similarity
+│   └── requirements.txt
+│
+├── docker-compose.yml      # Chay toan bo he thong
+└── README.md
+\end{lstlisting}
+
+\section{Cài đặt module Matching}
+
+Module AI Matching được cài đặt bằng Python, sử dụng thư viện
+\texttt{scikit-learn} để tính Cosine Similarity:
+
+\begin{lstlisting}[language=Python, caption={Thuật toán matching chuyên gia}]
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+def build_skill_vector(skills: list, all_skills: list,
+                       weights: dict) -> np.ndarray:
+    """Tao vector ky nang co trong so."""
+    vector = np.zeros(len(all_skills))
+    for i, skill in enumerate(all_skills):
+        if skill in skills:
+            vector[i] = weights.get(skill, 1.0)
+    return vector
+
+def match_experts(project: dict, experts: list,
+                  all_skills: list, top_k: int = 5) -> list:
+    """
+    Tinh diem tuong dong giua du an va cac chuyen gia.
+    Tra ve top_k chuyen gia phu hop nhat.
+    """
+    project_vector = build_skill_vector(
+        project["skills"], all_skills, project["weights"]
+    )
+    results = []
+    for expert in experts:
+        expert_vector = build_skill_vector(
+            expert["skills"], all_skills, expert["proficiency"]
+        )
+        score = cosine_similarity(
+            [project_vector], [expert_vector]
+        )[0][0]
+        results.append({**expert, "match_score": round(score, 4)})
+
+    return sorted(results, key=lambda x: x["match_score"],
+                  reverse=True)[:top_k]
+\end{lstlisting}
+
+\section{Kết quả cài đặt}
+
+Các chức năng đã hoàn thành cài đặt và demo được:
+
+\begin{table}[H]
+\centering
+\caption{Tình trạng cài đặt các chức năng}
+\begin{tabular}{p{5cm} p{2.5cm} p{5cm}}
+\toprule
+\textbf{Chức năng} & \textbf{Trạng thái} & \textbf{Ghi chú} \\
+\midrule
+Đăng ký / Đăng nhập  & Hoàn thành & JWT + bcrypt \\
+Marketplace dự án    & Hoàn thành & Tìm kiếm, lọc \\
+Hồ sơ chuyên gia     & Hoàn thành & Upload ảnh, skills \\
+AI Matching          & Hoàn thành & Cosine similarity \\
+Quản lý hợp đồng     & Hoàn thành & Milestone tracking \\
+Chat real-time       & Hoàn thành & Socket.IO \\
+Thanh toán           & Một phần   & Sandbox VNPay \\
+Admin dashboard      & Hoàn thành & Thống kê cơ bản \\
+\bottomrule
+\end{tabular}
+\end{table}
