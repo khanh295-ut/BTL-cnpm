@@ -1,0 +1,46 @@
+\chapter{Kết luận}
+
+\section{Kết quả đạt được}
+
+Sau quá trình phân tích, thiết kế và cài đặt, nhóm đã hoàn thành
+các mục tiêu đề ra:
+
+\begin{itemize}
+  \item Xây dựng thành công nền tảng marketplace AIConnect với đầy
+        đủ các chức năng: đăng dự án, tìm chuyên gia, ký hợp đồng,
+        chat real-time và quản lý milestone.
+  \item Cài đặt và tích hợp thuật toán matching tự động dựa trên
+        Cosine Similarity, đạt độ chính xác matching $>$ 80\% trên
+        tập dữ liệu thử nghiệm.
+  \item Áp dụng đầy đủ quy trình Công nghệ Phần mềm: phân tích yêu
+        cầu, thiết kế use case, ERD, sequence diagram và kiểm thử
+        có hệ thống.
+  \item Tỉ lệ test case đạt 94.4\% (34/36 test cases).
+\end{itemize}
+
+\section{Hạn chế}
+
+\begin{itemize}
+  \item Thanh toán thực tế chưa được tích hợp hoàn chỉnh
+        (mới ở mức sandbox).
+  \item Tìm kiếm full-text tiếng Việt cần cấu hình thêm
+        PostgreSQL với unaccent extension.
+  \item Chưa có mobile app (chỉ hỗ trợ trình duyệt web).
+  \item Thuật toán matching chưa tính đến lịch sử đánh giá
+        và kinh nghiệm thực tế của chuyên gia.
+\end{itemize}
+
+\section{Hướng phát triển}
+
+\begin{itemize}
+  \item \textbf{Cải thiện matching}: Kết hợp collaborative filtering
+        và lịch sử dự án để tăng độ chính xác gợi ý.
+  \item \textbf{Mobile app}: Phát triển ứng dụng React Native
+        cho iOS và Android.
+  \item \textbf{Thanh toán quốc tế}: Tích hợp Stripe để phục vụ
+        chuyên gia nước ngoài.
+  \item \textbf{Verification}: Xác minh bằng cấp, chứng chỉ AI
+        thông qua API bên thứ ba.
+  \item \textbf{Analytics}: Xây dựng dashboard phân tích xu hướng
+        AI theo ngành cho doanh nghiệp.
+\end{itemize}
