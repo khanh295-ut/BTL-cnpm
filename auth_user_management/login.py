@@ -41,4 +41,4 @@ def login():
             "full_name": user.full_name,
             "bio": user.bio,
         },
-    }), 200
+    })
