@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify, render_template, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from models import db, User
+from models import db, User, Role
 from user.permissions import admin_required
 from user.roles import ROLES
 
@@ -35,6 +35,7 @@ def _user_payload(user):
         "username": user.username,
         "email": user.email,
         "role": user.role,
+        "roles": [role.name for role in user.roles],
         "full_name": user.full_name,
         "bio": user.bio,
         "avatar": user.avatar or "/static/images/avatar-placeholder.svg",
@@ -131,6 +132,12 @@ def change_user_role(user_id):
     if role not in ROLES:
         return jsonify({"error": "Vai trò không hợp lệ. Chỉ hỗ trợ Admin hoặc User."}), 400
 
-    user.role = role
+    selected_role = Role.query.filter_by(name=role).first()
+    if selected_role is None:
+        selected_role = Role(name=role, description=f"{role} role")
+        db.session.add(selected_role)
+        db.session.commit()
+
+    user.roles = [selected_role]
     db.session.commit()
     return jsonify({"message": "Cập nhật vai trò thành công.", "user": _user_payload(user)}), 200

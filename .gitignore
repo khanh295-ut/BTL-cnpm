@@ -5,3 +5,14 @@ __pycache__/
 venv/
 .vscode/
 .idea/
+.env
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+venv/
+env/
+*.db
+dist/
+build/
+*.egg-info/

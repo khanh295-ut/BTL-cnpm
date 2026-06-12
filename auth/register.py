@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 from . import auth_bp
-from models import db, User
+from models import db, User, Role
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -20,9 +20,17 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "Email đã tồn tại."}), 409
 
-    user = User(username=username, email=email, role="User")
+    user = User(username=username, email=email)
     user.set_password(password)
     db.session.add(user)
+
+    user_role = Role.query.filter_by(name="User").first()
+    if user_role is None:
+        user_role = Role(name="User", description="Standard user role")
+        db.session.add(user_role)
+        db.session.flush()
+
+    user.roles.append(user_role)
     db.session.commit()
 
     return jsonify({"message": "Đăng ký thành công. Vui lòng đăng nhập."}), 201

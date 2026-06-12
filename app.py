@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, redirect, url_for, request
 from flask_login import LoginManager
-from sqlalchemy import text
 from config import Config
-from models import db, bcrypt, User
+from models import db, bcrypt, User, Role, Permission
 from auth_user_management import auth_bp
 from user import user_bp
 
 login_manager = LoginManager()
+
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -46,57 +46,71 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        migrate_database()
         create_sample_data()
 
     return app
 
 
-def migrate_database():
-    # Ensure the users table has any newer optional columns required by the current model.
-    try:
-        result = db.session.execute(text("PRAGMA table_info(users)"))
-        existing_columns = {row[1] for row in result}
-    except Exception:
-        existing_columns = set()
+def create_sample_data():
+    admin_role = Role.query.filter_by(name="Admin").first()
+    user_role = Role.query.filter_by(name="User").first()
+    if admin_role is None:
+        admin_role = Role(name="Admin", description="Administrator role")
+        db.session.add(admin_role)
+    if user_role is None:
+        user_role = Role(name="User", description="Standard user role")
+        db.session.add(user_role)
 
-    migrations = [
-        ("full_name", "VARCHAR(120)"),
-        ("bio", "VARCHAR(500)"),
-        ("avatar", "VARCHAR(255)"),
-    ]
-
-    for column_name, column_spec in migrations:
-        if column_name not in existing_columns:
-            db.session.execute(text(f"ALTER TABLE users ADD COLUMN {column_name} {column_spec}"))
+    manage_users_permission = Permission.query.filter_by(name="manage_users").first()
+    reset_password_permission = Permission.query.filter_by(name="reset_password").first()
+    if manage_users_permission is None:
+        manage_users_permission = Permission(
+            name="manage_users",
+            description="Quản lý người dùng"
+        )
+        db.session.add(manage_users_permission)
+    if reset_password_permission is None:
+        reset_password_permission = Permission(
+            name="reset_password",
+            description="Reset mật khẩu"
+        )
+        db.session.add(reset_password_permission)
 
     db.session.commit()
 
+    if manage_users_permission not in admin_role.permissions:
+        admin_role.permissions.append(manage_users_permission)
+    if reset_password_permission not in admin_role.permissions:
+        admin_role.permissions.append(reset_password_permission)
+    if reset_password_permission not in user_role.permissions:
+        user_role.permissions.append(reset_password_permission)
 
-def create_sample_data():
+    db.session.commit()
+
     if User.query.filter_by(username="admin").first() is not None:
         return
 
     admin = User(
         username="admin",
         email="admin@example.com",
-        role="Admin",
         full_name="Admin System",
         bio="Tài khoản Admin mẫu."
     )
     admin.set_password("Admin@123")
+    db.session.add(admin)
 
     member = User(
         username="alice",
         email="alice@example.com",
-        role="User",
         full_name="Alice Nguyen",
         bio="Người dùng mẫu."
     )
     member.set_password("User@123")
-
-    db.session.add(admin)
     db.session.add(member)
+
+    db.session.flush()
+    admin.roles.append(admin_role)
+    member.roles.append(user_role)
     db.session.commit()
 
 
