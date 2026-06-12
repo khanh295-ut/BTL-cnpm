@@ -157,38 +157,6 @@ textarea:focus {
   text-decoration: none;
 }
 
-.avatar-section {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.avatar-preview {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #e2e8f0;
-  background: #f8fafc;
-}
-
-.avatar-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 180px;
-}
-
-.file-input {
-  display: none;
-}
-
-.caption {
-  color: #64748b;
-  font-size: 0.95rem;
-}
 
 .dashboard-user {
   display: flex;
@@ -198,14 +166,6 @@ textarea:focus {
   background: #f8fafc;
   border-radius: 18px;
   border: 1px solid #e2e8f0;
-}
-
-.dashboard-avatar {
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #2563eb;
 }
 
 .alert-box {

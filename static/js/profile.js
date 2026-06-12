@@ -1,8 +1,6 @@
 const profileForm = document.getElementById("profileForm");
 const passwordForm = document.getElementById("passwordForm");
 const alertBox = document.getElementById("alertBox");
-const avatarInput = document.getElementById("avatarInput");
-const avatarPreview = document.getElementById("avatarPreview");
 
 async function loadProfile() {
   const { response, data } = await getJson("/api/profile");
@@ -15,19 +13,6 @@ async function loadProfile() {
   profileForm.full_name.value = data.user.full_name || "";
   profileForm.email.value = data.user.email;
   profileForm.bio.value = data.user.bio || "";
-  avatarPreview.src = data.user.avatar || "/static/images/avatar-placeholder.svg";
-}
-
-if (avatarInput) {
-  avatarInput.addEventListener("change", () => {
-    const file = avatarInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      avatarPreview.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-  });
 }
 
 if (profileForm) {
@@ -37,10 +22,6 @@ if (profileForm) {
     formData.append("full_name", profileForm.full_name.value.trim());
     formData.append("email", profileForm.email.value.trim());
     formData.append("bio", profileForm.bio.value.trim());
-
-    if (avatarInput && avatarInput.files[0]) {
-      formData.append("avatar", avatarInput.files[0]);
-    }
 
     const response = await fetch("/profile/update", {
       method: "POST",
