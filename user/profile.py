@@ -1,32 +1,11 @@
-import os
-import uuid
-from flask import Blueprint, request, jsonify, render_template, current_app
+from flask import Blueprint, request, jsonify, render_template
 from flask_login import login_required, current_user
-from werkzeug.utils import secure_filename
 
 from models import db, User, Role
 from user.permissions import admin_required
 from user.roles import ROLES
 
 user_bp = Blueprint("user", __name__)
-
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
-
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-def save_avatar(file_storage):
-    if not allowed_file(file_storage.filename):
-        return None
-    filename = secure_filename(file_storage.filename)
-    name = f"avatar_{uuid.uuid4().hex}_{filename}"
-    upload_folder = os.path.join(current_app.root_path, "static", "uploads")
-    os.makedirs(upload_folder, exist_ok=True)
-    path = os.path.join(upload_folder, name)
-    file_storage.save(path)
-    return f"/static/uploads/{name}"
 
 
 def _user_payload(user):
@@ -38,7 +17,6 @@ def _user_payload(user):
         "roles": [role.name for role in user.roles],
         "full_name": user.full_name,
         "bio": user.bio,
-        "avatar": user.avatar or "/static/images/avatar-placeholder.svg",
     }
 
 
@@ -67,7 +45,6 @@ def update_profile():
     full_name = data.get("full_name")
     email = (data.get("email") or "").strip().lower()
     bio = data.get("bio")
-    avatar_file = request.files.get("avatar")
 
     if email and email != current_user.email:
         if User.query.filter_by(email=email).first():
@@ -79,12 +56,6 @@ def update_profile():
 
     if bio is not None:
         current_user.bio = bio.strip()
-
-    if avatar_file and avatar_file.filename:
-        avatar_url = save_avatar(avatar_file)
-        if not avatar_url:
-            return jsonify({"error": "Định dạng file không hợp lệ. Chỉ nhận png, jpg, jpeg, gif."}), 400
-        current_user.avatar = avatar_url
 
     db.session.commit()
     return jsonify({"message": "Cập nhật hồ sơ thành công.", "user": _user_payload(current_user)}), 200

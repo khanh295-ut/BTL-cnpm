@@ -57,7 +57,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     full_name = db.Column(db.String(120), nullable=True)
     bio = db.Column(db.String(500), nullable=True)
-    avatar = db.Column(db.String(255), nullable=True)
 
     roles = db.relationship(
         "Role",
