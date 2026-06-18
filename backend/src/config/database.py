@@ -22,6 +22,9 @@ engine = create_engine(
     pool_pre_ping=True,
     future=True,
 )
+DATABASE_URL = "postgresql+psycopg2://postgres:12345@localhost:5432/aitasker"
+
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
