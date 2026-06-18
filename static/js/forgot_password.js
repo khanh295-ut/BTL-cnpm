@@ -1,3 +1,6 @@
+import { postJson } from "/static/js/components/http.js";
+import { showAlert } from "/static/js/components/alerts.js";
+
 const forgotForm = document.getElementById("forgotForm");
 if (forgotForm) {
   forgotForm.addEventListener("submit", async (event) => {

@@ -1,3 +1,6 @@
+import { postJson } from "/static/js/components/http.js";
+import { showAlert } from "/static/js/components/alerts.js";
+
 const resetForm = document.getElementById("resetForm");
 if (resetForm) {
   resetForm.addEventListener("submit", async (event) => {
@@ -17,7 +20,7 @@ if (resetForm) {
       return;
     }
 
-    const { response, data } = await postJson(`/reset-password/${resetToken}`, { password, confirm_password: confirmPassword });
+    const { response, data } = await postJson(`/reset-password/${window.resetToken}`, { password, confirm_password: confirmPassword });
     showAlert("alertBox", data.message || data.error, response.ok ? "success" : "error");
     if (response.ok) {
       setTimeout(() => {

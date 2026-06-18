@@ -1,3 +1,6 @@
+import { postJson } from "/static/js/components/http.js";
+import { showAlert } from "/static/js/components/alerts.js";
+
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
   registerForm.addEventListener("submit", async (event) => {
