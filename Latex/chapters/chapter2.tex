@@ -2,30 +2,37 @@
 
 \section{Giới thiệu chương}
 
-Chương này trình bày quá trình khảo sát, phân tích và đặc tả yêu cầu của hệ thống \textbf{AITasker – AI Marketplace Platform for AI Automation Services}. Đây là giai đoạn quan trọng nhằm xác định rõ các yêu cầu của hệ thống, làm cơ sở cho việc thiết kế và triển khai trong các chương tiếp theo.
-Nội dung chương bao gồm mô tả bài toán thực tế, phân tích nhu cầu của các nhóm người dùng và xây dựng tài liệu đặc tả yêu cầu phần mềm (Software Requirement Specification -- SRS). Bên cạnh đó, chương cũng xác định các tác nhân tham gia hệ thống, phân tích các yêu cầu chức năng và phi chức năng, đồng thời xây dựng các mô hình UML như Use Case Diagram, Activity Diagram, Sequence Diagram, Class Diagram và Entity Relationship Diagram (ERD) nhằm mô tả đầy đủ nghiệp vụ, luồng xử lý và cấu trúc dữ liệu của hệ thống.
-Thông qua quá trình phân tích, các chức năng chính của nền tảng như quản lý người dùng, quản lý dự án AI, gửi báo giá, trao đổi giữa doanh nghiệp và chuyên gia, theo dõi tiến độ, đánh giá sau dự án và quản trị hệ thống sẽ được xác định rõ ràng. Ngoài ra, chương cũng làm rõ mối quan hệ giữa các thành phần trong hệ thống và các ràng buộc cần đáp ứng trong quá trình phát triển.
-Kết quả của chương này là cơ sở để xây dựng kiến trúc hệ thống, thiết kế cơ sở dữ liệu, phát triển các chức năng và triển khai nền tảng \textbf{AITasker} ở các chương tiếp theo.
-
+Chương này trình bày quá trình khảo sát, phân tích và đặc tả yêu cầu của hệ thống \textbf{AITasker – AI Marketplace Platform for AI Automation Services}. Đây là giai đoạn quan trọng trong quá trình phát triển phần mềm, giúp xác định rõ bài toán cần giải quyết, phạm vi của hệ thống, các yêu cầu nghiệp vụ cũng như các yêu cầu kỹ thuật làm cơ sở cho việc thiết kế và triển khai ở các chương tiếp theo.
+Trước hết, chương tiến hành khảo sát thực trạng của thị trường dịch vụ AI, phân tích những khó khăn mà doanh nghiệp và các chuyên gia AI đang gặp phải trong quá trình tìm kiếm, kết nối và hợp tác triển khai các dự án AI. Trên cơ sở đó, hệ thống được đề xuất nhằm giải quyết các vấn đề còn tồn tại, đồng thời đáp ứng nhu cầu ngày càng tăng về ứng dụng AI trong doanh nghiệp.
+Tiếp theo, chương xây dựng tài liệu đặc tả yêu cầu phần mềm (Software Requirement Specification -- SRS), bao gồm việc xác định các tác nhân tham gia hệ thống, mô tả chức năng của từng nhóm người dùng và phân tích các yêu cầu chức năng, yêu cầu phi chức năng cũng như các ràng buộc cần đáp ứng. Những nội dung này là nền tảng để đảm bảo hệ thống được xây dựng đúng với mục tiêu và đáp ứng các yêu cầu của người sử dụng.
+Bên cạnh đó, chương sử dụng ngôn ngữ mô hình hóa UML để mô tả trực quan các nghiệp vụ và quy trình xử lý của hệ thống thông qua các biểu đồ như Use Case Diagram, Activity Diagram, Sequence Diagram và Class Diagram. Đồng thời, mô hình dữ liệu được xây dựng bằng Entity Relationship Diagram (ERD) nhằm xác định các thực thể, thuộc tính và mối quan hệ giữa chúng, phục vụ cho việc thiết kế cơ sở dữ liệu của hệ thống.
+Thông qua quá trình phân tích và mô hình hóa, các chức năng cốt lõi của nền tảng như quản lý người dùng, quản lý dự án AI, quản lý đề xuất (Proposal), trao đổi giữa doanh nghiệp và chuyên gia, quản lý tiến độ dự án, đánh giá sau khi hoàn thành dự án và quản trị hệ thống được xác định một cách đầy đủ và rõ ràng. Đồng thời, chương cũng làm rõ luồng tương tác giữa các thành phần của hệ thống, góp phần đảm bảo tính nhất quán trong quá trình thiết kế và phát triển.
+Kết quả của chương là bộ tài liệu phân tích và đặc tả yêu cầu hoàn chỉnh, đóng vai trò làm nền tảng cho việc thiết kế kiến trúc hệ thống, thiết kế cơ sở dữ liệu, xây dựng các thành phần phần mềm và triển khai nền tảng \textbf{AITasker} trong các chương tiếp theo.
 \section{Mô tả bài toán}
 
 \subsection{Bối cảnh}
 
-Trong bối cảnh cuộc Cách mạng công nghiệp lần thứ tư và quá trình chuyển đổi số diễn ra mạnh mẽ trên phạm vi toàn cầu, trí tuệ nhân tạo (Artificial Intelligence -- AI) đã trở thành một trong những công nghệ cốt lõi thúc đẩy sự đổi mới và phát triển của doanh nghiệp. AI được ứng dụng rộng rãi trong nhiều lĩnh vực như chăm sóc khách hàng, thương mại điện tử, tài chính, y tế, giáo dục, sản xuất và logistics nhằm tự động hóa quy trình, phân tích dữ liệu và hỗ trợ ra quyết định.
-Sự phát triển của các công nghệ AI hiện đại như Machine Learning, Deep Learning, Natural Language Processing (NLP), Computer Vision và Generative AI đã tạo điều kiện cho doanh nghiệp xây dựng nhiều giải pháp thông minh với chi phí ngày càng hợp lý. Nhờ đó, nhu cầu triển khai các dự án AI ngày càng gia tăng, không chỉ ở các tập đoàn lớn mà còn ở các doanh nghiệp vừa và nhỏ.
-Tuy nhiên, để triển khai thành công một giải pháp AI đòi hỏi đội ngũ có kiến thức chuyên môn về dữ liệu, thuật toán, phát triển phần mềm và hạ tầng công nghệ. Nhiều doanh nghiệp chưa có đủ nguồn lực hoặc kinh nghiệm để xây dựng đội ngũ AI nội bộ, do đó thường có nhu cầu thuê các chuyên gia hoặc đơn vị cung cấp dịch vụ bên ngoài. Điều này làm gia tăng nhu cầu về một nền tảng có khả năng kết nối hiệu quả giữa doanh nghiệp và các chuyên gia AI.
-
+Trong bối cảnh cuộc Cách mạng công nghiệp lần thứ tư (Industry 4.0) và quá trình chuyển đổi số đang diễn ra mạnh mẽ trên phạm vi toàn cầu, trí tuệ nhân tạo (Artificial Intelligence -- AI) đã trở thành một trong những công nghệ nền tảng thúc đẩy đổi mới sáng tạo và nâng cao năng lực cạnh tranh của doanh nghiệp. AI được ứng dụng rộng rãi trong nhiều lĩnh vực như chăm sóc khách hàng, thương mại điện tử, tài chính, y tế, giáo dục, sản xuất, logistics và quản trị doanh nghiệp nhằm tự động hóa quy trình, phân tích dữ liệu, tối ưu hoạt động và hỗ trợ ra quyết định.
+Trong những năm gần đây, sự phát triển vượt bậc của các công nghệ như Machine Learning, Deep Learning, Natural Language Processing (NLP), Computer Vision, Generative AI và Large Language Models (LLMs) đã mở ra nhiều cơ hội mới trong việc xây dựng các giải pháp AI có tính ứng dụng cao. Các mô hình AI hiện đại không chỉ giúp doanh nghiệp xử lý dữ liệu với quy mô lớn mà còn có khả năng tạo nội dung, phân tích tài liệu, xây dựng chatbot thông minh, trợ lý ảo và tự động hóa nhiều quy trình nghiệp vụ. Nhờ đó, việc ứng dụng AI ngày càng trở nên phổ biến và có chi phí triển khai phù hợp hơn đối với cả doanh nghiệp lớn lẫn doanh nghiệp vừa và nhỏ.
+Cùng với sự phát triển của công nghệ, nhu cầu triển khai các dự án AI trong doanh nghiệp cũng gia tăng nhanh chóng. Nhiều tổ chức mong muốn ứng dụng AI để nâng cao chất lượng dịch vụ, tối ưu quy trình vận hành, giảm chi phí nhân sự và tạo ra các sản phẩm, dịch vụ thông minh. Tuy nhiên, quá trình triển khai các giải pháp AI thường đòi hỏi nguồn nhân lực có trình độ chuyên môn cao về khoa học dữ liệu, phát triển phần mềm, điện toán đám mây, xử lý dữ liệu và các thuật toán học máy. Đây là thách thức lớn đối với nhiều doanh nghiệp khi nguồn nhân lực AI chất lượng cao còn hạn chế và chi phí xây dựng đội ngũ nội bộ tương đối lớn.
+Bên cạnh đó, các chuyên gia AI, freelancer và các công ty cung cấp dịch vụ AI cũng gặp không ít khó khăn trong việc tiếp cận khách hàng có nhu cầu thực tế. Phần lớn việc tìm kiếm dự án hiện nay vẫn thông qua các nền tảng freelancer tổng quát hoặc các kênh mạng xã hội, vốn chưa được thiết kế chuyên biệt cho lĩnh vực AI. Điều này khiến quá trình kết nối giữa doanh nghiệp và chuyên gia thiếu tính minh bạch, khó đánh giá năng lực chuyên môn, đồng thời chưa hỗ trợ đầy đủ các nghiệp vụ như quản lý dự án, báo giá, theo dõi tiến độ hay đánh giá chất lượng sau khi hoàn thành dự án.
+Xuất phát từ thực trạng trên, việc xây dựng một nền tảng Marketplace chuyên biệt dành cho các dịch vụ AI là nhu cầu cần thiết. Một hệ thống như vậy sẽ đóng vai trò là cầu nối giữa doanh nghiệp và các chuyên gia AI, hỗ trợ toàn bộ quá trình hợp tác từ đăng tải yêu cầu, tìm kiếm chuyên gia, gửi đề xuất (Proposal), trao đổi thông tin, quản lý tiến độ, thanh toán đến đánh giá sau dự án. Không chỉ góp phần nâng cao hiệu quả triển khai các dự án AI, nền tảng còn thúc đẩy quá trình chuyển đổi số của doanh nghiệp và tạo môi trường phát triển bền vững cho cộng đồng chuyên gia AI.
 \subsection{Thực trạng}
 
-Hiện nay, phần lớn doanh nghiệp tìm kiếm chuyên gia AI thông qua các nền tảng tuyển dụng, marketplace freelancer hoặc các mạng xã hội nghề nghiệp. Mặc dù các kênh này có số lượng người dùng lớn, nhưng vẫn chưa đáp ứng đầy đủ những yêu cầu đặc thù của các dự án AI.
-Một số hạn chế phổ biến gồm:
+Hiện nay, cùng với sự phát triển mạnh mẽ của trí tuệ nhân tạo, nhu cầu triển khai các giải pháp AI trong doanh nghiệp ngày càng gia tăng. Tuy nhiên, thị trường cung cấp dịch vụ AI vẫn chưa có nhiều nền tảng chuyên biệt hỗ trợ kết nối hiệu quả giữa doanh nghiệp và các chuyên gia AI. Phần lớn doanh nghiệp hiện nay vẫn tìm kiếm đối tác thông qua các nền tảng tuyển dụng, marketplace freelancer hoặc các mạng xã hội nghề nghiệp. Mặc dù những kênh này sở hữu cộng đồng người dùng lớn, chúng chủ yếu phục vụ nhiều lĩnh vực khác nhau và chưa được thiết kế để đáp ứng các đặc thù của các dự án AI.
+Đối với doanh nghiệp, việc tìm kiếm một chuyên gia hoặc đơn vị cung cấp dịch vụ AI phù hợp thường gặp nhiều khó khăn. Do đặc thù của lĩnh vực AI đòi hỏi kiến thức chuyên môn sâu về Machine Learning, Deep Learning, xử lý dữ liệu, phát triển mô hình và triển khai hệ thống, việc đánh giá năng lực của ứng viên thông qua hồ sơ hoặc thông tin giới thiệu là chưa đủ. Nhiều doanh nghiệp thiếu tiêu chí và công cụ để đánh giá chính xác kinh nghiệm thực tế, khả năng triển khai dự án cũng như chất lượng sản phẩm của các chuyên gia.
+Ở chiều ngược lại, các chuyên gia AI, freelancer và các nhóm phát triển giải pháp AI cũng gặp khó khăn trong việc tiếp cận các doanh nghiệp có nhu cầu thực sự. Họ thường phải phụ thuộc vào các nền tảng freelancer tổng quát hoặc tự xây dựng thương hiệu cá nhân thông qua các kênh truyền thông. Điều này làm giảm khả năng tiếp cận các dự án phù hợp, đồng thời khiến quá trình xây dựng uy tín và mở rộng thị trường trở nên khó khăn hơn.
+Bên cạnh đó, quá trình triển khai một dự án AI thường bao gồm nhiều giai đoạn như tiếp nhận yêu cầu, phân tích bài toán, gửi đề xuất (Proposal), thương lượng, quản lý tiến độ, nghiệm thu, thanh toán và đánh giá sau dự án. Trong thực tế, các hoạt động này thường được thực hiện thông qua nhiều công cụ riêng biệt như email, ứng dụng nhắn tin, lưu trữ đám mây hoặc các phần mềm quản lý công việc, dẫn đến dữ liệu bị phân tán, khó kiểm soát và thiếu tính đồng bộ trong quá trình hợp tác.
+Một số hạn chế nổi bật của các nền tảng hiện nay có thể được tổng hợp như sau:
 
 \begin{itemize}
-    \item Khó đánh giá chính xác năng lực chuyên môn, kinh nghiệm triển khai và chất lượng công việc của chuyên gia AI.
-    \item Quá trình tìm kiếm, sàng lọc hồ sơ và lựa chọn ứng viên phù hợp mất nhiều thời gian và chi phí.
-    \item Thiếu môi trường chuyên biệt để doanh nghiệp và chuyên gia trao đổi yêu cầu kỹ thuật, báo giá và thống nhất phương án triển khai.
-    \item Chưa có công cụ hỗ trợ quản lý toàn bộ vòng đời của dự án như theo dõi tiến độ, quản lý các mốc công việc, lưu trữ lịch sử trao đổi và đánh giá sau khi hoàn thành.
-    \item Chưa khai thác hiệu quả các kỹ thuật AI để gợi ý chuyên gia phù hợp với yêu cầu của từng dự án hoặc đề xuất các dự án phù hợp với năng lực của chuyên gia.
+    \item Khó đánh giá chính xác năng lực chuyên môn, kinh nghiệm triển khai và chất lượng công việc của các chuyên gia AI.
+    \item Quá trình tìm kiếm, sàng lọc và lựa chọn chuyên gia phù hợp còn mất nhiều thời gian, chi phí và phụ thuộc nhiều vào đánh giá thủ công.
+    \item Thiếu nền tảng chuyên biệt hỗ trợ doanh nghiệp và chuyên gia AI trao đổi yêu cầu kỹ thuật, gửi báo giá (Proposal), thương lượng và quản lý hợp đồng.
+    \item Chưa hỗ trợ quản lý xuyên suốt vòng đời dự án AI, bao gồm theo dõi tiến độ, quản lý các mốc công việc (Milestone), lưu trữ tài liệu, lịch sử trao đổi và quá trình nghiệm thu.
+    \item Hệ thống đánh giá, xếp hạng và phản hồi sau dự án còn hạn chế, gây khó khăn trong việc xây dựng uy tín và mức độ tin cậy giữa các bên.
+    \item Chưa khai thác hiệu quả các công nghệ AI để gợi ý chuyên gia phù hợp với yêu cầu của doanh nghiệp hoặc đề xuất các dự án phù hợp với hồ sơ năng lực, kỹ năng và kinh nghiệm của chuyên gia.
+    \item Khả năng tích hợp các dịch vụ hỗ trợ như thanh toán trực tuyến, thông báo theo thời gian thực, quản lý tài liệu và báo cáo tiến độ còn chưa đồng bộ, làm giảm hiệu quả phối hợp trong quá trình triển khai dự án.
 \end{itemize}
 
 Ở chiều ngược lại, các chuyên gia AI, freelancer và các nhóm phát triển giải pháp AI cũng gặp nhiều khó khăn trong việc tiếp cận khách hàng có nhu cầu thực sự. Nhiều chuyên gia phải tìm kiếm dự án thông qua các kênh trung gian hoặc mạng xã hội, dẫn đến khả năng tiếp cận khách hàng còn hạn chế, khó xây dựng uy tín cá nhân và mất nhiều thời gian trong quá trình tìm kiếm cơ hội hợp tác.
@@ -146,21 +153,37 @@ Tác nhân đại diện cho các tổ chức, công ty có nhu cầu tìm kiế
 \end{itemize}
 
 \subsection{Chuyên gia AI (Expert)}
-Tác nhân đại diện cho các kỹ sư, nhà nghiên cứu dữ liệu tìm kiếm cơ hội hợp tác:
+
+Tác nhân đại diện cho các kỹ sư AI, nhà khoa học dữ liệu (Data Scientist), kỹ sư Machine Learning, kỹ sư MLOps, chuyên gia tự động hóa AI, freelancer hoặc các nhóm phát triển giải pháp AI có nhu cầu tìm kiếm cơ hội hợp tác với doanh nghiệp. Đây là nhóm người dùng trực tiếp cung cấp các dịch vụ AI trên nền tảng.
+
 \begin{itemize}
-    \item Khởi tạo hồ sơ năng lực, cập nhật danh mục kỹ năng và kinh nghiệm.
-    \item Tìm kiếm bài toán phù hợp, nộp hồ sơ ứng tuyển và gửi báo giá.
-    \item Cập nhật báo cáo tiến độ, hoàn thành các cột mốc công việc (Milestones).
-    \item Trao đổi trực tiếp, nhận giải ngân và thực hiện đánh giá doanh nghiệp.
+    \item Đăng ký, đăng nhập và quản lý thông tin tài khoản cá nhân.
+    \item Xây dựng hồ sơ năng lực (Portfolio), cập nhật thông tin cá nhân, kỹ năng, chứng chỉ, kinh nghiệm làm việc, dự án đã thực hiện và các lĩnh vực chuyên môn.
+    \item Thiết lập danh mục dịch vụ AI cung cấp và mức giá tham khảo.
+    \item Tìm kiếm, lọc và theo dõi các dự án AI phù hợp với kỹ năng, kinh nghiệm và lĩnh vực chuyên môn.
+    \item Gửi Proposal (đề xuất thực hiện dự án), báo giá, thời gian triển khai và kế hoạch thực hiện cho doanh nghiệp.
+    \item Trao đổi trực tiếp với doanh nghiệp thông qua hệ thống nhắn tin để làm rõ yêu cầu, thương lượng ngân sách và phạm vi công việc.
+    \item Tham gia triển khai dự án sau khi được doanh nghiệp lựa chọn.
+    \item Cập nhật tiến độ thực hiện, quản lý các mốc công việc (Milestones), tải lên tài liệu, sản phẩm và báo cáo kết quả trong quá trình triển khai.
+    \item Theo dõi trạng thái dự án, lịch sử hợp tác, các khoản thanh toán và doanh thu từ các dự án đã hoàn thành.
+    \item Nhận thanh toán sau khi dự án hoặc từng mốc công việc được doanh nghiệp nghiệm thu.
+    \item Đánh giá và phản hồi doanh nghiệp sau khi kết thúc dự án nhằm xây dựng môi trường hợp tác minh bạch và nâng cao chất lượng dịch vụ.
 \end{itemize}
 
 \subsection{Quản trị viên (Admin)}
-Tác nhân chịu trách nhiệm vận hành, giám sát kỹ thuật và duy trì tính minh bạch:
+
+Quản trị viên là tác nhân chịu trách nhiệm quản lý, vận hành và giám sát toàn bộ nền tảng nhằm đảm bảo hệ thống hoạt động ổn định, an toàn và minh bạch. Admin có quyền truy cập cao nhất và thực hiện các nghiệp vụ quản trị liên quan đến người dùng, dự án và hệ thống.
+
 \begin{itemize}
-    \item Quản lý, khóa hoặc cấp quyền cho tài khoản người dùng.
-    \item Kiểm duyệt các bài đăng dự án tránh vi phạm chính sách nền tảng.
-    \item Giám sát các giao dịch tài chính, xử lý tranh chấp hợp đồng.
-    \item Theo dõi biểu đồ báo cáo và các số liệu thống kê tăng trưởng hệ thống.
+    \item Quản lý toàn bộ tài khoản người dùng, bao gồm doanh nghiệp, chuyên gia AI và các tài khoản quản trị.
+    \item Phê duyệt, khóa, mở khóa hoặc phân quyền tài khoản khi cần thiết.
+    \item Kiểm duyệt các bài đăng dự án, hồ sơ chuyên gia và nội dung trên nền tảng nhằm đảm bảo tuân thủ các quy định và chính sách của hệ thống.
+    \item Giám sát quá trình hợp tác giữa doanh nghiệp và chuyên gia, hỗ trợ xử lý các khiếu nại, tranh chấp hoặc vi phạm trong quá trình thực hiện dự án.
+    \item Quản lý các giao dịch tài chính, theo dõi thanh toán, giải ngân và kiểm tra các giao dịch bất thường.
+    \item Quản lý danh mục kỹ năng, lĩnh vực AI, danh mục dịch vụ và các dữ liệu dùng chung của hệ thống.
+    \item Theo dõi tình trạng hoạt động của hệ thống, giám sát nhật ký (Log), hiệu năng và các cảnh báo bảo mật.
+    \item Thống kê, tổng hợp và phân tích dữ liệu hoạt động của nền tảng thông qua các báo cáo về số lượng người dùng, dự án, doanh thu, giao dịch và các chỉ số tăng trưởng.
+    \item Quản lý cấu hình hệ thống, gửi thông báo đến người dùng và hỗ trợ bảo trì, nâng cấp hệ thống khi cần thiết.
 \end{itemize}
 
 \section{Danh sách Use Case}
