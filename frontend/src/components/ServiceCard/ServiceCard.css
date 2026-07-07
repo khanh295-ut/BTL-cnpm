@@ -1,0 +1,29 @@
+.service-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 28px 20px;
+  text-align: center;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.service-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.service-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.service-title {
+  font-size: 17px;
+  color: var(--color-secondary);
+  margin-bottom: 8px;
+}
+
+.service-desc {
+  font-size: 14px;
+  color: var(--color-text-light);
+}

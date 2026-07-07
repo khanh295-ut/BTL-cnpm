@@ -1,0 +1,1289 @@
+This is XeTeX, Version 3.141592653-2.6-0.999995 (MiKTeX 24.1) (preloaded format=xelatex 2026.6.10)  30 JUN 2026 18:19
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**c:/Users/CUONG/BTL-cnpm/Latex/main.tex
+(c:/Users/CUONG/BTL-cnpm/Latex/main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-04>
+(C:\Program Files\MiKTeX\tex/latex/extsizes\extreport.cls
+Document Class: extreport 1996/10/08 v1.0 Non Standard LaTeX document class
+(C:\Program Files\MiKTeX\tex/latex/extsizes\size14.clo
+File: size14.clo 1999/11/11 v1.4a NON-Standard LaTeX file (size option)
+)
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/base\exscale.sty
+Package: exscale 2018/09/24 v2.1i Standard LaTeX package exscale
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 57.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/cmex/m/n on input line 57.
+\big@size=\dimen140
+)
+\c@part=\count183
+\c@chapter=\count184
+\c@section=\count185
+\c@subsection=\count186
+\c@subsubsection=\count187
+\c@paragraph=\count188
+\c@subparagraph=\count189
+\c@figure=\count190
+\c@table=\count191
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen141
+)
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2024-01-04 L3 programming layer (loader) 
+
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xet
+ex.def
+File: l3backend-xetex.def 2024-01-04 L3 backend support: XeTeX
+\g__graphics_track_int=\count192
+\l__pdf_internal_box=\box51
+\g__pdf_backend_object_int=\count193
+\g__pdf_backend_annotation_int=\count194
+\g__pdf_backend_link_int=\count195
+))
+Package: xparse 2023-10-10 L3 Experimental document command parser
+)
+Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
+
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex
+.sty
+Package: fontspec-xetex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTe
+X
+\l__fontspec_script_int=\count196
+\l__fontspec_language_int=\count197
+\l__fontspec_strnum_int=\count198
+\l__fontspec_tmp_int=\count199
+\l__fontspec_tmpa_int=\count266
+\l__fontspec_tmpb_int=\count267
+\l__fontspec_tmpc_int=\count268
+\l__fontspec_em_int=\count269
+\l__fontspec_emdef_int=\count270
+\l__fontspec_strong_int=\count271
+\l__fontspec_strongdef_int=\count272
+\l__fontspec_tmpa_dim=\dimen142
+\l__fontspec_tmpb_dim=\dimen143
+\l__fontspec_tmpc_dim=\dimen144
+ (C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg))
+) (C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty
+Package: polyglossia 2026/04/18 v2.10 Modern multilingual typesetting with XeLa
+TeX and LuaLaTeX
+
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count273
+)
+(C:\Users\CUONG\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+)
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:459: Undefined co
+ntrol sequence.
+l.459 \prop_new_linked:N
+                         \l_xpg_langsetup_prop
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:459: Undefined co
+ntrol sequence.
+l.459 \prop_new_linked:N \l_xpg_langsetup_prop
+                                              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:865: Undefined co
+ntrol sequence.
+l.865 \prop_new_linked:N
+                         \g__xpg_alias_prop
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:865: Undefined co
+ntrol sequence.
+l.865 \prop_new_linked:N \g__xpg_alias_prop
+                                           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:1044: Undefined c
+ontrol sequence.
+l.1044 \prop_new_linked:N
+                          \l_xpg_curropt_prop
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:1044: Undefined c
+ontrol sequence.
+l.1044 \prop_new_linked:N \l_xpg_curropt_prop
+                                             
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+\l_xpg_alias_keyvals_int=\count274
+(C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf
+File: gloss-latex.ldf polyglossia: module for default language
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \l_xpg_langsetup_prop 
+                                 
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \l_xpg_langsetup_prop 
+                                 
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Missing \endc
+sname inserted.
+<to be read again> 
+                   \scan_stop: 
+l.15 }
+      
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+Package polyglossia Warning: No hyphenation patterns were loaded for `latex'
+(polyglossia)                I will use \language=\l@nohyphenation instead.
+
+\l@latex = a dialect from \language\l@nohyphenation 
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Argument of \
+__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.15 }
+      
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Paragraph end
+ed before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.15 }
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\gloss-latex.ldf:15: Undefined con
+trol sequence.
+<argument> \g__xpg_alias_prop 
+                              
+l.15 }
+      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+)
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Undefined c
+ontrol sequence.
+<argument> \l_xpg_curropt_prop 
+                               
+l.2004 \setmainlanguage{latex}
+                              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_map_tokens:nw has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+{}\prg_break_point:Nn \prop_map_break: {}
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_map_tokens:nw was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Paragraph e
+nded before \__prop_item:nnn was complete.
+<to be read again> 
+                   \par 
+l.2004 \setmainlanguage{latex}
+                              
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+C:\Program Files\MiKTeX\tex/latex/polyglossia\polyglossia.sty:2004: Argument of
+ \__prop_item:nnn has an extra }.
+<inserted text> 
+                \par 
+l.2004 \setmainlanguage{latex}
+                              
+(That makes 100 errors; please try again.) 
+Here is how much of TeX's memory you used:
+ 3717 strings out of 409617
+ 111653 string characters out of 5774013
+ 1917191 words of memory out of 5000000
+ 25849 multiletter control sequences out of 15000+600000
+ 558085 words of font info for 38 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 79i,0n,93p,280b,73s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+No pages of output.
