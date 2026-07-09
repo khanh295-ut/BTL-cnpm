@@ -1,42 +1,199 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.src.config.database import get_db
-from backend.src.infrastructure.repositories import SQLAlchemyAuthRepository
-from backend.src.schemas.user import ChangeRoleRequest
-from backend.src.presentation.dependencies import require_admin
+from backend.src.schemas.admin import (
+    DashboardResponse,
+    ChangeRoleRequest,
+    MessageResponse,
+    AdminUserResponse,
+    ProjectStatistic,
+    ProposalStatistic,
+    RoleStatistic,
+)
+from backend.src.services.admin_service import AdminService
+from backend.src.services.jwt_service import get_current_admin
 
-router = APIRouter(prefix="/admin", tags=["Admin"])
+
+router = APIRouter(
+    prefix="/admin",
+    tags=["Admin"],
+)
+
+service = AdminService()
 
 
-@router.get("/users")
-def get_users(
-    current_user=Depends(require_admin),
-    db: Session = Depends(get_db)
+# =====================================================
+# DASHBOARD
+# =====================================================
+
+@router.get(
+    "/dashboard",
+    response_model=DashboardResponse,
+)
+def dashboard(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
 ):
-    repo = SQLAlchemyAuthRepository(db)
+    return service.dashboard(db)
+
+
+# =====================================================
+# LIST USERS
+# =====================================================
+
+@router.get(
+    "/users",
+    response_model=list[AdminUserResponse],
+)
+def get_users(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+    return service.get_all_users(db)
+
+
+# =====================================================
+# USER DETAIL
+# =====================================================
+
+@router.get(
+    "/users/{user_id}",
+    response_model=AdminUserResponse,
+)
+def get_user(
+    user_id: UUID,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+
+    user = service.get_user(db, user_id)
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found",
+        )
+
+    return user
+
+
+# =====================================================
+# DELETE USER
+# =====================================================
+
+@router.delete(
+    "/users/{user_id}",
+    response_model=MessageResponse,
+)
+def delete_user(
+    user_id: UUID,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+
+    success = service.delete_user(db, user_id)
+
+    if not success:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found",
+        )
 
     return {
-        "users": repo.list_users()
+        "message": "User deleted successfully."
     }
 
 
-@router.post("/users/{user_id}/role")
+# =====================================================
+# CHANGE ROLE
+# =====================================================
+
+@router.put(
+    "/users/{user_id}/role",
+    response_model=AdminUserResponse,
+)
 def change_role(
-    user_id: str,
+    user_id: UUID,
     data: ChangeRoleRequest,
-    current_user=Depends(require_admin),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
 ):
-    repo = SQLAlchemyAuthRepository(db)
 
-    user = repo.get_user_by_id(user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+    user = service.change_role(
+        db,
+        user_id,
+        data.role,
+    )
 
-    role = repo.ensure_role(data.role)
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="User or Role not found",
+        )
 
-    user.roles = [role]
-    repo.commit()
+    return user
 
-    return {"message": "Role updated"}
+
+# =====================================================
+# PROJECT STATISTICS
+# =====================================================
+
+@router.get(
+    "/statistics/projects",
+    response_model=list[ProjectStatistic],
+)
+def project_statistics(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+    return service.project_statistics(db)
+
+
+# =====================================================
+# PROPOSAL STATISTICS
+# =====================================================
+
+@router.get(
+    "/statistics/proposals",
+    response_model=list[ProposalStatistic],
+)
+def proposal_statistics(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+    return service.proposal_statistics(db)
+
+
+# =====================================================
+# ROLE STATISTICS
+# =====================================================
+
+@router.get(
+    "/statistics/roles",
+    response_model=list[RoleStatistic],
+)
+def role_statistics(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+    return service.users_by_role(db)
+
+
+# =====================================================
+# REVIEW STATISTICS
+# =====================================================
+
+@router.get(
+    "/statistics/reviews",
+)
+def review_statistics(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_admin),
+):
+
+    return {
+        "average_rating": service.average_rating(db)
+    }

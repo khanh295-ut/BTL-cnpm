@@ -1,102 +1,71 @@
-from pydantic import BaseModel
-from typing import Optional, List
 from uuid import UUID
+from decimal import Decimal
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
 
 
-# =========================
-# EXPERT
-# =========================
-class ExpertCreate(BaseModel):
-    full_name: str
-    title: Optional[str] = None
-    bio: Optional[str] = None
-    hourly_rate: Optional[float] = 0
-    location: Optional[str] = None
+# ==========================================================
+# SKILL SCHEMAS
+# ==========================================================
 
+class SkillBase(BaseModel):
+    name: str = Field(..., max_length=100)
+
+
+class SkillCreate(SkillBase):
+    pass
+
+
+class SkillResponse(SkillBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+
+
+# ==========================================================
+# EXPERT BASE
+# ==========================================================
+
+class ExpertBase(BaseModel):
+    full_name: str = Field(..., max_length=255)
+    title: Optional[str] = Field(default=None, max_length=255)
+    bio: Optional[str] = Field(default=None, max_length=500)
+    hourly_rate: Decimal = Field(default=Decimal("0.00"), ge=0)
+    location: Optional[str] = Field(default=None, max_length=255)
+
+
+# ==========================================================
+# CREATE
+# ==========================================================
+
+class ExpertCreate(ExpertBase):
+    skills: list[SkillCreate] = Field(default_factory=list)
+
+
+# ==========================================================
+# UPDATE
+# ==========================================================
 
 class ExpertUpdate(BaseModel):
-    full_name: Optional[str] = None
-    title: Optional[str] = None
-    bio: Optional[str] = None
-    hourly_rate: Optional[float] = None
-    location: Optional[str] = None
+    full_name: Optional[str] = Field(default=None, max_length=255)
+    title: Optional[str] = Field(default=None, max_length=255)
+    bio: Optional[str] = Field(default=None, max_length=500)
+    hourly_rate: Optional[Decimal] = Field(default=None, ge=0)
+    location: Optional[str] = Field(default=None, max_length=255)
+
+    # Nếu gửi thì sẽ thay thế toàn bộ danh sách skill
+    skills: Optional[list[SkillCreate]] = None
 
 
-class ExpertResponse(BaseModel):
+# ==========================================================
+# RESPONSE
+# ==========================================================
+
+class ExpertResponse(ExpertBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: UUID
-    full_name: str
-    title: Optional[str]
-    bio: Optional[str]
-    hourly_rate: float
-    location: Optional[str]
-
-    class Config:
-        orm_mode = True
-
-
-# =========================
-# SKILL
-# =========================
-class SkillCreate(BaseModel):
-    name: str
-
-
-class SkillResponse(BaseModel):
-    id: UUID
-    name: str
-
-    class Config:
-        orm_mode = True
-
-
-# =========================
-# EXPERIENCE
-# =========================
-class ExperienceCreate(BaseModel):
-    company: str
-    position: str
-    start_date: str
-    end_date: Optional[str] = None
-
-
-class ExperienceUpdate(BaseModel):
-    company: Optional[str]
-    position: Optional[str]
-    start_date: Optional[str]
-    end_date: Optional[str]
-
-
-class ExperienceResponse(BaseModel):
-    id: UUID
-    company: str
-    position: str
-    start_date: str
-    end_date: Optional[str]
-
-    class Config:
-        orm_mode = True
-
-
-# =========================
-# PORTFOLIO
-# =========================
-class PortfolioCreate(BaseModel):
-    title: str
-    description: Optional[str] = None
-    link: Optional[str] = None
-
-
-class PortfolioUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    link: Optional[str]
-
-
-class PortfolioResponse(BaseModel):
-    id: UUID
-    title: str
-    description: Optional[str]
-    link: Optional[str]
-
-    class Config:
-        orm_mode = True
+    created_at: datetime
+    skills: list[SkillResponse] = Field(default_factory=list)

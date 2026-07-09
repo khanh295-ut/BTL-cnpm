@@ -1,31 +1,131 @@
-from fastapi import APIRouter, Depends
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from backend.src.config.database import get_db
-from backend.src.application.content_use_cases import (
-    create_review,
-    list_reviews
-)
-
 from backend.src.schemas.review import (
     ReviewCreate,
-    ReviewResponse
+    ReviewUpdate,
+    ReviewResponse,
+)
+from backend.src.services.review_service import review_service
+
+
+router = APIRouter(
+    prefix="/reviews",
+    tags=["Reviews"],
 )
 
-router = APIRouter(prefix="/reviews", tags=["Reviews"])
+
+# =====================================================
+# GET ALL
+# =====================================================
+
+@router.get(
+    "/",
+    response_model=list[ReviewResponse],
+)
+def get_all_reviews(
+    db: Session = Depends(get_db),
+):
+    return review_service.get_all(db)
 
 
-@router.get("/", response_model=list[ReviewResponse])
-def get_reviews(db: Session = Depends(get_db)):
-    return list_reviews(db)
+# =====================================================
+# GET BY ID
+# =====================================================
 
-
-@router.post("/", response_model=ReviewResponse)
-def create(data: ReviewCreate, db: Session = Depends(get_db)):
-    return create_review(
+@router.get(
+    "/{review_id}",
+    response_model=ReviewResponse,
+)
+def get_review(
+    review_id: UUID,
+    db: Session = Depends(get_db),
+):
+    review = review_service.get_by_id(
         db,
-        data.project_id,
-        data.expert_id,
-        data.rating,
-        data.comment
+        review_id,
     )
+
+    if review is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Review not found",
+        )
+
+    return review
+
+
+# =====================================================
+# CREATE
+# =====================================================
+
+@router.post(
+    "/",
+    response_model=ReviewResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_review(
+    data: ReviewCreate,
+    db: Session = Depends(get_db),
+):
+    return review_service.create(
+        db,
+        data,
+    )
+
+
+# =====================================================
+# UPDATE
+# =====================================================
+
+@router.put(
+    "/{review_id}",
+    response_model=ReviewResponse,
+)
+def update_review(
+    review_id: UUID,
+    data: ReviewUpdate,
+    db: Session = Depends(get_db),
+):
+    review = review_service.update(
+        db,
+        review_id,
+        data,
+    )
+
+    if review is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Review not found",
+        )
+
+    return review
+
+
+# =====================================================
+# DELETE
+# =====================================================
+
+@router.delete(
+    "/{review_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_review(
+    review_id: UUID,
+    db: Session = Depends(get_db),
+):
+    deleted = review_service.delete(
+        db,
+        review_id,
+    )
+
+    if not deleted:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Review not found",
+        )
+
+    return None
