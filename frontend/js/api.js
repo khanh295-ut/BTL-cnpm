@@ -27,7 +27,7 @@ async function fetchWithAuth(path, options = {}) {
 
   if (response.status === 401) {
     removeToken()
-    window.location.href = 'index.html'
+    window.location.href = '/'
     throw new Error('Unauthorized')
   }
 

@@ -3,7 +3,7 @@ import sys
 import subprocess
 from fastapi import FastAPI, Depends, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
@@ -95,6 +95,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 frontend_dir = os.path.join(project_root, "frontend")
 if os.path.exists(frontend_dir):
     app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
+    app.mount("/css", StaticFiles(directory=os.path.join(frontend_dir, "css")), name="frontend-css")
+    app.mount("/js", StaticFiles(directory=os.path.join(frontend_dir, "js")), name="frontend-js")
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dir, "assets")), name="frontend-assets")
 
 app.add_middleware(SessionMiddleware, secret_key="change-me-secret-key")
 
@@ -102,8 +105,8 @@ app.add_middleware(SessionMiddleware, secret_key="change-me-secret-key")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173"
+        "http://localhost:5000",
+        "http://127.0.0.1:5000"
     ],
     allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
     allow_credentials=True,
@@ -156,14 +159,66 @@ async def chat_with_enterprise_data(request: ChatRequest, session: Session = Dep
 # Thêm prefix="/api" để đồng bộ tuyệt đối với tệp axiosClient của Frontend
 app.include_router(router, prefix="/api")
 
-@app.get("/", tags=["Root"])
+def _frontend_page_response(page_name: str) -> FileResponse:
+    page_path = os.path.join(frontend_dir, f"{page_name}.html")
+    if not os.path.exists(page_path):
+        raise HTTPException(status_code=404, detail="Page not found")
+    return FileResponse(page_path)
+
+
+@app.get("/", tags=["Root"], include_in_schema=False)
 async def root():
-    return {"status": "running", "message": "AITasker Backend API hoạt động hoàn hảo"}
+    return _frontend_page_response("index")
+
+
+@app.get("/register", include_in_schema=False)
+async def register_page():
+    return _frontend_page_response("register")
+
+
+@app.get("/dashboard", include_in_schema=False)
+async def dashboard_page():
+    return _frontend_page_response("dashboard")
+
+
+@app.get("/profile", include_in_schema=False)
+async def profile_page():
+    return _frontend_page_response("profile")
+
+
+@app.get("/edit-profile", include_in_schema=False)
+async def edit_profile_page():
+    return _frontend_page_response("edit-profile")
+
+
+@app.get("/change-password", include_in_schema=False)
+async def change_password_page():
+    return _frontend_page_response("change-password")
+
+
+@app.get("/forgot-password", include_in_schema=False)
+async def forgot_password_page():
+    return _frontend_page_response("forgot-password")
+
+
+@app.get("/reset-password", include_in_schema=False)
+async def reset_password_page():
+    return _frontend_page_response("reset-password")
+
+
+@app.get("/reset-password/{token}", include_in_schema=False)
+async def reset_password_token_page(token: str):
+    return RedirectResponse(url=f"/reset-password?token={token}")
 
 
 @app.get("/index.html", include_in_schema=False)
 async def serve_frontend_index():
-    return RedirectResponse(url="/frontend/index.html")
+    return RedirectResponse(url="/")
+
+
+@app.get("/{page_name}.html", include_in_schema=False)
+async def serve_frontend_html(page_name: str):
+    return _frontend_page_response(page_name)
 
 # ==========================================================
 # 8. KHỞI CHẠY SERVER

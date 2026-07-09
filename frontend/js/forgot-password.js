@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const result = await apiPost('/auth/forgot-password', { email })
       if (result.reset_token) {
-        window.location.href = `reset-password.html?token=${encodeURIComponent(result.reset_token)}`
+        window.location.href = `/reset-password?token=${encodeURIComponent(result.reset_token)}`
         return
       }
       showSuccess(successEl, result.message || 'If the email exists, the reset token has been generated.')

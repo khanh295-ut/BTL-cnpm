@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await apiPost('/auth/reset-password', { token, new_password, confirm_password })
       showSuccess(successEl, result.message || 'Password reset successfully.')
       setTimeout(() => {
-        window.location.href = 'index.html'
+        window.location.href = '/'
       }, 1200)
     } catch (err) {
       showError(errorEl, parseError(err, 'Unable to reset password.'))

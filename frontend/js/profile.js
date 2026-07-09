@@ -57,7 +57,7 @@ function initEditProfile() {
     try {
       const user = await apiPut('/users/me', { full_name, email, bio })
       showSuccess(successEl, 'Profile updated successfully.')
-      setTimeout(() => window.location.href = 'profile.html', 1200)
+      setTimeout(() => window.location.href = '/profile', 1200)
     } catch (err) {
       showError(errorEl, parseError(err, 'Profile update failed.'))
     }
@@ -91,7 +91,7 @@ function initChangePassword() {
     try {
       await apiPut('/users/change-password', { current_password, new_password })
       showSuccess(successEl, 'Password changed successfully.')
-      setTimeout(() => window.location.href = 'profile.html', 1200)
+      setTimeout(() => window.location.href = '/profile', 1200)
     } catch (err) {
       showError(errorEl, parseError(err, 'Password update failed.'))
     }

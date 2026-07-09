@@ -8,7 +8,7 @@ function getToken() {
 
 function logoutUser() {
   removeToken()
-  window.location.href = 'index.html'
+  window.location.href = '/'
 }
 
 function removeToken() {
@@ -33,6 +33,6 @@ function attachLogoutLinks() {
 function ensureAuthenticated() {
   const token = getToken()
   if (!token) {
-    window.location.href = 'index.html'
+    window.location.href = '/'
   }
 }

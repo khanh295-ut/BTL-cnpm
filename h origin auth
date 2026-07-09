@@ -1,0 +1,506 @@
+[33mcommit 277f7e15b17e5d46c7d278dbb0dadd021e82538b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mauth[m[33m)[m
+Author:     Huynh Gia Van <huynhgiavan062@gmail.com>
+AuthorDate: Fri Jul 10 05:45:44 2026 +0700
+Commit:     Huynh Gia Van <huynhgiavan062@gmail.com>
+CommitDate: Fri Jul 10 05:45:44 2026 +0700
+
+    Add forgot password feature
+
+[1mdiff --git a/backend/inspect_db.py b/backend/inspect_db.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4a37cfd[m
+[1m--- /dev/null[m
+[1m+++ b/backend/inspect_db.py[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32mfrom backend.src.config.database import engine[m
+[32m+[m[32mfrom sqlalchemy import inspect[m
+[32m+[m
+[32m+[m[32minsp = inspect(engine)[m
+[32m+[m[32mprint('Tables:', insp.get_table_names())[m
+[32m+[m[32mif 'users' in insp.get_table_names():[m
+[32m+[m[32m    cols = insp.get_columns('users')[m
+[32m+[m[32m    for c in cols:[m
+[32m+[m[32m        print(c)[m
+[32m+[m[32melse:[m
+[32m+[m[32m    print('No users table')[m
+[1mdiff --git a/backend/src/config/database.py b/backend/src/config/database.py[m
+[1mindex a27f1a0..cd8f5ef 100644[m
+[1m--- a/backend/src/config/database.py[m
+[1m+++ b/backend/src/config/database.py[m
+[36m@@ -48,6 +48,7 @@[m [mdef init_db():[m
+     import backend.src.models.proposal[m
+     import backend.src.models.review[m
+     import backend.src.models.skill[m
+[32m+[m[32m    import backend.src.models.contract[m
+ [m
+     # Tạo toàn bộ các bảng trong Database nếu chưa tồn tại[m
+     Base.metadata.create_all(bind=engine)[m
+[1mdiff --git a/backend/src/models/__init__.py b/backend/src/models/__init__.py[m
+[1mindex f88e4c0..5957c3d 100644[m
+[1m--- a/backend/src/models/__init__.py[m
+[1m+++ b/backend/src/models/__init__.py[m
+[36m@@ -36,6 +36,10 @@[m [mfrom backend.src.models.expert import ([m
+     Expert[m
+ )[m
+ [m
+[32m+[m[32mfrom backend.src.models.contract import ([m
+[32m+[m[32m    Contract[m
+[32m+[m[32m)[m
+[32m+[m
+ # ĐÃ BỔ SUNG: Đăng ký thêm model từ file register.py vào metadata[m
+ from backend.src.models.register import ([m
+     UserRegisterRequest[m
+[1mdiff --git a/backend/src/models/auth.py b/backend/src/models/auth.py[m
+[1mindex e58271d..9689106 100644[m
+[1m--- a/backend/src/models/auth.py[m
+[1m+++ b/backend/src/models/auth.py[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-from datetime import datetime[m
+[32m+[m[32mfrom datetime import datetime, timedelta[m
+ [m
+ from sqlalchemy import ([m
+     Column,[m
+[36m@@ -47,12 +47,31 @@[m [mclass PasswordResetToken(Base):[m
+         nullable=False,[m
+     )[m
+ [m
+[32m+[m[32m    created_at = Column([m
+[32m+[m[32m        DateTime,[m
+[32m+[m[32m        default=datetime.utcnow,[m
+[32m+[m[32m        nullable=True,[m
+[32m+[m[32m    )[m
+[32m+[m
+     # Quan hệ với User[m
+     user = relationship([m
+         "User",[m
+         back_populates="tokens",[m
+     )[m
+ [m
+[32m+[m[32m    @classmethod[m
+[32m+[m[32m    def create_for_user(cls, user, token: str, expires_in_minutes: int = 15):[m
+[32m+[m[32m        now = datetime.utcnow()[m
+[32m+[m[32m        return cls([m
+[32m+[m[32m            user_id=user.id,[m
+[32m+[m[32m            token=token,[m
+[32m+[m[32m            expires_at=now + timedelta(minutes=expires_in_minutes),[m
+[32m+[m[32m            created_at=now,[m
+[32m+[m[32m        )[m
+[32m+[m
+[32m+[m[32m    def is_valid(self) -> bool:[m
+[32m+[m[32m        return self.expires_at > datetime.utcnow()[m
+[32m+[m
+ [m
+ # =====================================================[m
+ # PERMISSION[m
+[1mdiff --git a/backend/src/presentation/routes/auth_routes.py b/backend/src/presentation/routes/auth_routes.py[m
+[1mindex 5257f77..1df7447 100644[m
+[1m--- a/backend/src/presentation/routes/auth_routes.py[m
+[1m+++ b/backend/src/presentation/routes/auth_routes.py[m
+[36m@@ -85,23 +85,17 @@[m [mdef forgot_password([m
+     db: Session = Depends(get_db),[m
+ ):[m
+     """[m
+[31m-    Generate reset password token[m
+[32m+[m[32m    Generate reset password token for demo environments.[m
+     """[m
+ [m
+     token = service.forgot_password([m
+         db,[m
+[31m-        data.email,[m
+[32m+[m[32m        str(data.email),[m
+     )[m
+ [m
+[31m-    if token is None:[m
+[31m-        raise HTTPException([m
+[31m-            status_code=status.HTTP_404_NOT_FOUND,[m
+[31m-            detail="User not found.",[m
+[31m-        )[m
+[31m-[m
+     return {[m
+[31m-        "message": "Reset token generated successfully.",[m
+[31m-        "token": token,[m
+[32m+[m[32m        "message": "If the email exists in the system, a reset link has been generated.",[m
+[32m+[m[32m        "reset_token": token,[m
+     }[m
+ [m
+ [m
+[36m@@ -114,19 +108,20 @@[m [mdef reset_password([m
+     db: Session = Depends(get_db),[m
+ ):[m
+     """[m
+[31m-    Reset password[m
+[32m+[m[32m    Reset password with token validation.[m
+     """[m
+ [m
+     success = service.reset_password([m
+         db,[m
+         data.token,[m
+         data.new_password,[m
+[32m+[m[32m        data.confirm_password,[m
+     )[m
+ [m
+     if not success:[m
+         raise HTTPException([m
+             status_code=status.HTTP_400_BAD_REQUEST,[m
+[31m-            detail="Invalid or expired token.",[m
+[32m+[m[32m            detail="Invalid or expired token, or passwords do not match.",[m
+         )[m
+ [m
+     return {[m
+[1mdiff --git a/backend/src/schemas/auth.py b/backend/src/schemas/auth.py[m
+[1mindex 1992edd..3bd8f27 100644[m
+[1m--- a/backend/src/schemas/auth.py[m
+[1m+++ b/backend/src/schemas/auth.py[m
+[36m@@ -69,4 +69,5 @@[m [mclass ForgotPasswordRequest(BaseModel):[m
+ [m
+ class ResetPasswordRequest(BaseModel):[m
+     token: str[m
+[31m-    new_password: str = Field(min_length=6)[m
+[32m+[m[32m    new_password: str = Field(min_length=8)[m
+[32m+[m[32m    confirm_password: str = Field(min_length=8)[m
+[1mdiff --git a/backend/src/services/auth_service.py b/backend/src/services/auth_service.py[m
+[1mindex 4ef9871..b3ec0de 100644[m
+[1m--- a/backend/src/services/auth_service.py[m
+[1m+++ b/backend/src/services/auth_service.py[m
+[36m@@ -1,3 +1,4 @@[m
+[32m+[m[32mimport secrets[m
+ from datetime import datetime, timedelta[m
+ from typing import Optional[m
+ from sqlalchemy import or_[m
+[36m@@ -108,43 +109,34 @@[m [mclass AuthService:[m
+         }[m
+ [m
+     def forgot_password(self, db: Session, email: str):[m
+[31m-        # 1. Kiểm tra user có tồn tại không[m
+[31m-        user = db.query(User).filter(User.email == email).first()[m
+[32m+[m[32m        normalized_email = email.lower().strip()[m
+[32m+[m[32m        user = db.query(User).filter(User.email == normalized_email).first()[m
+         if not user:[m
+             return None[m
+ [m
+[31m-        # 2. Tạo một Token đặc biệt để reset password (chỉ sống 15 phút)[m
+[31m-        reset_token_expires = timedelta(minutes=15)[m
+[31m-        reset_token = self.create_jwt_token([m
+[31m-            data={"sub": str(user.id), "purpose": "reset_password"},[m
+[31m-            expires_delta=reset_token_expires[m
+[31m-        )[m
+[31m-        [m
+[31m-        # LƯU Ý: Ở ứng dụng thực tế, bạn sẽ gọi EmailService ở đây để gửi reset_token đi[m
+[31m-        [m
+[32m+[m[32m        reset_token = secrets.token_urlsafe(32)[m
+[32m+[m[32m        repo = SQLAlchemyAuthRepository(db)[m
+[32m+[m[32m        repo.create_reset_token(user, reset_token, expires_in_minutes=15)[m
+[32m+[m[32m        db.commit()[m
+[32m+[m
+[32m+[m[32m        print(f"[PASSWORD RESET] token for {user.email}: {reset_token}")[m
+         return reset_token[m
+ [m
+[31m-    def reset_password(self, db: Session, token: str, new_password: str) -> bool:[m
+[31m-        try:[m
+[31m-            # 1. Giải mã token[m
+[31m-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])[m
+[31m-            user_id = payload.get("sub")[m
+[31m-            purpose = payload.get("purpose")[m
+[31m-            [m
+[31m-            if user_id is None or purpose != "reset_password":[m
+[31m-                return False[m
+[31m-                [m
+[31m-        except JWTError:[m
+[32m+[m[32m    def reset_password(self, db: Session, token: str, new_password: str, confirm_password: str) -> bool:[m
+[32m+[m[32m        if not new_password or len(new_password) < 8:[m
+[32m+[m[32m            return False[m
+[32m+[m[32m        if new_password != confirm_password:[m
+             return False[m
+ [m
+[31m-        # 2. Tìm user trong DB[m
+[31m-        user = db.query(User).filter(User.id == user_id).first()[m
+[31m-        if not user:[m
+[32m+[m[32m        repo = SQLAlchemyAuthRepository(db)[m
+[32m+[m[32m        reset_item = repo.get_reset_token(token)[m
+[32m+[m[32m        if reset_item is None or not reset_item.is_valid():[m
+             return False[m
+ [m
+[31m-        user.set_password(new_password)[m
+[32m+[m[32m        reset_item.user.set_password(new_password)[m
+[32m+[m[32m        repo.delete_reset_token(reset_item)[m
+         db.commit()[m
+[31m-        [m
+[32m+[m
+         return True[m
+ [m
+     def logout(self, db: Session, token: str) -> bool:[m
+[1mdiff --git a/backend/temp_test_auth.py b/backend/temp_test_auth.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..dc808a5[m
+[1m--- /dev/null[m
+[1m+++ b/backend/temp_test_auth.py[m
+[36m@@ -0,0 +1,28 @@[m
+[32m+[m[32mimport json[m
+[32m+[m[32mimport urllib.request[m
+[32m+[m[32mimport urllib.error[m
+[32m+[m
+[32m+[m[32mbase = 'http://127.0.0.1:5000/api'[m
+[32m+[m[32murl = base + '/auth/register'[m
+[32m+[m[32mdata = {[m
+[32m+[m[32m    'username': 'testuser123',[m
+[32m+[m[32m    'email': 'testuser123@example.com',[m
+[32m+[m[32m    'password': 'TestPass123',[m
+[32m+[m[32m    'full_name': 'Test User',[m
+[32m+[m[32m    'bio': 'Testing'[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mreq = urllib.request.Request([m
+[32m+[m[32m    url,[m
+[32m+[m[32m    data=json.dumps(data).encode('utf-8'),[m
+[32m+[m[32m    headers={'Content-Type': 'application/json'},[m
+[32m+[m[32m)[m
+[32m+[m[32mtry:[m
+[32m+[m[32m    resp = urllib.request.urlopen(req, timeout=10)[m
+[32m+[m[32m    print('STATUS', resp.status)[m
+[32m+[m[32m    print(resp.read().decode())[m
+[32m+[m[32mexcept urllib.error.HTTPError as e:[m
+[32m+[m[32m    print('ERR', e.code)[m
+[32m+[m[32m    print(e.read().decode())[m
+[32m+[m[32mexcept Exception as e:[m
+[32m+[m[32m    print('EXC', str(e))[m
+[1mdiff --git a/frontend/forgot-password.html b/frontend/forgot-password.html[m
+[1mnew file mode 100644[m
+[1mindex 0000000..df5a3f5[m
+[1m--- /dev/null[m
+[1m+++ b/frontend/forgot-password.html[m
+[36m@@ -0,0 +1,58 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m  <meta charset="UTF-8" />[m
+[32m+[m[32m  <meta name="viewport" content="width=device-width, initial-scale=1.0" />[m
+[32m+[m[32m  <title>Forgot Password</title>[m
+[32m+[m[32m  <link rel="preconnect" href="https://fonts.googleapis.com">[m
+[32m+[m[32m  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>[m
+[32m+[m[32m  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">[m
+[32m+[m[32m  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">[m
+[32m+[m[32m  <link rel="stylesheet" href="css/style.css" />[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m  <div class="auth-split">[m
+[32m+[m[32m    <div class="auth-left">[m
+[32m+[m[32m      <div class="logo-large">A</div>[m
+[32m+[m[32m      <h1>AITasker</h1>[m
+[32m+[m[32m      <p>Reset access to your account with a secure one-time link.</p>[m
+[32m+[m[32m      <div class="auth-illustration"></div>[m
+[32m+[m[32m    </div>[m
+[32m+[m
+[32m+[m[32m    <div class="auth-right">[m
+[32m+[m[32m      <div class="auth-card">[m
+[32m+[m[32m        <div class="auth-header">[m
+[32m+[m[32m          <div class="auth-title">Forgot password?</div>[m
+[32m+[m[32m          <div class="auth-sub">Enter your email and we’ll generate a reset token for demo use.</div>[m
+[32m+[m[32m        </div>[m
+[32m+[m
+[32m+[m[32m        <form id="forgot-password-form" class="form">[m
+[32m+[m[32m          <div class="field">[m
+[32m+[m[32m            <label for="forgot-email">Email</label>[m
+[32m+[m[32m            <div class="input-group">[m
+[32m+[m[32m              <i class="fa fa-envelope input-icon" aria-hidden="true"></i>[m
+[32m+[m[32m              <input id="forgot-email" class="input-with-icon" name="email" type="email" required />[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m          </div>[m
+[32m+[m
+[32m+[m[32m          <div class="actions auth-actions">[m
+[32m+[m[32m            <button type="submit" class="btn">Send Reset Link</button>[m
+[32m+[m[32m          </div>[m
+[32m+[m
+[32m+[m[32m          <div class="link-center">[m
+[32m+[m[32m            <a href="index.html">Back to login</a>[m
+[32m+[m[32m          </div>[m
+[32m+[m[32m        </form>[m
+[32m+[m
+[32m+[m[32m        <div id="forgot-password-error" class="toast toast-error hidden" style="margin-top:16px"></div>[m
+[32m+[m[32m        <div id="forgot-password-success" class="toast toast-success hidden" style="margin-top:16px"></div>[m
+[32m+[m[32m      </div>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m  </div>[m
+[32m+[m
+[32m+[m[32m  <script src="js/config.js"></script>[m
+[32m+[m[32m  <script src="js/api.js"></script>[m
+[32m+[m[32m  <script src="js/utils.js"></script>[m
+[32m+[m[32m  <script src="js/forgot-password.js"></script>[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+[1mdiff --git a/frontend/index.html b/frontend/index.html[m
+[1mindex 36286f5..bb43354 100644[m
+[1m--- a/frontend/index.html[m
+[1m+++ b/frontend/index.html[m
+[36m@@ -48,6 +48,9 @@[m
+             <button type="submit" class="btn">Login</button>[m
+           </div>[m
+ [m
+[32m+[m[32m          <div class="link-center">[m
+[32m+[m[32m            <a href="forgot-password.html">Forgot Password?</a>[m
+[32m+[m[32m          </div>[m
+           <div class="link-center">[m
+             <a href="register.html">Don't have an account? Register</a>[m
+           </div>[m
+[1mdiff --git a/frontend/js/forgot-password.js b/frontend/js/forgot-password.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..ba15938[m
+[1m--- /dev/null[m
+[1m+++ b/frontend/js/forgot-password.js[m
+[36m@@ -0,0 +1,31 @@[m
+[32m+[m[32mdocument.addEventListener('DOMContentLoaded', () => {[m
+[32m+[m[32m  const form = document.getElementById('forgot-password-form')[m
+[32m+[m[32m  const errorEl = document.getElementById('forgot-password-error')[m
+[32m+[m[32m  const successEl = document.getElementById('forgot-password-success')[m
+[32m+[m
+[32m+[m[32m  if (!form) return[m
+[32m+[m
+[32m+[m[32m  form.addEventListener('submit', async (event) => {[m
+[32m+[m[32m    event.preventDefault()[m
+[32m+[m[32m    errorEl.classList.add('hidden')[m
+[32m+[m[32m    successEl.classList.add('hidden')[m
+[32m+[m
+[32m+[m[32m    const email = document.getElementById('forgot-email').value.trim()[m
+[32m+[m[32m    if (!email) {[m
+[32m+[m[32m      showError(errorEl, 'Please enter your email.')[m
+[32m+[m[32m      return[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      const result = await apiPost('/auth/forgot-password', { email })[m
+[32m+[m[32m      if (result.reset_token) {[m
+[32m+[m[32m        window.location.href = `reset-password.html?token=${encodeURIComponent(result.reset_token)}`[m
+[32m+[m[32m        return[m
+[32m+[m[32m      }[m
+[32m+[m[32m      showSuccess(successEl, result.message || 'If the email exists, the reset token has been generated.')[m
+[32m+[m[32m      form.reset()[m
+[32m+[m[32m    } catch (err) {[m
+[32m+[m[32m      showError(errorEl, parseError(err, 'Unable to process request.'))[m
+[32m+[m[32m    }[m
+[32m+[m[32m  })[m
+[32m+[m[32m})[m
+[1mdiff --git a/frontend/js/reset-password.js b/frontend/js/reset-password.js[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1f490ae[m
+[1m--- /dev/null[m
+[1m+++ b/frontend/js/reset-password.js[m
+[36m@@ -0,0 +1,49 @@[m
+[32m+[m[32mdocument.addEventListener('DOMContentLoaded', () => {[m
+[32m+[m[32m  const form = document.getElementById('reset-password-form')[m
+[32m+[m[32m  const errorEl = document.getElementById('reset-password-error')[m
+[32m+[m[32m  const successEl = document.getElementById('reset-password-success')[m
+[32m+[m
+[32m+[m[32m  if (!form) return[m
+[32m+[m
+[32m+[m[32m  const params = new URLSearchParams(window.location.search)[m
+[32m+[m[32m  const token = params.get('token')[m
+[32m+[m
+[32m+[m[32m  if (!token) {[m
+[32m+[m[32m    showError(errorEl, 'Missing reset token.')[m
+[32m+[m[32m    return[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  form.addEventListener('submit', async (event) => {[m
+[32m+[m[32m    event.preventDefault()[m
+[32m+[m[32m    errorEl.classList.add('hidden')[m
+[32m+[m[32m    successEl.classList.add('hidden')[m
+[32m+[m
+[32m+[m[32m    const new_password = document.getElementById('reset-password').value[m
+[32m+[m[32m    const confirm_password = document.getElementById('reset-confirm-password').value[m
+[32m+[m
+[32m+[m[32m    if (!new_password || !confirm_password) {[m
+[32m+[m[32m      showError(errorEl, 'Both password fields are required.')[m
+[32m+[m[32m      return[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    if (new_password.length < 8) {[m
+[32m+[m[32m      showError(errorEl, 'Password must be at least 8 characters.')[m
+[32m+[m[32m      return[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    if (new_password !== confirm_password) {[m
+[32m+[m[32m      showError(errorEl, 'Passwords do not match.')[m
+[32m+[m[32m      return[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    try {[m
+[32m+[m[32m      const result = await apiPost('/auth/reset-password', { token, new_password, confirm_password })[m
+[32m+[m[32m      showSuccess(successEl, result.message || 'Password reset successfully.')[m
+[32m+[m[32m      setTimeout(() => {[m
+[32m+[m[32m        window.location.href = 'index.html'[m
+[32m+[m[32m      }, 1200)[m
+[32m+[m[32m    } catch (err) {[m
+[32m+[m[32m      showError(errorEl, parseError(err, 'Unable to reset password.'))[m
+[32m+[m[32m    }[m
+[32m+[m[32m  })[m
+[32m+[m[32m})[m
+[1mdiff --git a/frontend/reset-password.html b/frontend/reset-password.html[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fdf83de[m
+[1m--- /dev/null[m
+[1m+++ b/frontend/reset-password.html[m
+[36m@@ -0,0 +1,65 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m  <meta charset="UTF-8" />[m
+[32m+[m[32m  <meta name="viewport" content="width=device-width, initial-scale=1.0" />[m
+[32m+[m[32m  <title>Reset Password</title>[m
+[32m+[m[32m  <link rel="preconnect" href="https://fonts.googleapis.com">[m
+[32m+[m[32m  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>[m
+[32m+[m[32m  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">[m
+[32m+[m[32m  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">[m
+[32m+[m[32m  <link rel="stylesheet" href="css/style.css" />[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m  <div class="auth-split">[m
+[32m+[m[32m    <div class="auth-left">[m
+[32m+[m[32m      <div class="logo-large">A</div>[m
+[32m+[m[32m      <h1>AITasker</h1>[m
+[32m+[m[32m      <p>Create a new password for your account.</p>[m
+[32m+[m[32m      <div class="auth-illustration"></div>[m
+[32m+[m[32m    </div>[m
+[32m+[m
+[32m+[m[32m    <div class="auth-right">[m
+[32m+[m[32m      <div class="auth-card">[m
+[32m+[m[32m        <div class="auth-header">[m
+[32m+[m[32m          <div class="auth-title">Reset your password</div>[m
+[32m+[m[32m          <div class="auth-sub">Choose a strong password and confirm it below.</div>[m
+[32m+[m[32m        </div>[m
+[32m+[m
+[32m+[m[32m        <form id="reset-password-form" class="form">[m
+[32m+[m[32m          <div class="field">[m
+[32m+[m[32m            <label for="reset-password">New Password</label>[m
+[32m+[m[32m            <div class="input-group">[m
+[32m+[m[32m              <i class="fa fa-lock input-icon" aria-hidden="true"></i>[m
+[32m+[m[32m              <input id="reset-password" class="input-with-icon" name="new_password" type="password" required />[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m          </div>[m
+[32m+[m[32m          <div class="field">[m
+[32m+[m[32m            <label for="reset-confirm-password">Confirm Password</label>[m
+[32m+[m[32m            <div class="input-group">[m
+[32m+[m[32m              <i class="fa fa-lock input-icon" aria-hidden="true"></i>[m
+[32m+[m[32m              <input id="reset-confirm-password" class="input-with-icon" name="confirm_password" type="password" required />[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m          </div>[m
+[32m+[m
+[32m+[m[32m          <div class="actions auth-actions">[m
+[32m+[m[32m            <button type="submit" class="btn">Reset Password</button>[m
+[32m+[m[32m          </div>[m
+[32m+[m
+[32m+[m[32m          <div class="link-center">[m
+[32m+[m[32m            <a href="index.html">Back to login</a>[m
+[32m+[m[32m          </div>[m
+[32m+[m[32m        </form>[m
+[32m+[m
+[32m+[m[32m        <div id="reset-password-error" class="toast toast-error hidden" style="margin-top:16px"></div>[m
+[32m+[m[32m        <div id="reset-password-success" class="toast toast-success hidden" style="margin-top:16px"></div>[m
+[32m+[m[32m      </div>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m  </div>[m
+[32m+[m
+[32m+[m[32m  <script src="js/config.js"></script>[m
+[32m+[m[32m  <script src="js/api.js"></script>[m
+[32m+[m[32m  <script src="js/utils.js"></script>[m
+[32m+[m[32m  <script src="js/reset-password.js"></script>[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
