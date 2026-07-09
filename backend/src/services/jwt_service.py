@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
+from uuid import UUID
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -7,18 +8,18 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
 from backend.src.config.database import get_db
+from backend.src.config.security import SECRET_KEY, ALGORITHM
 from backend.src.models.auth import User
+from backend.src.models.token_blacklist import RevokedToken
 
 # =====================================================
 # JWT CONFIG
 # =====================================================
 
-SECRET_KEY = "change-this-secret-key"
-ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/auth/login"
+    tokenUrl="/api/auth/login"
 )
 
 # =====================================================
@@ -83,6 +84,16 @@ def get_current_user(
     )
 
     try:
+
+        # reject token if it has been revoked (blacklisted)
+        revoked = (
+            db.query(RevokedToken)
+            .filter(RevokedToken.token == token)
+            .first()
+        )
+
+        if revoked is not None:
+            raise credentials_exception
 
         payload = jwt.decode(
             token,

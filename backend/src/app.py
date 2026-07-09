@@ -3,7 +3,7 @@ import sys
 import subprocess
 from fastapi import FastAPI, Depends, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
@@ -64,6 +64,7 @@ import backend.src.models.skill
 import backend.src.models.project
 import backend.src.models.proposal
 import backend.src.models.review
+import backend.src.models.token_blacklist
 
 from backend.src.presentation import router
 
@@ -90,6 +91,11 @@ if not os.path.exists("static"):
     os.makedirs("static")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# Serve the frontend static files directly from FastAPI so no separate http.server is required.
+frontend_dir = os.path.join(project_root, "frontend")
+if os.path.exists(frontend_dir):
+    app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
+
 app.add_middleware(SessionMiddleware, secret_key="change-me-secret-key")
 
 # CẤU HÌNH CORS CHUẨN XÁC: Chỉ định rõ nguồn gốc từ Frontend React
@@ -99,6 +105,7 @@ app.add_middleware(
         "http://localhost:5173",
         "http://127.0.0.1:5173"
     ],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -152,6 +159,11 @@ app.include_router(router, prefix="/api")
 @app.get("/", tags=["Root"])
 async def root():
     return {"status": "running", "message": "AITasker Backend API hoạt động hoàn hảo"}
+
+
+@app.get("/index.html", include_in_schema=False)
+async def serve_frontend_index():
+    return RedirectResponse(url="/frontend/index.html")
 
 # ==========================================================
 # 8. KHỞI CHẠY SERVER

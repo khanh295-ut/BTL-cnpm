@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">A</div>AITasker</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-link">Logout</a>
+    </nav>
+  </header>
+
+  <main class="page-center">
+    <section class="card" style="max-width:640px">
+      <h1>Edit Profile</h1>
+      <form id="edit-profile-form" class="form">
+        <div class="field">
+          <label for="edit-fullname">Full Name</label>
+          <input id="edit-fullname" name="full_name" type="text" />
+        </div>
+        <div class="field">
+          <label for="edit-email">Email</label>
+          <input id="edit-email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="edit-bio">Bio</label>
+          <textarea id="edit-bio" name="bio" rows="4"></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Save Changes</button>
+        </div>
+      </form>
+      <div id="edit-profile-error" class="toast toast-error hidden"></div>
+      <div id="edit-profile-success" class="toast toast-success hidden"></div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      ensureAuthenticated()
+      attachLogoutLinks()
+      await loadProfileData()
+      initEditProfile()
+    })
+  </script>
+</body>
+</html>

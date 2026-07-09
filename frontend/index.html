@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-split">
+    <div class="auth-left">
+      <div class="logo-large">A</div>
+      <h1>AITasker</h1>
+      <p>Connect with experts, manage projects and proposals with AI-powered assistance.</p>
+      <div class="auth-illustration">
+        <!-- decorative illustration placeholder -->
+      </div>
+    </div>
+
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-title">Welcome back</div>
+          <div class="auth-sub">Sign in to your account to continue.</div>
+        </div>
+
+        <form id="login-form" class="form">
+          <div class="field">
+            <label for="login-username">Username or email</label>
+            <div class="input-group">
+              <i class="fa fa-user input-icon" aria-hidden="true"></i>
+              <input id="login-username" class="input-with-icon" name="login" type="text" autocomplete="username" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <div class="input-group">
+              <i class="fa fa-lock input-icon" aria-hidden="true"></i>
+              <input id="login-password" class="input-with-icon" name="password" type="password" autocomplete="current-password" required />
+            </div>
+          </div>
+
+          <div class="actions auth-actions">
+            <button type="submit" class="btn">Login</button>
+          </div>
+
+          <div class="link-center">
+            <a href="register.html">Don't have an account? Register</a>
+          </div>
+        </form>
+
+        <div id="login-error" class="toast toast-error hidden" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginForm = document.getElementById('login-form')
+      const errorEl = document.getElementById('login-error')
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        errorEl.classList.add('hidden')
+        const login = document.getElementById('login-username').value.trim()
+        const password = document.getElementById('login-password').value
+
+        if (!login || !password) {
+          showError(errorEl, 'Please enter both username/email and password.')
+          return
+        }
+
+        try {
+          const response = await apiPost('/auth/login', { login, password })
+          setToken(response.access_token)
+          window.location.href = 'dashboard.html'
+        } catch (err) {
+          showError(errorEl, parseError(err, 'Login failed.'))
+        }
+      })
+    })
+  </script>
+</body>
+</html>

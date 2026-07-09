@@ -1,21 +1,18 @@
 from datetime import datetime, timedelta
 from typing import Optional
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
 from jose import JWTError, jwt
+import bcrypt
 
-# Import Model DB và Schema của bạn
+from backend.src.config.security import SECRET_KEY, ALGORITHM
+from backend.src.infrastructure.repositories import SQLAlchemyAuthRepository
 from backend.src.models.auth import User
 from backend.src.schemas.auth import UserCreate, LoginRequest
+from backend.src.models.token_blacklist import RevokedToken
+from datetime import datetime
 
-# Cấu hình bảo mật
-# Trong thực tế, SECRET_KEY nên được đưa vào file .env
-SECRET_KEY = "your_super_secret_key_here_please_change_it" 
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # Token sống 7 ngày
-
-# Công cụ mã hóa mật khẩu bằng thuật toán bcrypt
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
 
 
 class AuthService:
@@ -24,14 +21,10 @@ class AuthService:
     # CÁC HÀM HỖ TRỢ (HELPER METHODS)
     # ==========================================
     def get_password_hash(self, password: str) -> str:
-        # Ép độ dài tối đa 72 ký tự để triệt tiêu hoàn toàn lỗi của thư viện passlib/bcrypt
-        safe_password = password[:72]
-        return pwd_context.hash(safe_password)
+        return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
-        # Cắt 72 ký tự tương tự như lúc tạo mật khẩu để khớp mã hash
-        safe_password = plain_password[:72]
-        return pwd_context.verify(safe_password, hashed_password)
+        return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
     def create_jwt_token(self, data: dict, expires_delta: Optional[timedelta] = None) -> str:
         to_encode = data.copy()
@@ -48,50 +41,70 @@ class AuthService:
     # LOGIC CHÍNH ĐƯỢC GỌI TỪ ROUTER
     # ==========================================
     def register(self, db: Session, data: UserCreate):
-        # 1. Kiểm tra email đã tồn tại chưa
-        existing_user = db.query(User).filter(User.email == data.email).first()
-        if existing_user:
+        repo = SQLAlchemyAuthRepository(db)
+
+        if repo.get_user_by_username(data.username):
+            raise ValueError("Username này đã được đăng ký.")
+
+        if repo.get_user_by_email(data.email):
             raise ValueError("Email này đã được đăng ký.")
 
-        # 2. Mã hóa mật khẩu
-        hashed_password = self.get_password_hash(data.password)
-
-        # 3. Lưu vào Database (SỬ DỤNG ĐÚNG TÊN CỘT: password_hash)
-        new_user = User(
-            username=data.username,
-            email=data.email,
-            password_hash=hashed_password,
-            full_name=data.full_name,
-            bio=data.bio
+        user = User(
+            username=data.username.strip(),
+            email=data.email.lower().strip(),
         )
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
-        
-        return new_user
+
+        user.set_password(data.password)
+        user.full_name = data.full_name.strip() if data.full_name else None
+        user.bio = data.bio.strip() if data.bio else None
+
+        default_role = repo.ensure_role("User", "Standard user role")
+        user.roles.append(default_role)
+
+        repo.save_user(user)
+        repo.commit()
+        db.refresh(user)
+
+        return user
 
     def login(self, db: Session, data: LoginRequest):
-        # 1. Tìm user theo email
-        user = db.query(User).filter(User.email == data.email).first()
-        
-        # 2. Nếu user không tồn tại hoặc sai mật khẩu -> Return None 
-        # (SỬ DỤNG ĐÚNG TÊN CỘT: user.password_hash)
-        if not user or not self.verify_password(data.password, user.password_hash):
+        user = (
+            db.query(User)
+            .filter(
+                or_(
+                    User.email == data.login.lower().strip(),
+                    User.username == data.login.strip(),
+                )
+            )
+            .first()
+        )
+
+        if not user or not user.check_password(data.password):
             return None
 
-        # 3. Tạo Access Token (JWT)
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        
-        token_data = {"sub": str(user.id), "email": user.email} 
-        
+        token_data = {
+            "sub": str(user.id),
+            "email": user.email,
+            "roles": [role.name for role in user.roles],
+        }
+
         access_token = self.create_jwt_token(
-            data=token_data, 
-            expires_delta=access_token_expires
+            data=token_data,
+            expires_delta=access_token_expires,
         )
-        
+
         return {
             "access_token": access_token,
-            "token_type": "bearer"
+            "token_type": "bearer",
+            "user": {
+                "id": str(user.id),
+                "username": user.username,
+                "email": user.email,
+                "full_name": getattr(user, "full_name", None),
+                "bio": getattr(user, "bio", None),
+                "roles": [role.name for role in user.roles],
+            },
         }
 
     def forgot_password(self, db: Session, email: str):
@@ -129,8 +142,30 @@ class AuthService:
         if not user:
             return False
 
-        # 3. Cập nhật mật khẩu mới (SỬ DỤNG ĐÚNG TÊN CỘT: password_hash)
-        user.password_hash = self.get_password_hash(new_password)
+        user.set_password(new_password)
         db.commit()
         
+        return True
+
+    def logout(self, db: Session, token: str) -> bool:
+        """Blacklist the provided JWT token so it can no longer be used."""
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        except JWTError:
+            return False
+
+        exp = payload.get("exp")
+        expires_at = None
+        try:
+            if exp is not None:
+                # exp is a timestamp (int)
+                expires_at = datetime.utcfromtimestamp(int(exp))
+        except Exception:
+            expires_at = None
+
+        # store the raw token; unique constraint prevents duplicates
+        revoked = RevokedToken(token=token, expires_at=expires_at)
+        db.add(revoked)
+        db.commit()
+
         return True

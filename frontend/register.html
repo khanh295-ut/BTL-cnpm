@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><div class="logo">A</div>AITasker</div>
+      <nav>
+        <a href="index.html">Login</a>
+      </nav>
+    </header>
+
+    <main class="auth-split">
+      <div class="auth-left">
+        <div class="logo-large">A</div>
+        <h1>AITasker</h1>
+        <p>Sign up and start collaborating with experts, manage proposals and projects efficiently.</p>
+        <div class="auth-illustration"></div>
+      </div>
+
+      <div class="auth-right">
+        <div class="auth-card">
+          <div class="auth-header">
+            <div class="auth-title">Create your account</div>
+            <div class="auth-sub">Get started with AITasker — it only takes a minute.</div>
+          </div>
+
+          <form id="register-form" class="form">
+            <div class="field">
+              <label for="register-username">Username</label>
+              <div class="input-group">
+                <i class="fa fa-user input-icon" aria-hidden="true"></i>
+                <input id="register-username" class="input-with-icon" name="username" type="text" autocomplete="username" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="register-email">Email</label>
+              <div class="input-group">
+                <i class="fa fa-envelope input-icon" aria-hidden="true"></i>
+                <input id="register-email" class="input-with-icon" name="email" type="email" autocomplete="email" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="register-password">Password</label>
+              <div class="input-group">
+                <i class="fa fa-lock input-icon" aria-hidden="true"></i>
+                <input id="register-password" class="input-with-icon" name="password" type="password" autocomplete="new-password" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="register-fullname">Full Name</label>
+              <div class="input-group">
+                <i class="fa fa-id-badge input-icon" aria-hidden="true"></i>
+                <input id="register-fullname" class="input-with-icon" name="full_name" type="text" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="register-bio">Bio</label>
+              <textarea id="register-bio" name="bio" rows="3"></textarea>
+            </div>
+
+            <div class="actions auth-actions">
+              <button type="submit" class="btn">Register</button>
+            </div>
+
+            <div class="link-center">
+              <a href="index.html">Already have an account? Login</a>
+            </div>
+          </form>
+
+          <div id="register-error" class="toast toast-error hidden"></div>
+          <div id="register-success" class="toast toast-success hidden"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerForm = document.getElementById('register-form')
+      const errorEl = document.getElementById('register-error')
+      const successEl = document.getElementById('register-success')
+
+      registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        errorEl.classList.add('hidden')
+        successEl.classList.add('hidden')
+
+        const username = document.getElementById('register-username').value.trim()
+        const email = document.getElementById('register-email').value.trim()
+        const password = document.getElementById('register-password').value
+        const full_name = document.getElementById('register-fullname').value.trim()
+        const bio = document.getElementById('register-bio').value.trim()
+
+        if (!username || !email || !password) {
+          showError(errorEl, 'Username, email and password are required.')
+          return
+        }
+        if (password.length < 6) {
+          showError(errorEl, 'Password must be at least 6 characters.')
+          return
+        }
+
+        try {
+          await apiPost('/auth/register', { username, email, password, full_name, bio })
+          showSuccess(successEl, 'Registered successfully. You may login now.')
+          registerForm.reset()
+        } catch (err) {
+          showError(errorEl, parseError(err, 'Registration failed.'))
+        }
+      })
+    })
+  </script>
+</body>
+</html>
