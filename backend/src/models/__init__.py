@@ -36,6 +36,10 @@ from backend.src.models.expert import (
     Expert
 )
 
+from backend.src.models.contract import (
+    Contract
+)
+
 # ĐÃ BỔ SUNG: Đăng ký thêm model từ file register.py vào metadata
 from backend.src.models.register import (
     UserRegisterRequest

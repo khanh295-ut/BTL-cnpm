@@ -48,6 +48,7 @@ def init_db():
     import backend.src.models.proposal
     import backend.src.models.review
     import backend.src.models.skill
+    import backend.src.models.contract
 
     # Tạo toàn bộ các bảng trong Database nếu chưa tồn tại
     Base.metadata.create_all(bind=engine)
