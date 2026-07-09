@@ -1,22 +1,20 @@
 from datetime import datetime
-import uuid
 
 from sqlalchemy import (
-    Boolean,
     Column,
     DateTime,
     ForeignKey,
+    Integer,
     String,
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-# Import chuẩn từ backend.src.config.database
 from backend.src.config.database import Base
 from backend.src.models.association import (
     user_roles,
     role_permissions,
 )
+from backend.src.utils.security import hash_password, verify_password
 
 
 # =====================================================
@@ -27,13 +25,13 @@ class PasswordResetToken(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(
-        UUID(as_uuid=True),
+        Integer,
         primary_key=True,
-        default=uuid.uuid4,
+        autoincrement=True,
     )
 
     user_id = Column(
-        UUID(as_uuid=True),
+        Integer,
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
     )
@@ -64,9 +62,9 @@ class Permission(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(
-        UUID(as_uuid=True),
+        Integer,
         primary_key=True,
-        default=uuid.uuid4,
+        autoincrement=True,
         index=True,
     )
 
@@ -79,12 +77,6 @@ class Permission(Base):
     description = Column(
         String(255),
         nullable=True,
-    )
-
-    created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=False,
     )
 
     roles = relationship(
@@ -103,9 +95,9 @@ class Role(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(
-        UUID(as_uuid=True),
+        Integer,
         primary_key=True,
-        default=uuid.uuid4,
+        autoincrement=True,
         index=True,
     )
 
@@ -118,12 +110,6 @@ class Role(Base):
     description = Column(
         String(255),
         nullable=True,
-    )
-
-    created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=False,
     )
 
     permissions = relationship(
@@ -149,9 +135,9 @@ class User(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(
-        UUID(as_uuid=True),
+        Integer,
         primary_key=True,
-        default=uuid.uuid4,
+        autoincrement=True,
         index=True,
     )
 
@@ -169,21 +155,21 @@ class User(Base):
         index=True,
     )
 
-    hashed_password = Column(
+    password_hash = Column(
         String(255),
         nullable=False,
     )
 
-    is_active = Column(
-        Boolean,
-        default=True,
-        nullable=False,
+    full_name = Column(
+        String(255),
+        nullable=True,
+        default="",
+        server_default="",
     )
 
-    created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=False,
+    bio = Column(
+        String(500),
+        nullable=True,
     )
 
     roles = relationship(
@@ -199,6 +185,22 @@ class User(Base):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+
+    def set_password(self, password: str):
+        self.password_hash = hash_password(password)
+
+    def check_password(self, password: str) -> bool:
+        return verify_password(password, self.password_hash)
+
+    def has_role(self, role_name: str) -> bool:
+        return any(role.name.lower() == role_name.lower() for role in self.roles)
+
+    def is_admin(self) -> bool:
+        return self.has_role("admin")
+
+    @property
+    def role(self) -> str | None:
+        return self.roles[0].name if self.roles else None
 
     def __repr__(self):
         return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"

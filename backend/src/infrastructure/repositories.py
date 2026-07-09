@@ -47,6 +47,16 @@ class SQLAlchemyAuthRepository:
             .first()
         )
 
+    def get_user_by_login(self, login: str):
+
+        return (
+            self.db.query(User)
+            .filter(
+                (User.username == login) | (User.email == login)
+            )
+            .first()
+        )
+
 
     def get_user_by_id(self, user_id: UUID):
 

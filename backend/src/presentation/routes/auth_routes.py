@@ -10,6 +10,8 @@ from backend.src.schemas.auth import (
     ResetPasswordRequest,
 )
 from backend.src.services.auth_service import AuthService
+from backend.src.services.jwt_service import get_current_user, oauth2_scheme
+from backend.src.models.auth import User
 
 router = APIRouter(
     prefix="/auth",
@@ -130,3 +132,22 @@ def reset_password(
     return {
         "message": "Password reset successfully."
     }
+
+
+# =====================================================
+# LOGOUT
+# =====================================================
+@router.post("/logout")
+def logout(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Revoke the current access token so it cannot be used again."""
+
+    success = service.logout(db, token)
+
+    if not success:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unable to logout")
+
+    return {"message": "Logged out successfully."}

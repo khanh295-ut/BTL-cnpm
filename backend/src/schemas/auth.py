@@ -21,17 +21,38 @@ class UserCreate(BaseModel):
 # =====================================================
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    login: str
     password: str = Field(min_length=6)
+
+
+# =====================================================
+# REGISTER ALIAS
+# =====================================================
+
+class RegisterRequest(UserCreate):
+    pass
 
 
 # =====================================================
 # TOKEN RESPONSE
 # =====================================================
 
+class UserResponse(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    username: str
+    email: EmailStr
+    full_name: Optional[str] = None
+    bio: Optional[str] = None
+    roles: list[str] = []
+
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    user: UserResponse
 
 
 # =====================================================
@@ -49,22 +70,3 @@ class ForgotPasswordRequest(BaseModel):
 class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str = Field(min_length=6)
-
-
-# =====================================================
-# USER RESPONSE
-# =====================================================
-
-class UserResponse(BaseModel):
-
-    model_config = ConfigDict(from_attributes=True)
-
-    id: str
-
-    username: str
-
-    email: EmailStr
-
-    full_name: Optional[str] = None
-
-    bio: Optional[str] = None
