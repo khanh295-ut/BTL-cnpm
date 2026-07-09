@@ -85,23 +85,17 @@ def forgot_password(
     db: Session = Depends(get_db),
 ):
     """
-    Generate reset password token
+    Generate reset password token for demo environments.
     """
 
     token = service.forgot_password(
         db,
-        data.email,
+        str(data.email),
     )
 
-    if token is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found.",
-        )
-
     return {
-        "message": "Reset token generated successfully.",
-        "token": token,
+        "message": "If the email exists in the system, a reset link has been generated.",
+        "reset_token": token,
     }
 
 
@@ -114,19 +108,20 @@ def reset_password(
     db: Session = Depends(get_db),
 ):
     """
-    Reset password
+    Reset password with token validation.
     """
 
     success = service.reset_password(
         db,
         data.token,
         data.new_password,
+        data.confirm_password,
     )
 
     if not success:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid or expired token.",
+            detail="Invalid or expired token, or passwords do not match.",
         )
 
     return {

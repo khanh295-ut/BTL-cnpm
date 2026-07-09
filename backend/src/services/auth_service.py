@@ -1,3 +1,4 @@
+import secrets
 from datetime import datetime, timedelta
 from typing import Optional
 from sqlalchemy import or_
@@ -108,43 +109,34 @@ class AuthService:
         }
 
     def forgot_password(self, db: Session, email: str):
-        # 1. Kiểm tra user có tồn tại không
-        user = db.query(User).filter(User.email == email).first()
+        normalized_email = email.lower().strip()
+        user = db.query(User).filter(User.email == normalized_email).first()
         if not user:
             return None
 
-        # 2. Tạo một Token đặc biệt để reset password (chỉ sống 15 phút)
-        reset_token_expires = timedelta(minutes=15)
-        reset_token = self.create_jwt_token(
-            data={"sub": str(user.id), "purpose": "reset_password"},
-            expires_delta=reset_token_expires
-        )
-        
-        # LƯU Ý: Ở ứng dụng thực tế, bạn sẽ gọi EmailService ở đây để gửi reset_token đi
-        
+        reset_token = secrets.token_urlsafe(32)
+        repo = SQLAlchemyAuthRepository(db)
+        repo.create_reset_token(user, reset_token, expires_in_minutes=15)
+        db.commit()
+
+        print(f"[PASSWORD RESET] token for {user.email}: {reset_token}")
         return reset_token
 
-    def reset_password(self, db: Session, token: str, new_password: str) -> bool:
-        try:
-            # 1. Giải mã token
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            user_id = payload.get("sub")
-            purpose = payload.get("purpose")
-            
-            if user_id is None or purpose != "reset_password":
-                return False
-                
-        except JWTError:
+    def reset_password(self, db: Session, token: str, new_password: str, confirm_password: str) -> bool:
+        if not new_password or len(new_password) < 8:
+            return False
+        if new_password != confirm_password:
             return False
 
-        # 2. Tìm user trong DB
-        user = db.query(User).filter(User.id == user_id).first()
-        if not user:
+        repo = SQLAlchemyAuthRepository(db)
+        reset_item = repo.get_reset_token(token)
+        if reset_item is None or not reset_item.is_valid():
             return False
 
-        user.set_password(new_password)
+        reset_item.user.set_password(new_password)
+        repo.delete_reset_token(reset_item)
         db.commit()
-        
+
         return True
 
     def logout(self, db: Session, token: str) -> bool:

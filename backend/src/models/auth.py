@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from sqlalchemy import (
     Column,
@@ -47,11 +47,30 @@ class PasswordResetToken(Base):
         nullable=False,
     )
 
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=True,
+    )
+
     # Quan hệ với User
     user = relationship(
         "User",
         back_populates="tokens",
     )
+
+    @classmethod
+    def create_for_user(cls, user, token: str, expires_in_minutes: int = 15):
+        now = datetime.utcnow()
+        return cls(
+            user_id=user.id,
+            token=token,
+            expires_at=now + timedelta(minutes=expires_in_minutes),
+            created_at=now,
+        )
+
+    def is_valid(self) -> bool:
+        return self.expires_at > datetime.utcnow()
 
 
 # =====================================================
