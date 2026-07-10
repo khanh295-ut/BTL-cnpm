@@ -87,17 +87,26 @@ async def startup():
     Base.metadata.create_all(bind=engine)
     print("AITasker Backend started successfully.")
 
-if not os.path.exists("static"):
-    os.makedirs("static")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(project_root, "static")
+if os.path.isdir(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Serve the frontend static files directly from FastAPI so no separate http.server is required.
 frontend_dir = os.path.join(project_root, "frontend")
-if os.path.exists(frontend_dir):
+if os.path.isdir(frontend_dir):
     app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
-    app.mount("/css", StaticFiles(directory=os.path.join(frontend_dir, "css")), name="frontend-css")
-    app.mount("/js", StaticFiles(directory=os.path.join(frontend_dir, "js")), name="frontend-js")
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dir, "assets")), name="frontend-assets")
+
+    css_dir = os.path.join(frontend_dir, "css")
+    if os.path.isdir(css_dir):
+        app.mount("/css", StaticFiles(directory=css_dir), name="frontend-css")
+
+    js_dir = os.path.join(frontend_dir, "js")
+    if os.path.isdir(js_dir):
+        app.mount("/js", StaticFiles(directory=js_dir), name="frontend-js")
+
+    assets_dir = os.path.join(frontend_dir, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend-assets")
 
 app.add_middleware(SessionMiddleware, secret_key="change-me-secret-key")
 
