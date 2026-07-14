@@ -1,116 +1,350 @@
-\chapter{Cài đặt hệ thống}
+\chapter{Yêu cầu phi chức năng}
 
-\section{Môi trường phát triển}
+\section{Giới thiệu}
+
+Bên cạnh các yêu cầu chức năng, hệ thống AITasker cần đáp ứng các yêu cầu phi
+chức năng nhằm đảm bảo chất lượng phần mềm, hiệu năng, độ tin cậy, tính bảo
+mật và khả năng mở rộng. Các yêu cầu này đóng vai trò quan trọng trong việc
+đánh giá mức độ hoàn thiện của hệ thống sau khi triển khai.
+
+Các yêu cầu phi chức năng được xây dựng dựa trên đặc điểm của hệ thống kết nối
+doanh nghiệp và chuyên gia AI, đồng thời phù hợp với kiến trúc sử dụng ReactJS,
+FastAPI, PostgreSQL và các dịch vụ AI tích hợp.
+
+%====================================================
+
+\section{Yêu cầu về hiệu năng}
+
+Hệ thống phải đáp ứng các yêu cầu hiệu năng sau:
+
+\begin{itemize}
+
+\item Thời gian phản hồi trung bình của các API không vượt quá 2 giây.
+
+\item Chức năng đăng nhập hoàn thành trong thời gian không quá 3 giây.
+
+\item Chức năng tạo dự án hoàn thành trong thời gian không quá 5 giây.
+
+\item Chức năng gửi đề xuất hoàn thành trong thời gian không quá 3 giây.
+
+\item Chức năng thanh toán Milestone hoàn thành trong thời gian không quá 5 giây.
+
+\item Dashboard hiển thị dữ liệu trong thời gian không quá 5 giây.
+
+\item Hệ thống hỗ trợ tối thiểu 500 người dùng hoạt động đồng thời.
+
+\item Hệ thống có khả năng xử lý tối thiểu 100 yêu cầu mỗi giây.
+
+\item Truy vấn cơ sở dữ liệu thông thường không vượt quá 1 giây.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về bảo mật}
+
+Do hệ thống quản lý tài khoản, hợp đồng và thanh toán nên các yêu cầu bảo mật
+được đặt ở mức cao.
+
+\begin{itemize}
+
+\item Người dùng phải được xác thực bằng JWT.
+
+\item Mật khẩu được mã hóa bằng BCrypt trước khi lưu vào cơ sở dữ liệu.
+
+\item Không lưu mật khẩu dưới dạng văn bản thuần.
+
+\item Token phải có thời gian hết hạn.
+
+\item Chỉ người dùng đã đăng nhập mới được truy cập các API nghiệp vụ.
+
+\item Mỗi API phải kiểm tra quyền truy cập theo vai trò.
+
+\item Chỉ Enterprise được phép tạo Project.
+
+\item Chỉ Expert được phép gửi Proposal.
+
+\item Chỉ Administrator được phép quản trị hệ thống.
+
+\item Dữ liệu đầu vào phải được kiểm tra để hạn chế SQL Injection.
+
+\item Dữ liệu đầu vào phải được kiểm tra nhằm hạn chế Cross Site Scripting (XSS).
+
+\item Hệ thống hỗ trợ truyền dữ liệu thông qua HTTPS khi triển khai thực tế.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về độ tin cậy}
+
+Hệ thống cần đảm bảo:
+
+\begin{itemize}
+
+\item Không làm mất dữ liệu khi xảy ra lỗi.
+
+\item Mọi thao tác ghi dữ liệu được thực hiện bằng Transaction.
+
+\item Dữ liệu luôn đảm bảo tính toàn vẹn.
+
+\item Có khả năng phục hồi sau khi xảy ra sự cố.
+
+\item Không tạo dữ liệu trùng lặp.
+
+\item Ghi nhận nhật ký lỗi phục vụ bảo trì.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về tính sẵn sàng}
+
+Hệ thống phải đáp ứng:
+
+\begin{itemize}
+
+\item Hoạt động liên tục 24 giờ mỗi ngày.
+
+\item Thời gian sẵn sàng tối thiểu đạt 99\%.
+
+\item Có khả năng khởi động lại sau khi máy chủ gặp sự cố.
+
+\item Không làm gián đoạn các giao dịch đang xử lý.
+
+\item Người dùng có thể truy cập hệ thống mọi lúc thông qua trình duyệt Web.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về khả năng mở rộng}
+
+Hệ thống phải hỗ trợ:
+
+\begin{itemize}
+
+\item Gia tăng số lượng người dùng.
+
+\item Gia tăng số lượng doanh nghiệp.
+
+\item Gia tăng số lượng chuyên gia AI.
+
+\item Gia tăng số lượng dự án.
+
+\item Gia tăng số lượng hợp đồng.
+
+\item Mở rộng cơ sở dữ liệu mà không ảnh hưởng tới hệ thống.
+
+\item Dễ dàng tích hợp thêm các dịch vụ AI mới.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về khả năng sử dụng}
+
+Hệ thống phải đảm bảo:
+
+\begin{itemize}
+
+\item Giao diện trực quan.
+
+\item Dễ sử dụng đối với người mới.
+
+\item Thiết kế Responsive.
+
+\item Hỗ trợ nhiều trình duyệt.
+
+\item Thông báo lỗi rõ ràng.
+
+\item Điều hướng đơn giản.
+
+\item Tìm kiếm nhanh các dự án và chuyên gia.
+
+\item Thời gian học sử dụng hệ thống ngắn.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về khả năng bảo trì}
+
+Để thuận tiện trong việc nâng cấp hệ thống, phần mềm phải đáp ứng:
+
+\begin{itemize}
+
+\item Áp dụng kiến trúc nhiều tầng.
+
+\item Tuân thủ RESTful API.
+
+\item Tách biệt Frontend và Backend.
+
+\item Sử dụng SQLAlchemy ORM.
+
+\item Có cấu trúc thư mục rõ ràng.
+
+\item Có tài liệu API.
+
+\item Có Logging.
+
+\item Có Exception Handling.
+
+\item Dễ dàng bổ sung module mới.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về khả năng tương thích}
+
+Hệ thống hỗ trợ:
+
+\begin{itemize}
+
+\item Google Chrome.
+
+\item Microsoft Edge.
+
+\item Mozilla Firefox.
+
+\item Windows.
+
+\item Linux.
+
+\item macOS.
+
+\item PostgreSQL.
+
+\item Python 3.12.
+
+\item NodeJS.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về sao lưu và phục hồi}
+
+Hệ thống cần hỗ trợ:
+
+\begin{itemize}
+
+\item Sao lưu dữ liệu định kỳ.
+
+\item Khôi phục dữ liệu khi xảy ra sự cố.
+
+\item Lưu nhật ký hệ thống.
+
+\item Theo dõi lịch sử đăng nhập.
+
+\item Theo dõi lịch sử thay đổi dữ liệu.
+
+\item Khôi phục cơ sở dữ liệu từ bản sao lưu.
+
+\end{itemize}
+
+%====================================================
+
+\section{Yêu cầu về tích hợp}
+
+Hệ thống hỗ trợ tích hợp với:
+
+\begin{itemize}
+
+\item Google Gemini API.
+
+\item Email Service.
+
+\item JWT Authentication.
+
+\item PostgreSQL.
+
+\item Azure Cloud Storage.
+
+\item RESTful API.
+
+\end{itemize}
+
+%====================================================
+
+\section{Ràng buộc kỹ thuật}
+
+Bảng~\ref{tab:technology} trình bày các công nghệ chính được sử dụng trong hệ
+thống.
 
 \begin{table}[H]
 \centering
-\caption{Môi trường và công nghệ sử dụng}
-\begin{tabular}{p{4cm} p{4cm} p{5cm}}
-\toprule
-\textbf{Thành phần} & \textbf{Công nghệ} & \textbf{Phiên bản} \\
-\midrule
-Frontend        & React.js + Tailwind CSS & 18.x / 3.x \\
-Backend         & Node.js + Express.js    & 20.x / 4.x \\
-Database        & PostgreSQL              & 15.x \\
-Cache           & Redis                   & 7.x \\
-AI Service      & Python + FastAPI        & 3.11 / 0.100+ \\
-Realtime        & Socket.IO               & 4.x \\
-Authentication  & JWT + bcrypt            & --- \\
-Containerize    & Docker + Docker Compose & 24.x \\
-\bottomrule
+\caption{Các công nghệ sử dụng trong hệ thống}
+\label{tab:technology}
+
+\begin{tabular}{|p{6cm}|p{8cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Công nghệ} \\ \hline
+
+Frontend & ReactJS \\ \hline
+
+Backend & FastAPI \\ \hline
+
+Ngôn ngữ lập trình & Python 3.12 \\ \hline
+
+Cơ sở dữ liệu & PostgreSQL \\ \hline
+
+ORM & SQLAlchemy \\ \hline
+
+Authentication & JWT \\ \hline
+
+Password Hashing & BCrypt \\ \hline
+
+AI Platform & Google Gemini API \\ \hline
+
+Cloud Deployment & Microsoft Azure \\ \hline
+
+API Architecture & RESTful API \\ \hline
+
 \end{tabular}
+
 \end{table}
 
-\section{Cấu trúc thư mục dự án}
+%====================================================
 
-\begin{lstlisting}[language=bash, caption={Cấu trúc thư mục AIConnect}]
-aiconnect/
-├── frontend/               # React.js SPA
-│   ├── src/
-│   │   ├── components/     # UI components dùng chung
-│   │   ├── pages/          # Các trang (Home, Dashboard,...)
-│   │   ├── services/       # Gọi API
-│   │   └── store/          # State management (Redux)
-│   └── package.json
-│
-├── backend/                # Node.js API Server
-│   ├── src/
-│   │   ├── controllers/    # Xử lý request
-│   │   ├── models/         # Định nghĩa DB model
-│   │   ├── routes/         # Định tuyến API
-│   │   ├── middlewares/    # Auth, error handling
-│   │   └── utils/          # Hàm tiện ích
-│   └── package.json
-│
-├── ai-service/             # Python FastAPI Matching
-│   ├── main.py
-│   ├── matching.py         # Thuật toan cosine similarity
-│   └── requirements.txt
-│
-├── docker-compose.yml      # Chay toan bo he thong
-└── README.md
-\end{lstlisting}
+\section{Tiêu chí chấp nhận hệ thống}
 
-\section{Cài đặt module Matching}
+Hệ thống được xem là đáp ứng yêu cầu khi thỏa mãn các điều kiện sau:
 
-Module AI Matching được cài đặt bằng Python, sử dụng thư viện
-\texttt{scikit-learn} để tính Cosine Similarity:
+\begin{enumerate}
 
-\begin{lstlisting}[language=Python, caption={Thuật toán matching chuyên gia}]
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+\item Người dùng có thể đăng ký và đăng nhập thành công.
 
-def build_skill_vector(skills: list, all_skills: list,
-                       weights: dict) -> np.ndarray:
-    """Tao vector ky nang co trong so."""
-    vector = np.zeros(len(all_skills))
-    for i, skill in enumerate(all_skills):
-        if skill in skills:
-            vector[i] = weights.get(skill, 1.0)
-    return vector
+\item Enterprise có thể tạo Project.
 
-def match_experts(project: dict, experts: list,
-                  all_skills: list, top_k: int = 5) -> list:
-    """
-    Tinh diem tuong dong giua du an va cac chuyen gia.
-    Tra ve top_k chuyen gia phu hop nhat.
-    """
-    project_vector = build_skill_vector(
-        project["skills"], all_skills, project["weights"]
-    )
-    results = []
-    for expert in experts:
-        expert_vector = build_skill_vector(
-            expert["skills"], all_skills, expert["proficiency"]
-        )
-        score = cosine_similarity(
-            [project_vector], [expert_vector]
-        )[0][0]
-        results.append({**expert, "match_score": round(score, 4)})
+\item Expert có thể gửi Proposal.
 
-    return sorted(results, key=lambda x: x["match_score"],
-                  reverse=True)[:top_k]
-\end{lstlisting}
+\item Enterprise có thể chấp nhận Proposal.
 
-\section{Kết quả cài đặt}
+\item Contract được tạo đúng quy trình.
 
-Các chức năng đã hoàn thành cài đặt và demo được:
+\item Milestone được quản lý đúng trạng thái.
 
-\begin{table}[H]
-\centering
-\caption{Tình trạng cài đặt các chức năng}
-\begin{tabular}{p{5cm} p{2.5cm} p{5cm}}
-\toprule
-\textbf{Chức năng} & \textbf{Trạng thái} & \textbf{Ghi chú} \\
-\midrule
-Đăng ký / Đăng nhập  & Hoàn thành & JWT + bcrypt \\
-Marketplace dự án    & Hoàn thành & Tìm kiếm, lọc \\
-Hồ sơ chuyên gia     & Hoàn thành & Upload ảnh, skills \\
-AI Matching          & Hoàn thành & Cosine similarity \\
-Quản lý hợp đồng     & Hoàn thành & Milestone tracking \\
-Chat real-time       & Hoàn thành & Socket.IO \\
-Thanh toán           & Một phần   & Sandbox VNPay \\
-Admin dashboard      & Hoàn thành & Thống kê cơ bản \\
-\bottomrule
-\end{tabular}
-\end{table}
+\item Thanh toán được thực hiện thành công.
+
+\item Người dùng có thể đánh giá sau khi hợp đồng hoàn thành.
+
+\item Dashboard hiển thị đúng dữ liệu.
+
+\item JWT xác thực chính xác.
+
+\item Phân quyền theo Role hoạt động đúng.
+
+\item Hệ thống vận hành ổn định trên các trình duyệt được hỗ trợ.
+
+\end{enumerate}
+
+%====================================================
+
+\section{Kết luận}
+
+Các yêu cầu phi chức năng là cơ sở để đánh giá chất lượng của hệ thống
+AITasker sau khi triển khai. Việc đáp ứng đầy đủ các yêu cầu này sẽ giúp hệ
+thống hoạt động ổn định, bảo mật, có khả năng mở rộng và đáp ứng nhu cầu sử
+dụng của doanh nghiệp cũng như chuyên gia AI trong thực tế.

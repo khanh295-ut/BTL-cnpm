@@ -1,46 +1,430 @@
-\chapter{Kết luận}
+\chapter{Cài đặt và triển khai hệ thống}
 
-\section{Kết quả đạt được}
+\section{Giới thiệu}
 
-Sau quá trình phân tích, thiết kế và cài đặt, nhóm đã hoàn thành
-các mục tiêu đề ra:
+Sau khi hoàn thành giai đoạn phân tích yêu cầu và thiết kế hệ thống, bước tiếp
+theo là hiện thực hóa hệ thống AITasker thông qua việc xây dựng các thành phần
+phần mềm và triển khai trên môi trường thực tế.
+
+Chương này trình bày môi trường phát triển, công nghệ sử dụng, cấu trúc mã
+nguồn, quy trình triển khai cũng như các thành phần chính của hệ thống.
+
+%============================================================
+
+\section{Môi trường phát triển}
+
+Hệ thống được phát triển trên môi trường Windows với các công cụ được trình bày
+trong Bảng~\ref{tab:development_environment}.
+
+\begin{table}[H]
+\centering
+\caption{Môi trường phát triển hệ thống}
+\label{tab:development_environment}
+
+\begin{tabular}{|p{6cm}|p{8cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Phiên bản} \\ \hline
+
+Hệ điều hành & Windows 11 \\ \hline
+
+Python & 3.12 \\ \hline
+
+NodeJS & 20.x \\ \hline
+
+ReactJS & 18.x \\ \hline
+
+FastAPI & 0.115.x \\ \hline
+
+PostgreSQL & 16.x \\ \hline
+
+SQLAlchemy & 2.x \\ \hline
+
+Visual Studio Code & Latest \\ \hline
+
+Git & Latest \\ \hline
+
+Postman & Latest \\ \hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\section{Kiến trúc triển khai}
+
+Hệ thống được triển khai theo mô hình Client--Server.
 
 \begin{itemize}
-  \item Xây dựng thành công nền tảng marketplace AIConnect với đầy
-        đủ các chức năng: đăng dự án, tìm chuyên gia, ký hợp đồng,
-        chat real-time và quản lý milestone.
-  \item Cài đặt và tích hợp thuật toán matching tự động dựa trên
-        Cosine Similarity, đạt độ chính xác matching $>$ 80\% trên
-        tập dữ liệu thử nghiệm.
-  \item Áp dụng đầy đủ quy trình Công nghệ Phần mềm: phân tích yêu
-        cầu, thiết kế use case, ERD, sequence diagram và kiểm thử
-        có hệ thống.
-  \item Tỉ lệ test case đạt 94.4\% (34/36 test cases).
+
+\item Frontend được xây dựng bằng ReactJS.
+
+\item Backend được xây dựng bằng FastAPI.
+
+\item PostgreSQL lưu trữ dữ liệu.
+
+\item SQLAlchemy ORM thực hiện ánh xạ dữ liệu.
+
+\item JWT dùng để xác thực người dùng.
+
+\item Google Gemini API hỗ trợ các chức năng AI.
+
+\item Azure Cloud Storage lưu trữ tệp.
+
 \end{itemize}
 
-\section{Hạn chế}
+%============================================================
+
+\section{Cấu trúc mã nguồn}
+
+Hệ thống được chia thành hai phần chính:
 
 \begin{itemize}
-  \item Thanh toán thực tế chưa được tích hợp hoàn chỉnh
-        (mới ở mức sandbox).
-  \item Tìm kiếm full-text tiếng Việt cần cấu hình thêm
-        PostgreSQL với unaccent extension.
-  \item Chưa có mobile app (chỉ hỗ trợ trình duyệt web).
-  \item Thuật toán matching chưa tính đến lịch sử đánh giá
-        và kinh nghiệm thực tế của chuyên gia.
+
+\item Frontend
+
+\item Backend
+
 \end{itemize}
 
-\section{Hướng phát triển}
+\subsection{Frontend}
+
+Frontend được phát triển bằng ReactJS với cấu trúc thư mục như sau:
+
+\begin{lstlisting}
+frontend/
+│
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── layouts/
+│   ├── services/
+│   ├── hooks/
+│   ├── routes/
+│   ├── utils/
+│   └── App.jsx
+└── package.json
+\end{lstlisting}
+
+\subsection{Backend}
+
+Backend được xây dựng bằng FastAPI.
+
+\begin{lstlisting}
+backend/
+│
+├── src/
+│   ├── config/
+│   ├── models/
+│   ├── schemas/
+│   ├── services/
+│   ├── presentation/
+│   ├── middleware/
+│   ├── utils/
+│   ├── uploads/
+│   └── app.py
+│
+├── migrations/
+└── requirements.txt
+\end{lstlisting}
+
+%============================================================
+
+\section{Các module đã triển khai}
+
+Các module chính của hệ thống gồm:
 
 \begin{itemize}
-  \item \textbf{Cải thiện matching}: Kết hợp collaborative filtering
-        và lịch sử dự án để tăng độ chính xác gợi ý.
-  \item \textbf{Mobile app}: Phát triển ứng dụng React Native
-        cho iOS và Android.
-  \item \textbf{Thanh toán quốc tế}: Tích hợp Stripe để phục vụ
-        chuyên gia nước ngoài.
-  \item \textbf{Verification}: Xác minh bằng cấp, chứng chỉ AI
-        thông qua API bên thứ ba.
-  \item \textbf{Analytics}: Xây dựng dashboard phân tích xu hướng
-        AI theo ngành cho doanh nghiệp.
+
+\item Authentication
+
+\item User Management
+
+\item Enterprise Management
+
+\item Expert Management
+
+\item Category Management
+
+\item Skill Management
+
+\item Project Management
+
+\item Proposal Management
+
+\item Contract Management
+
+\item Milestone Management
+
+\item Payment Management
+
+\item Review Management
+
+\item Notification Management
+
+\item Dashboard
+
+\item Statistics
+
 \end{itemize}
+
+%============================================================
+
+\section{Cơ chế xác thực}
+
+Hệ thống sử dụng JWT để xác thực người dùng.
+
+Quy trình hoạt động:
+
+\begin{enumerate}
+
+\item Người dùng đăng nhập.
+
+\item Backend kiểm tra thông tin.
+
+\item Sinh JWT.
+
+\item JWT được gửi về Frontend.
+
+\item Frontend lưu Access Token.
+
+\item Token được gửi kèm mỗi yêu cầu.
+
+\item Backend xác thực Token.
+
+\item Nếu hợp lệ, yêu cầu được xử lý.
+
+\end{enumerate}
+
+%============================================================
+
+\section{Quản lý cơ sở dữ liệu}
+
+Hệ thống sử dụng PostgreSQL kết hợp SQLAlchemy ORM.
+
+Các bảng dữ liệu chính gồm:
+
+\begin{itemize}
+
+\item users
+
+\item roles
+
+\item permissions
+
+\item enterprises
+
+\item experts
+
+\item projects
+
+\item proposals
+
+\item contracts
+
+\item milestones
+
+\item payments
+
+\item reviews
+
+\item notifications
+
+\item conversations
+
+\item messages
+
+\item skills
+
+\item categories
+
+\end{itemize}
+
+%============================================================
+
+\section{Triển khai RESTful API}
+
+Backend cung cấp RESTful API cho Frontend.
+
+Các nhóm API bao gồm:
+
+\begin{itemize}
+
+\item Authentication API
+
+\item User API
+
+\item Enterprise API
+
+\item Expert API
+
+\item Category API
+
+\item Skill API
+
+\item Project API
+
+\item Proposal API
+
+\item Contract API
+
+\item Milestone API
+
+\item Payment API
+
+\item Review API
+
+\item Notification API
+
+\item Dashboard API
+
+\item Statistics API
+
+\end{itemize}
+
+%============================================================
+
+\section{Quản lý tệp}
+
+Hệ thống hỗ trợ tải lên các loại tệp:
+
+\begin{itemize}
+
+\item Ảnh đại diện.
+
+\item CV.
+
+\item Portfolio.
+
+\item Tệp mô tả dự án.
+
+\item Deliverable.
+
+\end{itemize}
+
+Các tệp được lưu trên Azure Cloud Storage hoặc thư mục Upload của hệ thống.
+
+%============================================================
+
+\section{Triển khai AI}
+
+AITasker tích hợp Google Gemini API để hỗ trợ:
+
+\begin{itemize}
+
+\item AI Job Assistant.
+
+\item Gợi ý nội dung Project.
+
+\item Hỗ trợ tạo mô tả công việc.
+
+\item Chatbot hỗ trợ người dùng.
+
+\end{itemize}
+
+%============================================================
+
+\section{Triển khai hệ thống}
+
+Quy trình triển khai gồm các bước:
+
+\begin{enumerate}
+
+\item Cài đặt Python.
+
+\item Cài đặt NodeJS.
+
+\item Cài đặt PostgreSQL.
+
+\item Clone mã nguồn.
+
+\item Cài đặt thư viện Backend.
+
+\item Cài đặt thư viện Frontend.
+
+\item Khởi tạo cơ sở dữ liệu.
+
+\item Chạy Backend.
+
+\item Chạy Frontend.
+
+\item Kiểm tra hệ thống.
+
+\end{enumerate}
+
+%============================================================
+
+\section{Hướng dẫn chạy hệ thống}
+
+Khởi động Backend:
+
+\begin{lstlisting}[language=bash]
+uvicorn backend.src.app:app --reload
+\end{lstlisting}
+
+Khởi động Frontend:
+
+\begin{lstlisting}[language=bash]
+npm install
+npm run dev
+\end{lstlisting}
+
+Sau khi khởi động thành công:
+
+\begin{itemize}
+
+\item Frontend:
+\url{http://localhost:5173}
+
+\item Backend:
+\url{http://localhost:8000}
+
+\item Swagger UI:
+\url{http://localhost:8000/docs}
+
+\end{itemize}
+
+%============================================================
+
+\section{Đánh giá kết quả triển khai}
+
+Sau khi triển khai, hệ thống đạt được các kết quả sau:
+
+\begin{itemize}
+
+\item Đăng ký và đăng nhập hoạt động ổn định.
+
+\item Phân quyền người dùng chính xác.
+
+\item Doanh nghiệp có thể tạo Project.
+
+\item Chuyên gia có thể gửi Proposal.
+
+\item Có thể tạo Contract.
+
+\item Quản lý Milestone hoạt động đúng.
+
+\item Thanh toán hoạt động theo quy trình.
+
+\item Dashboard hiển thị dữ liệu.
+
+\item API phản hồi đúng định dạng JSON.
+
+\item PostgreSQL lưu trữ dữ liệu ổn định.
+
+\end{itemize}
+
+%============================================================
+
+\section{Kết luận}
+
+Hệ thống AITasker đã được hiện thực thành công dựa trên kiến trúc Client--Server
+với Frontend ReactJS, Backend FastAPI và cơ sở dữ liệu PostgreSQL. Các module
+chính đã được triển khai theo đúng thiết kế, đáp ứng các yêu cầu chức năng và
+phi chức năng đã đề ra.
+
+Việc sử dụng các công nghệ hiện đại như SQLAlchemy ORM, JWT Authentication,
+Google Gemini API và Azure Cloud Storage giúp hệ thống có khả năng mở rộng,
+dễ bảo trì và sẵn sàng cho việc triển khai thực tế.

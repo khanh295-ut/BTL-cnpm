@@ -11,15 +11,20 @@ from backend.src.schemas.category import (
 )
 from backend.src.services.category_service import category_service
 
+
+# ==========================================================
+# ROUTER
+# ==========================================================
+
 router = APIRouter(
-    prefix="/categories",
-    tags=["Categories"],
+    tags=["Categories"]
 )
 
 
 # ==========================================================
 # GET ALL
 # ==========================================================
+
 @router.get(
     "",
     response_model=list[CategoryResponse],
@@ -33,6 +38,7 @@ def get_categories(
 # ==========================================================
 # GET BY ID
 # ==========================================================
+
 @router.get(
     "/{category_id}",
     response_model=CategoryResponse,
@@ -58,6 +64,7 @@ def get_category(
 # ==========================================================
 # CREATE
 # ==========================================================
+
 @router.post(
     "",
     response_model=CategoryResponse,
@@ -76,6 +83,7 @@ def create_category(
 # ==========================================================
 # UPDATE
 # ==========================================================
+
 @router.put(
     "/{category_id}",
     response_model=CategoryResponse,
@@ -103,6 +111,7 @@ def update_category(
 # ==========================================================
 # DELETE
 # ==========================================================
+
 @router.delete(
     "/{category_id}",
     status_code=status.HTTP_204_NO_CONTENT,

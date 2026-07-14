@@ -1,18 +1,33 @@
+# LaTeX temporary files
+Latex/*.aux
+Latex/*.bcf
+Latex/*.blg
+Latex/*.bbl
+Latex/*.fdb_latexmk
+Latex/*.fls
+Latex/*.log
+Latex/*.lof
+Latex/*.lot
+Latex/*.out
+Latex/*.run.xml
+Latex/*.toc
+Latex/*.xdv
+Latex/*-blx.bib
+Latex/*.synctex*
+Latex/chapters/*.aux
+
+# Python
 __pycache__/
 *.pyc
-*.db
-.env
 venv/
-.vscode/
-.idea/
+.venv/
+
+# Secrets
 .env
-__pycache__/
-*.pyc
-*.pyo
-.DS_Store
-venv/
-env/
-*.db
+
+# Node
+node_modules/
 dist/
-build/
-*.egg-info/
+
+# IDE
+.vscode/

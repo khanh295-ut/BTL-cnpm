@@ -1,18 +1,26 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, status
+# backend/src/presentation/routes/upload_routes.py
+
+from fastapi import APIRouter, File, UploadFile, status
 
 from backend.src.services.upload_service import UploadService
 
+
+# ==========================================================
+# ROUTER
+# Prefix /upload hoặc /uploads được thêm trong all_routes.py.
+# Prefix /api được thêm trong app.py.
+# ==========================================================
+
 router = APIRouter(
-    prefix="/uploads",
     tags=["Uploads"],
 )
 
 service = UploadService()
 
 
-# =====================================================
+# ==========================================================
 # UPLOAD AVATAR
-# =====================================================
+# ==========================================================
 
 @router.post(
     "/avatar",
@@ -21,23 +29,17 @@ service = UploadService()
 def upload_avatar(
     file: UploadFile = File(...),
 ):
+    path = service.upload_avatar(file)
 
-    try:
-
-        path = service.upload_avatar(file)
-
-        return {
-            "message": "Avatar uploaded successfully.",
-            "file_url": path,
-        }
-
-    except HTTPException as e:
-        raise e
+    return {
+        "message": "Avatar uploaded successfully.",
+        "file_url": path,
+    }
 
 
-# =====================================================
+# ==========================================================
 # UPLOAD LOGO
-# =====================================================
+# ==========================================================
 
 @router.post(
     "/logo",
@@ -46,23 +48,17 @@ def upload_avatar(
 def upload_logo(
     file: UploadFile = File(...),
 ):
+    path = service.upload_logo(file)
 
-    try:
-
-        path = service.upload_logo(file)
-
-        return {
-            "message": "Logo uploaded successfully.",
-            "file_url": path,
-        }
-
-    except HTTPException as e:
-        raise e
+    return {
+        "message": "Logo uploaded successfully.",
+        "file_url": path,
+    }
 
 
-# =====================================================
+# ==========================================================
 # UPLOAD CV
-# =====================================================
+# ==========================================================
 
 @router.post(
     "/cv",
@@ -71,23 +67,17 @@ def upload_logo(
 def upload_cv(
     file: UploadFile = File(...),
 ):
+    path = service.upload_cv(file)
 
-    try:
-
-        path = service.upload_cv(file)
-
-        return {
-            "message": "CV uploaded successfully.",
-            "file_url": path,
-        }
-
-    except HTTPException as e:
-        raise e
+    return {
+        "message": "CV uploaded successfully.",
+        "file_url": path,
+    }
 
 
-# =====================================================
+# ==========================================================
 # UPLOAD PORTFOLIO
-# =====================================================
+# ==========================================================
 
 @router.post(
     "/portfolio",
@@ -96,15 +86,9 @@ def upload_cv(
 def upload_portfolio(
     file: UploadFile = File(...),
 ):
+    path = service.upload_portfolio(file)
 
-    try:
-
-        path = service.upload_portfolio(file)
-
-        return {
-            "message": "Portfolio uploaded successfully.",
-            "file_url": path,
-        }
-
-    except HTTPException as e:
-        raise e
+    return {
+        "message": "Portfolio uploaded successfully.",
+        "file_url": path,
+    }

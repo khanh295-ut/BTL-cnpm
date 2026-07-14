@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-
 # =====================================================
 # REGISTER
 # =====================================================
@@ -10,8 +9,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=80)
     email: EmailStr
-    password: str = Field(min_length=6)
-
+    password: str = Field(min_length=8)
     full_name: Optional[str] = None
     bio: Optional[str] = None
 
@@ -22,7 +20,7 @@ class UserCreate(BaseModel):
 
 class LoginRequest(BaseModel):
     login: str
-    password: str = Field(min_length=6)
+    password: str = Field(min_length=8)
 
 
 # =====================================================
@@ -34,7 +32,7 @@ class RegisterRequest(UserCreate):
 
 
 # =====================================================
-# TOKEN RESPONSE
+# USER RESPONSE
 # =====================================================
 
 class UserResponse(BaseModel):
@@ -48,6 +46,10 @@ class UserResponse(BaseModel):
     bio: Optional[str] = None
     roles: list[str] = []
 
+
+# =====================================================
+# TOKEN RESPONSE
+# =====================================================
 
 class TokenResponse(BaseModel):
     access_token: str

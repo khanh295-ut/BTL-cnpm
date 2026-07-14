@@ -1,0 +1,498 @@
+\chapter{Kiểm thử và đánh giá hệ thống}
+
+\section{Giới thiệu}
+
+Sau khi hoàn thành quá trình cài đặt và triển khai, hệ thống AITasker được tiến
+hành kiểm thử nhằm đánh giá mức độ đáp ứng các yêu cầu chức năng và phi chức
+năng đã được đặc tả. Quá trình kiểm thử giúp phát hiện các lỗi còn tồn tại,
+đánh giá tính ổn định, hiệu năng và khả năng sử dụng của hệ thống trước khi đưa
+vào sử dụng.
+
+Trong phạm vi đồ án, nhóm tập trung thực hiện kiểm thử chức năng (Functional
+Testing) kết hợp với kiểm thử tích hợp (Integration Testing) và kiểm thử giao
+diện người dùng.
+
+%============================================================
+
+\section{Môi trường kiểm thử}
+
+Quá trình kiểm thử được thực hiện trong môi trường trình bày ở
+Bảng~\ref{tab:test_environment}.
+
+\begin{table}[H]
+\centering
+\caption{Môi trường kiểm thử}
+\label{tab:test_environment}
+
+\begin{tabular}{|p{6cm}|p{8cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Thông tin} \\ \hline
+
+Hệ điều hành & Windows 11 \\ \hline
+
+Backend & FastAPI \\ \hline
+
+Frontend & ReactJS \\ \hline
+
+Database & PostgreSQL \\ \hline
+
+API Testing & Swagger UI, Postman \\ \hline
+
+IDE & Visual Studio Code \\ \hline
+
+Trình duyệt & Google Chrome \\ \hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\section{Phương pháp kiểm thử}
+
+Các phương pháp kiểm thử được áp dụng bao gồm:
+
+\begin{itemize}
+
+\item Kiểm thử chức năng.
+
+\item Kiểm thử giao diện.
+
+\item Kiểm thử tích hợp.
+
+\item Kiểm thử API.
+
+\item Kiểm thử phân quyền.
+
+\item Kiểm thử dữ liệu đầu vào.
+
+\end{itemize}
+
+%============================================================
+
+\section{Các chức năng được kiểm thử}
+
+Nhóm tiến hành kiểm thử các chức năng chính của hệ thống:
+
+\begin{enumerate}
+
+\item Đăng ký tài khoản.
+
+\item Đăng nhập.
+
+\item Quản lý hồ sơ.
+
+\item Tạo Project.
+
+\item Cập nhật Project.
+
+\item Gửi Proposal.
+
+\item Chấp nhận Proposal.
+
+\item Tạo Contract.
+
+\item Quản lý Milestone.
+
+\item Thanh toán.
+
+\item Đánh giá.
+
+\item Dashboard.
+
+\item Notification.
+
+\end{enumerate}
+
+%============================================================
+
+\section{Các trường hợp kiểm thử}
+
+\subsection{Kiểm thử chức năng đăng ký}
+
+\begin{table}[H]
+\centering
+\caption{Kiểm thử chức năng đăng ký}
+\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+
+\textbf{Test ID}
+&
+\textbf{Dữ liệu đầu vào}
+&
+\textbf{Kết quả mong đợi}
+&
+\textbf{Kết quả}
+\\
+\hline
+
+TC01
+&
+Thông tin hợp lệ
+&
+Đăng ký thành công
+&
+Đạt
+\\
+\hline
+
+TC02
+&
+Email đã tồn tại
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+TC03
+&
+Mật khẩu dưới 8 ký tự
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\subsection{Kiểm thử chức năng đăng nhập}
+
+\begin{table}[H]
+\centering
+\caption{Kiểm thử chức năng đăng nhập}
+
+\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+
+\hline
+
+TC04
+&
+Email và mật khẩu đúng
+&
+Đăng nhập thành công
+&
+Đạt
+\\
+\hline
+
+TC05
+&
+Sai mật khẩu
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+TC06
+&
+Email không tồn tại
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\subsection{Kiểm thử chức năng tạo Project}
+
+\begin{table}[H]
+
+\centering
+
+\caption{Kiểm thử chức năng tạo Project}
+
+\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+
+\hline
+
+TC07
+&
+Thông tin hợp lệ
+&
+Project được tạo
+&
+Đạt
+\\
+\hline
+
+TC08
+&
+Thiếu tiêu đề
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+TC09
+&
+Ngân sách âm
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\subsection{Kiểm thử chức năng gửi Proposal}
+
+\begin{table}[H]
+
+\centering
+
+\caption{Kiểm thử chức năng gửi Proposal}
+
+\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+
+\hline
+
+TC10
+&
+Thông tin hợp lệ
+&
+Proposal được tạo
+&
+Đạt
+\\
+\hline
+
+TC11
+&
+Đã gửi Proposal
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\subsection{Kiểm thử chức năng thanh toán}
+
+\begin{table}[H]
+
+\centering
+
+\caption{Kiểm thử chức năng thanh toán}
+
+\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
+
+\hline
+
+TC12
+&
+Milestone hợp lệ
+&
+Thanh toán thành công
+&
+Đạt
+\\
+\hline
+
+TC13
+&
+Milestone chưa hoàn thành
+&
+Thông báo lỗi
+&
+Đạt
+\\
+\hline
+
+\end{tabular}
+
+\end{table}
+
+%============================================================
+
+\section{Kiểm thử API}
+
+Nhóm sử dụng Swagger UI và Postman để kiểm thử các RESTful API.
+
+Các API đã được kiểm thử gồm:
+
+\begin{itemize}
+
+\item Authentication API
+
+\item User API
+
+\item Enterprise API
+
+\item Expert API
+
+\item Project API
+
+\item Proposal API
+
+\item Contract API
+
+\item Milestone API
+
+\item Review API
+
+\item Notification API
+
+\item Dashboard API
+
+\end{itemize}
+
+Tất cả API đều trả về đúng định dạng JSON và mã trạng thái HTTP tương ứng.
+
+%============================================================
+
+\section{Kiểm thử giao diện}
+
+Giao diện hệ thống được kiểm thử trên các trình duyệt:
+
+\begin{itemize}
+
+\item Google Chrome
+
+\item Microsoft Edge
+
+\item Mozilla Firefox
+
+\end{itemize}
+
+Kết quả cho thấy giao diện hiển thị đúng, bố cục hợp lý và hỗ trợ Responsive
+trên các kích thước màn hình phổ biến.
+
+%============================================================
+
+\section{Kiểm thử phân quyền}
+
+Các vai trò được kiểm thử gồm:
+
+\begin{itemize}
+
+\item Administrator
+
+\item Enterprise
+
+\item Expert
+
+\end{itemize}
+
+Kết quả kiểm thử cho thấy:
+
+\begin{itemize}
+
+\item Administrator có toàn quyền quản trị.
+
+\item Enterprise chỉ được thao tác trên Project và Contract của mình.
+
+\item Expert chỉ được gửi Proposal và thực hiện Contract.
+
+\item Người dùng chưa đăng nhập không thể truy cập các API bảo vệ.
+
+\end{itemize}
+
+%============================================================
+
+\section{Đánh giá hệ thống}
+
+Sau quá trình kiểm thử, hệ thống đạt được các kết quả sau:
+
+\begin{itemize}
+
+\item Các chức năng chính hoạt động đúng yêu cầu.
+
+\item Phân quyền hoạt động chính xác.
+
+\item API phản hồi đúng dữ liệu.
+
+\item JWT xác thực ổn định.
+
+\item PostgreSQL lưu trữ dữ liệu chính xác.
+
+\item Hệ thống vận hành ổn định.
+
+\item Giao diện thân thiện.
+
+\item Kiến trúc dễ mở rộng.
+
+\end{itemize}
+
+%============================================================
+
+\section{Hạn chế}
+
+Mặc dù hệ thống đã đáp ứng hầu hết các yêu cầu đặt ra, vẫn còn một số hạn chế:
+
+\begin{itemize}
+
+\item Chưa tích hợp cổng thanh toán thực tế.
+
+\item Chưa triển khai AI Recommendation.
+
+\item Chưa triển khai WebSocket cho thông báo thời gian thực.
+
+\item Chưa có ứng dụng di động.
+
+\item Chưa thực hiện kiểm thử tải (Load Testing) và kiểm thử hiệu năng chuyên sâu.
+
+\end{itemize}
+
+%============================================================
+
+\section{Hướng phát triển}
+
+Trong tương lai, hệ thống có thể được mở rộng theo các hướng sau:
+
+\begin{itemize}
+
+\item Tích hợp Stripe hoặc PayPal.
+
+\item Tích hợp AI Recommendation System.
+
+\item Tích hợp AI Chatbot nâng cao.
+
+\item Triển khai Docker và Kubernetes.
+
+\item Triển khai CI/CD.
+
+\item Xây dựng ứng dụng Android và iOS.
+
+\item Bổ sung hệ thống giám sát và cảnh báo.
+
+\item Tối ưu hiệu năng cơ sở dữ liệu.
+
+\end{itemize}
+
+%============================================================
+
+\section{Kết luận}
+
+Qua quá trình kiểm thử, hệ thống AITasker đáp ứng đầy đủ các yêu cầu chức năng
+và phần lớn các yêu cầu phi chức năng đã đề ra. Các chức năng chính hoạt động
+ổn định, dữ liệu được quản lý chính xác và cơ chế phân quyền đảm bảo an toàn.
+Mặc dù vẫn còn một số hạn chế cần tiếp tục cải thiện, hệ thống đã sẵn sàng để
+phát triển và triển khai trong các giai đoạn tiếp theo.

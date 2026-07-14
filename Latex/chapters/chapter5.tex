@@ -1,92 +1,204 @@
-\chapter{Kiểm thử hệ thống}
+\chapter{Thiết kế hệ thống}
 
-\section{Kế hoạch kiểm thử}
+\section{Giới thiệu}
 
-Nhóm thực hiện kiểm thử theo hai mức:
+Sau khi hoàn thành quá trình phân tích yêu cầu, hệ thống AITasker được thiết kế
+nhằm đảm bảo đáp ứng đầy đủ các yêu cầu chức năng và phi chức năng. Chương này
+trình bày kiến trúc tổng thể, thiết kế các thành phần chính, mô hình lớp và cơ
+sở dữ liệu của hệ thống.
+
+%==============================================================
+
+\section{Kiến trúc tổng thể}
+
+AITasker được xây dựng theo mô hình Client--Server kết hợp kiến trúc nhiều tầng
+(Multi-tier Architecture). Hệ thống gồm ba thành phần chính:
+
 \begin{itemize}
-  \item \textbf{Unit Test}: Kiểm thử từng hàm/module độc lập bằng
-        Jest (backend) và pytest (AI service).
-  \item \textbf{Integration Test}: Kiểm thử luồng nghiệp vụ end-to-end
-        qua API bằng Postman/Supertest.
+\item Frontend: ReactJS.
+\item Backend: FastAPI.
+\item Database: PostgreSQL.
 \end{itemize}
 
-\section{Test cases chức năng chính}
+Ngoài ra, hệ thống còn tích hợp Google Gemini API để hỗ trợ các chức năng AI
+như gợi ý mô tả dự án và chatbot hỗ trợ người dùng.
 
-\begin{table}[H]
+\begin{figure}[htbp]
 \centering
-\caption{Test cases kiểm thử chức năng đăng ký}
-\begin{tabular}{p{0.8cm} p{4cm} p{3.5cm} p{3.5cm} p{1.5cm}}
-\toprule
-\textbf{TC} & \textbf{Mô tả} & \textbf{Đầu vào} & \textbf{Kết quả mong đợi} & \textbf{Kết quả} \\
-\midrule
-TC-01 & Đăng ký hợp lệ
-  & Email mới, mật khẩu $\geq$8 ký tự
-  & Tạo tài khoản, trả token
-  & Đạt \\
-TC-02 & Email trùng
-  & Email đã tồn tại
-  & Lỗi 409 Conflict
-  & Đạt \\
-TC-03 & Mật khẩu yếu
-  & Mật khẩu $<$8 ký tự
-  & Lỗi 400 Bad Request
-  & Đạt \\
-TC-04 & Thiếu email
-  & Không có trường email
-  & Lỗi 400 validation
-  & Đạt \\
-\bottomrule
-\end{tabular}
-\end{table}
+\includegraphics[
+width=\textwidth,
+height=0.75\textheight,
+keepaspectratio
+]{architecture.png}
+\caption{Kiến trúc tổng thể của hệ thống}
+\label{fig:architecture}
+\end{figure}
 
-\begin{table}[H]
+Frontend gửi yêu cầu đến Backend thông qua RESTful API. Backend xử lý nghiệp vụ,
+thực hiện xác thực người dùng, thao tác với cơ sở dữ liệu và trả kết quả về giao
+diện người dùng.
+
+%==============================================================
+
+\section{Thiết kế các thành phần}
+
+Hệ thống được chia thành các module độc lập nhằm tăng khả năng mở rộng và bảo trì.
+
+Các module chính gồm:
+
+\begin{itemize}
+
+\item Authentication
+
+\item User Management
+
+\item Enterprise
+
+\item Expert
+
+\item Project
+
+\item Proposal
+
+\item Contract
+
+\item Payment
+
+\item Review
+
+\item Notification
+
+\item Dashboard
+
+\item AI Assistant
+
+\end{itemize}
+
+Mỗi module đảm nhiệm một nhóm chức năng riêng và giao tiếp với nhau thông qua
+Service Layer.
+
+%==============================================================
+
+\section{Thiết kế lớp}
+
+Hệ thống được xây dựng theo mô hình hướng đối tượng. Các lớp chính đại diện cho
+các thực thể trong hệ thống như User, Enterprise, Expert, Project, Proposal,
+Contract và Review.
+
+\begin{figure}[htbp]
 \centering
-\caption{Test cases kiểm thử thuật toán matching}
-\begin{tabular}{p{0.8cm} p{4cm} p{3.5cm} p{3.5cm} p{1.5cm}}
-\toprule
-\textbf{TC} & \textbf{Mô tả} & \textbf{Đầu vào} & \textbf{Kết quả mong đợi} & \textbf{Kết quả} \\
-\midrule
-TC-10 & Matching chính xác
-  & Dự án NLP, chuyên gia NLP
-  & Score $>$ 0.8
-  & Đạt \\
-TC-11 & Matching không phù hợp
-  & Dự án NLP, chuyên gia CV
-  & Score $<$ 0.2
-  & Đạt \\
-TC-12 & Không có chuyên gia
-  & DB rỗng
-  & Trả danh sách rỗng
-  & Đạt \\
-TC-13 & Top-K trả về đúng
-  & 10 chuyên gia, top\_k=5
-  & Trả đúng 5 kết quả cao nhất
-  & Đạt \\
-\bottomrule
-\end{tabular}
-\end{table}
+\includegraphics[
+width=\textwidth,
+height=0.80\textheight,
+keepaspectratio
+]{Class.png}
+\caption{Biểu đồ lớp của hệ thống}
+\label{fig:class}
+\end{figure}
 
-\section{Kết quả kiểm thử}
+Biểu đồ lớp mô tả thuộc tính, phương thức và mối quan hệ giữa các đối tượng,
+giúp việc phát triển và bảo trì hệ thống trở nên thuận lợi hơn.
 
-\begin{table}[H]
+%==============================================================
+
+\section{Thiết kế cơ sở dữ liệu}
+
+AITasker sử dụng PostgreSQL làm hệ quản trị cơ sở dữ liệu. SQLAlchemy ORM được
+sử dụng để ánh xạ giữa các lớp trong chương trình và các bảng trong cơ sở dữ liệu.
+
+Các bảng chính của hệ thống gồm:
+
+\begin{itemize}
+
+\item Users
+
+\item Roles
+
+\item Enterprises
+
+\item Experts
+
+\item Categories
+
+\item Projects
+
+\item Proposals
+
+\item Contracts
+
+\item Reviews
+
+\item Notifications
+
+\end{itemize}
+
+\begin{figure}[htbp]
 \centering
-\caption{Tổng hợp kết quả kiểm thử}
-\begin{tabular}{p{4cm} p{2cm} p{2cm} p{2cm} p{2.5cm}}
-\toprule
-\textbf{Module} & \textbf{Tổng TC} & \textbf{Đạt} & \textbf{Không đạt} & \textbf{Tỉ lệ} \\
-\midrule
-Authentication   & 8  & 8  & 0 & 100\% \\
-Marketplace      & 10 & 9  & 1 & 90\%  \\
-AI Matching      & 6  & 6  & 0 & 100\% \\
-Contract         & 7  & 7  & 0 & 100\% \\
-Payment          & 5  & 4  & 1 & 80\%  \\
-\midrule
-\textbf{Tổng}   & \textbf{36} & \textbf{34} & \textbf{2} & \textbf{94.4\%} \\
-\bottomrule
-\end{tabular}
-\end{table}
+\includegraphics[
+width=\textwidth,
+height=0.80\textheight,
+keepaspectratio
+]{ERD.png}
+\caption{Entity Relationship Diagram của hệ thống}
+\label{fig:erd}
+\end{figure}
 
-Hai test case không đạt liên quan đến thanh toán sandbox VNPay (lỗi
-timeout do môi trường mạng) và tìm kiếm có dấu tiếng Việt
-(cần cấu hình thêm full-text search). Nhóm đã ghi nhận và
-đề xuất hướng xử lý trong phần kết luận.
+ERD mô tả các thực thể, khóa chính, khóa ngoại và các mối quan hệ giữa các bảng,
+đảm bảo dữ liệu được lưu trữ nhất quán và hạn chế dư thừa.
+
+%==============================================================
+
+\section{Thiết kế API và bảo mật}
+
+Hệ thống sử dụng kiến trúc RESTful API để trao đổi dữ liệu giữa Frontend và
+Backend. Dữ liệu được truyền dưới định dạng JSON.
+
+Cơ chế bảo mật của hệ thống gồm:
+
+\begin{itemize}
+
+\item Xác thực bằng JWT.
+
+\item Phân quyền theo vai trò (Administrator, Enterprise, Expert).
+
+\item Mật khẩu được mã hóa bằng BCrypt.
+
+\item Kiểm tra quyền truy cập tại các API.
+
+\end{itemize}
+
+Việc áp dụng JWT và phân quyền theo vai trò giúp đảm bảo an toàn và bảo mật
+cho toàn bộ hệ thống.
+
+%==============================================================
+
+\section{Thiết kế tích hợp AI}
+
+Hệ thống tích hợp Google Gemini API nhằm hỗ trợ người dùng trong quá trình sử
+dụng hệ thống.
+
+Các chức năng AI bao gồm:
+
+\begin{itemize}
+
+\item AI Job Assistant.
+
+\item AI Chatbot.
+
+\item Gợi ý mô tả dự án.
+
+\item Hỗ trợ xây dựng yêu cầu dự án.
+
+\end{itemize}
+
+Việc tích hợp AI giúp nâng cao trải nghiệm người dùng và tăng hiệu quả trong
+quá trình kết nối giữa doanh nghiệp và chuyên gia AI.
+
+%==============================================================
+
+\section{Kết luận}
+
+Chương này đã trình bày thiết kế tổng thể của hệ thống AITasker, bao gồm kiến
+trúc hệ thống, các module chức năng, biểu đồ lớp, mô hình cơ sở dữ liệu và cơ
+chế bảo mật. Đây là cơ sở để triển khai hệ thống và kiểm thử trong các chương
+tiếp theo.

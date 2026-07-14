@@ -1,202 +1,668 @@
 % !TEX program = xelatex
 % !TEX encoding = UTF-8 Unicode
-\documentclass[14pt, a4paper]{extreport}
 
-% ==== PACKAGES ====
+\documentclass[14pt,a4paper,oneside]{extreport}
+
+% ==========================================================
+% 1. NGÔN NGỮ VÀ FONT
+% ==========================================================
+
 \usepackage{fontspec}
 \usepackage{polyglossia}
-\usepackage{geometry}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{fancyhdr}
-\usepackage{setspace}
-\usepackage{titlesec}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{indentfirst}
-\usepackage{tocbibind}
-\usepackage{array}
-\usepackage{tabularx}
-\usepackage{multirow}
-\usepackage{amsmath}
-\usepackage[backend=bibtex, style=ieee, language=english]{biblatex}
-\usepackage{hyperref}
 
-% ==== FONT TIENG VIET CHUAN XELATEX ====
 \setmainlanguage{vietnamese}
 \setotherlanguage{english}
+
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
 \setmonofont{Courier New}
 
-% ==== LE TRANG (Chuẩn báo cáo Việt Nam) ====
+% ==========================================================
+% 2. ĐỊNH DẠNG TRANG
+% ==========================================================
+
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
 \geometry{
-  top=30mm,
-  bottom=25mm,
-  left=35mm,
-  right=20mm
+    top=30mm,
+    bottom=25mm,
+    left=35mm,
+    right=20mm,
+    headheight=18pt,
+    headsep=8mm,
+    footskip=15mm
 }
 
-% ==== GIÃN DÒNG 1.5 ====
 \onehalfspacing
 
-% ==== ĐỊNH DẠNG TIÊU ĐỀ CHƯƠNG ====
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{3em}
+
+% ==========================================================
+% 3. HÌNH ẢNH
+% ==========================================================
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\graphicspath{{figures/}}
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=centering,
+    labelsep=colon
+}
+
+\captionsetup[figure]{
+    position=below,
+    skip=8pt
+}
+
+\captionsetup[table]{
+    position=above,
+    skip=6pt
+}
+
+% ==========================================================
+% 4. BẢNG
+% ==========================================================
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+
+\renewcommand{\arraystretch}{1.25}
+
+\newcolumntype{Y}{
+    >{\raggedright\arraybackslash}X
+}
+
+\newcolumntype{L}[1]{
+    >{\raggedright\arraybackslash}p{#1}
+}
+
+\newcolumntype{C}[1]{
+    >{\centering\arraybackslash}p{#1}
+}
+
+\newcolumntype{R}[1]{
+    >{\raggedleft\arraybackslash}p{#1}
+}
+
+% ==========================================================
+% 5. TOÁN HỌC
+% ==========================================================
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ==========================================================
+% 6. DANH SÁCH
+% ==========================================================
+
+\setlist[itemize]{
+    leftmargin=1.2cm,
+    itemsep=2pt,
+    topsep=4pt,
+    parsep=0pt
+}
+
+\setlist[enumerate]{
+    leftmargin=1.2cm,
+    itemsep=2pt,
+    topsep=4pt,
+    parsep=0pt
+}
+
+% ==========================================================
+% 7. ĐỊNH DẠNG CHƯƠNG VÀ MỤC
+% ==========================================================
+
 \titleformat{\chapter}[block]
-  {\centering\Large\bfseries}
-  {CHƯƠNG \thechapter.}{0.5em}{\MakeUppercase}
-\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+    {\centering\Large\bfseries}
+    {CHƯƠNG \thechapter.}
+    {0.5em}
+    {\MakeUppercase}
 
-\titleformat{\section}{\large\bfseries}{\thesection}{0.8em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\chapter}
+    {0pt}
+    {-10pt}
+    {20pt}
 
-% ==== CẤU HÌNH MÀU VÀ KHUNG CODE ====
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codeblue}{rgb}{0.0,0.0,0.7}
+\titleformat{\section}
+    {\large\bfseries}
+    {\thesection}
+    {0.8em}
+    {}
+
+\titleformat{\subsection}
+    {\normalsize\bfseries}
+    {\thesubsection}
+    {0.8em}
+    {}
+
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\itshape}
+    {\thesubsubsection}
+    {0.8em}
+    {}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% ==========================================================
+% 8. CODE LISTING
+% ==========================================================
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.55,0}
+\definecolor{codegray}{rgb}{0.45,0.45,0.45}
+\definecolor{codeblue}{rgb}{0,0,0.72}
+\definecolor{codeorange}{rgb}{0.75,0.30,0}
 \definecolor{backcolor}{rgb}{0.97,0.97,0.97}
 
 \lstdefinestyle{mystyle}{
-  backgroundcolor=\color{backcolor},
-  commentstyle=\color{codegreen},
-  keywordstyle=\color{codeblue}\bfseries,
-  numberstyle=\tiny\color{codegray},
-  stringstyle=\color{orange},
-  basicstyle=\ttfamily\footnotesize,
-  breakatwhitespace=false,
-  breaklines=true,
-  keepspaces=true,
-  numbers=left,
-  numbersep=5pt,
-  showspaces=false,
-  showstringspaces=false,
-  tabsize=2,
-  frame=single
+    backgroundcolor=\color{backcolor},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codeorange},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    numbers=left,
+    numbersep=7pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=single,
+    rulecolor=\color{codegray},
+    captionpos=b
 }
+
 \lstset{style=mystyle}
 
-% ==== HEADER / FOOTER ====
+% ==========================================================
+% 9. HEADER VÀ FOOTER
+% ==========================================================
+
 \pagestyle{fancy}
-\setlength{\headheight}{15pt}
-\fancyhead[L]{\small\textit{Đồ án môn Công nghệ Phần mềm}}
-\fancyhead[R]{\small\textit{AIConnect Platform}}
-\fancyfoot[C]{\thepage}
+\fancyhf{}
+
+\fancyhead[L]{
+    \small\textit{Đồ án môn Công nghệ Phần mềm}
+}
+
+\fancyhead[R]{
+    \small\textit{AITasker Platform}
+}
+
+\fancyfoot[C]{
+    \thepage
+}
+
 \renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 
 \fancypagestyle{plain}{
-  \fancyhf{}
-  \fancyfoot[C]{\thepage}
-  \renewcommand{\headrulewidth}{0pt}
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
 }
 
-% ==== ĐƯỜNG DẪN LIÊN KẾT TRONG PDF ====
-\hypersetup{
-  colorlinks=true,
-  linkcolor=black,
-  citecolor=blue,
-  urlcolor=blue,
-  pdfauthor={Nhóm sinh viên},
-  pdftitle={Đồ án CNPM - AIConnect Platform}
-}
+% ==========================================================
+% 10. TÀI LIỆU THAM KHẢO
+% ==========================================================
 
-% ===== TÀI LIỆU THAM KHẢO =====
+\usepackage{csquotes}
+
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sorting=none,
+    autolang=other
+]{biblatex}
+
+\DeclareLanguageMapping{vietnamese}{english}
+
 \addbibresource{references.bib}
+
+% ==========================================================
+% 11. MỤC LỤC
+% ==========================================================
+
+\usepackage[nottoc]{tocbibind}
+
+% ==========================================================
+% 12. URL VÀ LIÊN KẾT PDF
+% ==========================================================
+
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+% Không đặt dòng trống bên trong khối hypersetup.
+\hypersetup{
+    unicode=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    pdfauthor={Trương Tùng Hưng; Huỳnh Gia Văn; Nguyễn Minh Cường; Hoàng Quốc Khánh},
+    pdftitle={AITasker - Nền tảng kết nối chuyên gia AI và doanh nghiệp cần tự động hóa bằng AI},
+    pdfsubject={Báo cáo đồ án môn Công nghệ Phần mềm},
+    pdfkeywords={AITasker, SRS, FastAPI, ReactJS, PostgreSQL, Artificial Intelligence},
+    bookmarksopen=true,
+    bookmarksnumbered=true
+}
+
+% ==========================================================
+% 13. CÁC LỆNH TỰ ĐỊNH NGHĨA
+% ==========================================================
+
+\newcommand{\projectname}{AITasker}
+
+\newcommand{\projectfullname}{
+    Nền tảng kết nối chuyên gia AI và doanh nghiệp cần tự động hóa bằng AI
+}
+
+\newcommand{\universityname}{
+    Trường Đại học Giao thông Vận tải Thành phố Hồ Chí Minh
+}
+
+\newcommand{\instructorname}{
+    ThS. Nguyễn Văn Chiến
+}
+
+% ==========================================================
+% BẮT ĐẦU TÀI LIỆU
+% ==========================================================
 
 \begin{document}
 
-% ----- TRANG BÌA -----
+% Giảm cảnh báo tràn dòng đối với văn bản và URL dài.
+\sloppy
+
+% ==========================================================
+% TRANG BÌA
+% ==========================================================
+
+\pagenumbering{gobble}
+
 \input{chapters/cover}
 
-% ----- SỐ TRANG LA MÃ (Phần mở đầu) -----
+\clearpage
+
+% ==========================================================
+% PHẦN MỞ ĐẦU - SỐ TRANG LA MÃ
+% ==========================================================
+
 \pagenumbering{roman}
 \setcounter{page}{1}
 
-% ----- LỜI CAM ĐOAN -----
+% ==========================================================
+% LỜI CAM ĐOAN
+% ==========================================================
+
 \chapter*{Lời cam đoan}
 \addcontentsline{toc}{chapter}{Lời cam đoan}
-\noindent
-Chúng tôi cam đoan đây là công trình nghiên cứu của nhóm dưới sự
-hướng dẫn của ThS. Nguyễn Văn Chiến --- Trường Đại học Giao thông
-vận tải TP. Hồ Chí Minh. Các số liệu, kết quả trình bày trong báo
-cáo là trung thực và chưa được công bố ở bất kỳ công trình nào khác.
+
+Chúng tôi cam đoan báo cáo đồ án môn học với đề tài
+\textbf{``\projectname{} -- \projectfullname''}
+là kết quả nghiên cứu và thực hiện của nhóm dưới sự hướng dẫn của
+\instructorname.
+
+Các nội dung phân tích, thiết kế, mã nguồn, số liệu và kết quả trình bày
+trong báo cáo được nhóm thực hiện một cách trung thực. Những nội dung tham
+khảo từ tài liệu, công trình nghiên cứu hoặc nguồn thông tin khác đều được
+trích dẫn và ghi rõ nguồn trong phần tài liệu tham khảo.
+
+Nhóm xin chịu trách nhiệm về tính trung thực và chính xác của nội dung
+được trình bày trong báo cáo này.
 
 \vspace{2.5cm}
-\begin{flushright}
-  \textit{TP. Hồ Chí Minh, tháng \hspace{1cm} năm 2025}\\[1cm]
-  \textbf{Nhóm sinh viên thực hiện}\\[0.3cm]
-  (Ký và ghi rõ họ tên)
-\end{flushright}
-\newpage
 
-% ----- LỜI CẢM ƠN -----
+\begin{flushright}
+    \textit{TP. Hồ Chí Minh, tháng 07 năm 2026}\\[1cm]
+
+    \textbf{Nhóm sinh viên thực hiện}\\[0.5cm]
+
+    \textit{(Ký và ghi rõ họ tên)}
+\end{flushright}
+
+\clearpage
+
+% ==========================================================
+% LỜI CẢM ƠN
+% ==========================================================
+
 \chapter*{Lời cảm ơn}
 \addcontentsline{toc}{chapter}{Lời cảm ơn}
+
+Trước tiên, nhóm chúng tôi xin gửi lời cảm ơn chân thành đến
+\instructorname, giảng viên hướng dẫn môn Công nghệ Phần mềm, đã tận tình
+hướng dẫn, định hướng và đóng góp nhiều ý kiến quý báu trong suốt quá trình
+thực hiện đồ án.
+
+Nhóm xin chân thành cảm ơn quý thầy cô thuộc Khoa Công nghệ Thông tin,
+\universityname{} đã truyền đạt những kiến thức nền tảng và chuyên ngành cần
+thiết, đồng thời tạo điều kiện thuận lợi để nhóm có thể hoàn thành đề tài.
+
+Trong quá trình thực hiện, mặc dù nhóm đã cố gắng nghiên cứu, phân tích và
+hoàn thiện hệ thống, báo cáo vẫn khó tránh khỏi những thiếu sót. Nhóm rất mong
+nhận được những ý kiến đóng góp từ quý thầy cô để hệ thống \projectname{} có
+thể được tiếp tục hoàn thiện và phát triển trong tương lai.
+
+\vspace{1cm}
+
+\begin{flushright}
+    \textbf{Nhóm sinh viên thực hiện}
+\end{flushright}
+
+\clearpage
+
+% ==========================================================
+% NHẬN XÉT CỦA GIẢNG VIÊN
+% ==========================================================
+
+\chapter*{Nhận xét của giảng viên hướng dẫn}
+\addcontentsline{toc}{chapter}{Nhận xét của giảng viên hướng dẫn}
+
+\vspace{0.5cm}
+
 \noindent
-Nhóm chúng tôi xin gửi lời cảm ơn chân thành đến ThS. Nguyễn Văn
-Chiến đã tận tình hướng dẫn, định hướng và góp ý trong suốt quá
-trình thực hiện đồ án. Xin cảm ơn quý thầy cô Khoa Công nghệ
-Thông tin --- Trường Đại học Giao thông vận tải TP. Hồ Chí Minh
-đã tạo điều kiện thuận lợi để nhóm hoàn thành môn học này.
-\newpage
+\textbf{Nhận xét:}
 
-% ----- MỤC LỤC -----
+\vspace{0.5cm}
+
+\noindent
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}\\[0.8cm]
+\rule{\textwidth}{0.4pt}
+
+\vfill
+
+\begin{flushright}
+    TP. Hồ Chí Minh, ngày \hspace{0.5cm}
+    tháng \hspace{0.5cm} năm 2026\\[0.5cm]
+
+    \textbf{Giảng viên hướng dẫn}\\[2cm]
+
+    \textbf{\instructorname}
+\end{flushright}
+
+\clearpage
+
+% ==========================================================
+% MỤC LỤC
+% ==========================================================
+
 \tableofcontents
-\newpage
 
-% ----- DANH MỤC HÌNH -----
+\clearpage
+
+% ==========================================================
+% DANH MỤC HÌNH ẢNH
+% ==========================================================
+
 \listoffigures
-\addcontentsline{toc}{chapter}{Danh mục hình ảnh}
-\newpage
 
-% ----- DANH MỤC BẢNG -----
+\clearpage
+
+% ==========================================================
+% DANH MỤC BẢNG
+% ==========================================================
+
 \listoftables
-\addcontentsline{toc}{chapter}{Danh mục bảng}
-\newpage
 
-% ----- DANH MỤC TỪ VIẾT TẮT -----
+\clearpage
+
+% ==========================================================
+% DANH MỤC TỪ VIẾT TẮT
+% ==========================================================
+
 \chapter*{Danh mục từ viết tắt}
 \addcontentsline{toc}{chapter}{Danh mục từ viết tắt}
-\begin{table}[H]
-\centering
-\begin{tabular}{p{3cm} p{10cm}}
-\toprule
-\textbf{Viết tắt} & \textbf{Ý nghĩa} \\
-\midrule
-AI     & Artificial Intelligence (Trí tuệ nhân tạo) \\
-API    & Application Programming Interface \\
-CNPM   & Công nghệ Phần mềm \\
-DB     & Database (Cơ sở dữ liệu) \\
-ERD    & Entity Relationship Diagram \\
-JWT    & JSON Web Token \\
-REST   & Representational State Transfer \\
-SME    & Small and Medium Enterprise (Doanh nghiệp vừa và nhỏ) \\
-UI     & User Interface (Giao diện người dùng) \\
-UX     & User Experience (Trải nghiệm người dùng) \\
-\bottomrule
-\end{tabular}
-\end{table}
-\newpage
 
-% ----- CHUYỂN SANG SỐ TRANG CHỮ SỐ Ả RẬP (Nội dung chính) -----
+\begin{longtable}{
+    L{3cm}
+    L{10.5cm}
+}
+
+\toprule
+\textbf{Từ viết tắt}
+&
+\textbf{Ý nghĩa}
+\\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Từ viết tắt}
+&
+\textbf{Ý nghĩa}
+\\
+\midrule
+\endhead
+
+AI
+&
+Artificial Intelligence -- Trí tuệ nhân tạo.
+\\
+
+API
+&
+Application Programming Interface -- Giao diện lập trình ứng dụng.
+\\
+
+BCrypt
+&
+Thuật toán băm mật khẩu được sử dụng trong hệ thống.
+\\
+
+CI/CD
+&
+Continuous Integration/Continuous Delivery -- Tích hợp và triển khai liên tục.
+\\
+
+CNPM
+&
+Công nghệ Phần mềm.
+\\
+
+CSDL
+&
+Cơ sở dữ liệu.
+\\
+
+DB
+&
+Database -- Cơ sở dữ liệu.
+\\
+
+ERD
+&
+Entity Relationship Diagram -- Sơ đồ thực thể liên kết.
+\\
+
+FR
+&
+Functional Requirement -- Yêu cầu chức năng.
+\\
+
+HTTP
+&
+Hypertext Transfer Protocol.
+\\
+
+HTTPS
+&
+Hypertext Transfer Protocol Secure.
+\\
+
+JWT
+&
+JSON Web Token -- Chuẩn mã thông báo dùng để xác thực.
+\\
+
+NFR
+&
+Non-functional Requirement -- Yêu cầu phi chức năng.
+\\
+
+ORM
+&
+Object Relational Mapping -- Ánh xạ đối tượng quan hệ.
+\\
+
+RBAC
+&
+Role-Based Access Control -- Kiểm soát truy cập dựa trên vai trò.
+\\
+
+REST
+&
+Representational State Transfer.
+\\
+
+SRS
+&
+Software Requirements Specification -- Đặc tả yêu cầu phần mềm.
+\\
+
+UML
+&
+Unified Modeling Language -- Ngôn ngữ mô hình hóa thống nhất.
+\\
+
+UI
+&
+User Interface -- Giao diện người dùng.
+\\
+
+UX
+&
+User Experience -- Trải nghiệm người dùng.
+\\
+
+UUID
+&
+Universally Unique Identifier -- Mã định danh duy nhất toàn cục.
+\\
+
+\bottomrule
+
+\end{longtable}
+
+\clearpage
+
+% ==========================================================
+% NỘI DUNG CHÍNH - SỐ TRANG Ả RẬP
+% ==========================================================
+
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% ==== CÁC CHƯƠNG NỘI DUNG ====
+% ==========================================================
+% CÁC CHƯƠNG
+% ==========================================================
+
 \include{chapters/chapter1}
 \include{chapters/chapter2}
 \include{chapters/chapter3}
 \include{chapters/chapter4}
 \include{chapters/chapter5}
 \include{chapters/chapter6}
+\include{chapters/chapter7}
 
-% ==== TÀI LIỆU THAM KHẢO ====
-\printbibliography[heading=bibintoc, title={Tài liệu tham khảo}]
+% ==========================================================
+% KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+% ==========================================================
 
-% ==== PHỤ LỤC ====
+\chapter*{Kết luận và hướng phát triển}
+\addcontentsline{toc}{chapter}{Kết luận và hướng phát triển}
+
+\section*{Kết luận}
+
+Đề tài \projectname{} đã xây dựng một nền tảng hỗ trợ kết nối giữa doanh
+nghiệp có nhu cầu ứng dụng trí tuệ nhân tạo và các chuyên gia có năng lực
+triển khai giải pháp AI.
+
+Hệ thống được xây dựng theo kiến trúc Client--Server với Frontend sử dụng
+ReactJS, Backend sử dụng FastAPI và cơ sở dữ liệu PostgreSQL. Các chức năng
+chính gồm quản lý tài khoản, xác thực và phân quyền, quản lý doanh nghiệp,
+quản lý chuyên gia, tạo dự án, gửi đề xuất, quản lý hợp đồng, quản lý tiến độ,
+thanh toán, đánh giá, thông báo và hỗ trợ người dùng bằng trí tuệ nhân tạo.
+
+Báo cáo đã trình bày các yêu cầu chức năng, yêu cầu phi chức năng, kiến trúc
+hệ thống, mô hình dữ liệu, các sơ đồ UML, quá trình triển khai và các trường
+hợp kiểm thử. Các kết quả đạt được cho thấy hệ thống có khả năng đáp ứng các
+nghiệp vụ cơ bản của một nền tảng kết nối doanh nghiệp và chuyên gia AI.
+
+\section*{Hướng phát triển}
+
+Trong tương lai, hệ thống có thể được tiếp tục phát triển theo các hướng sau:
+
+\begin{itemize}
+    \item Hoàn thiện cơ chế ký quỹ và giải ngân tự động.
+    \item Tích hợp cổng thanh toán trực tuyến thực tế.
+    \item Phát triển hệ thống gợi ý chuyên gia bằng học máy.
+    \item Nâng cao khả năng phân tích yêu cầu dự án bằng AI.
+    \item Tích hợp thông báo thời gian thực bằng WebSocket.
+    \item Hoàn thiện dịch vụ gửi email và khôi phục mật khẩu.
+    \item Phát triển ứng dụng trên thiết bị di động.
+    \item Triển khai hệ thống trên nền tảng điện toán đám mây.
+    \item Bổ sung kiểm thử tự động và quy trình CI/CD.
+    \item Nâng cao khả năng giám sát, sao lưu và bảo mật dữ liệu.
+\end{itemize}
+
+\clearpage
+
+% ==========================================================
+% TÀI LIỆU THAM KHẢO
+% ==========================================================
+
+\printbibliography[
+    heading=bibintoc,
+    title={Tài liệu tham khảo}
+]
+
+\clearpage
+
+% ==========================================================
+% PHỤ LỤC
+% ==========================================================
+
 \appendix
-\input{appendix/appendix_a}
+
+\IfFileExists{appendix/appendix_a.tex}{
+    \input{appendix/appendix_a}
+}{
+    \chapter{Phụ lục}
+
+    Nội dung phụ lục sẽ được bổ sung trong phiên bản hoàn thiện của báo cáo.
+}
 
 \end{document}

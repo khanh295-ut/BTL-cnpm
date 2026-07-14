@@ -1,89 +1,118 @@
-from datetime import datetime, timedelta
+from __future__ import annotations
+
+import uuid
+from datetime import datetime, timezone
 
 from sqlalchemy import (
+    Boolean,
     Column,
     DateTime,
     ForeignKey,
-    Integer,
     String,
 )
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from backend.src.config.database import Base
 from backend.src.models.association import (
-    user_roles,
     role_permissions,
+    user_roles,
 )
-from backend.src.utils.security import hash_password, verify_password
 
 
-# =====================================================
+def utc_now() -> datetime:
+    """
+    Trả về thời gian UTC có timezone.
+
+    Sử dụng thay cho datetime.utcnow() để tránh tạo datetime
+    không có thông tin múi giờ.
+    """
+    return datetime.now(timezone.utc)
+
+
+# ==========================================================
 # PASSWORD RESET TOKEN
-# =====================================================
+# ==========================================================
+
 class PasswordResetToken(Base):
+    """
+    Token dùng để đặt lại mật khẩu người dùng.
+    """
+
     __tablename__ = "password_reset_tokens"
-    __table_args__ = {"extend_existing": True}
+    __table_args__ = {
+        "extend_existing": True,
+    }
 
     id = Column(
-        Integer,
+        UUID(as_uuid=True),
         primary_key=True,
-        autoincrement=True,
+        default=uuid.uuid4,
+        index=True,
     )
 
     user_id = Column(
-        Integer,
-        ForeignKey("users.id", ondelete="CASCADE"),
+        UUID(as_uuid=True),
+        ForeignKey(
+            "users.id",
+            ondelete="CASCADE",
+        ),
         nullable=False,
+        index=True,
     )
 
     token = Column(
         String(255),
         unique=True,
         nullable=False,
+        index=True,
     )
 
     expires_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False,
+        index=True,
     )
 
     created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=True,
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
     )
 
-    # Quan hệ với User
     user = relationship(
         "User",
         back_populates="tokens",
     )
 
-    @classmethod
-    def create_for_user(cls, user, token: str, expires_in_minutes: int = 15):
-        now = datetime.utcnow()
-        return cls(
-            user_id=user.id,
-            token=token,
-            expires_at=now + timedelta(minutes=expires_in_minutes),
-            created_at=now,
+    def __repr__(self) -> str:
+        return (
+            "<PasswordResetToken("
+            f"id={self.id}, "
+            f"user_id={self.user_id}, "
+            f"expires_at={self.expires_at}"
+            ")>"
         )
 
-    def is_valid(self) -> bool:
-        return self.expires_at > datetime.utcnow()
 
-
-# =====================================================
+# ==========================================================
 # PERMISSION
-# =====================================================
+# ==========================================================
+
 class Permission(Base):
+    """
+    Quyền truy cập trong hệ thống.
+    """
+
     __tablename__ = "permissions"
-    __table_args__ = {"extend_existing": True}
+    __table_args__ = {
+        "extend_existing": True,
+    }
 
     id = Column(
-        Integer,
+        UUID(as_uuid=True),
         primary_key=True,
-        autoincrement=True,
+        default=uuid.uuid4,
         index=True,
     )
 
@@ -91,11 +120,18 @@ class Permission(Base):
         String(100),
         unique=True,
         nullable=False,
+        index=True,
     )
 
     description = Column(
         String(255),
         nullable=True,
+    )
+
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
     )
 
     roles = relationship(
@@ -105,18 +141,38 @@ class Permission(Base):
         lazy="selectin",
     )
 
+    def __repr__(self) -> str:
+        return (
+            "<Permission("
+            f"id={self.id}, "
+            f"name='{self.name}'"
+            ")>"
+        )
 
-# =====================================================
+
+# ==========================================================
 # ROLE
-# =====================================================
+# ==========================================================
+
 class Role(Base):
+    """
+    Vai trò người dùng.
+
+    Các vai trò chính:
+    - ADMIN
+    - ENTERPRISE
+    - EXPERT
+    """
+
     __tablename__ = "roles"
-    __table_args__ = {"extend_existing": True}
+    __table_args__ = {
+        "extend_existing": True,
+    }
 
     id = Column(
-        Integer,
+        UUID(as_uuid=True),
         primary_key=True,
-        autoincrement=True,
+        default=uuid.uuid4,
         index=True,
     )
 
@@ -124,11 +180,18 @@ class Role(Base):
         String(50),
         unique=True,
         nullable=False,
+        index=True,
     )
 
     description = Column(
         String(255),
         nullable=True,
+    )
+
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
     )
 
     permissions = relationship(
@@ -145,18 +208,37 @@ class Role(Base):
         lazy="selectin",
     )
 
+    def __repr__(self) -> str:
+        return (
+            "<Role("
+            f"id={self.id}, "
+            f"name='{self.name}'"
+            ")>"
+        )
 
-# =====================================================
+
+# ==========================================================
 # USER
-# =====================================================
+# ==========================================================
+
 class User(Base):
+    """
+    Tài khoản người dùng chung của hệ thống.
+
+    Hồ sơ nghiệp vụ chi tiết được lưu tại:
+    - Enterprise
+    - Expert
+    """
+
     __tablename__ = "users"
-    __table_args__ = {"extend_existing": True}
+    __table_args__ = {
+        "extend_existing": True,
+    }
 
     id = Column(
-        Integer,
+        UUID(as_uuid=True),
         primary_key=True,
-        autoincrement=True,
+        default=uuid.uuid4,
         index=True,
     )
 
@@ -174,22 +256,27 @@ class User(Base):
         index=True,
     )
 
-    password_hash = Column(
+    hashed_password = Column(
         String(255),
         nullable=False,
     )
 
-    full_name = Column(
-        String(255),
-        nullable=True,
-        default="",
-        server_default="",
+    is_active = Column(
+        Boolean,
+        nullable=False,
+        default=True,
+        index=True,
     )
 
-    bio = Column(
-        String(500),
-        nullable=True,
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
     )
+
+    # ======================================================
+    # AUTHORIZATION RELATIONSHIPS
+    # ======================================================
 
     roles = relationship(
         "Role",
@@ -202,24 +289,133 @@ class User(Base):
         "PasswordResetToken",
         back_populates="user",
         cascade="all, delete-orphan",
+        passive_deletes=True,
         lazy="selectin",
     )
 
-    def set_password(self, password: str):
-        self.password_hash = hash_password(password)
+    # ======================================================
+    # PROFILE RELATIONSHIPS
+    # ======================================================
 
-    def check_password(self, password: str) -> bool:
-        return verify_password(password, self.password_hash)
+    enterprise = relationship(
+        "Enterprise",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
 
-    def has_role(self, role_name: str) -> bool:
-        return any(role.name.lower() == role_name.lower() for role in self.roles)
+    expert = relationship(
+        "Expert",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
 
-    def is_admin(self) -> bool:
-        return self.has_role("admin")
+    # ======================================================
+    # NOTIFICATION RELATIONSHIP
+    # ======================================================
 
-    @property
-    def role(self) -> str | None:
-        return self.roles[0].name if self.roles else None
+    notifications = relationship(
+        "Notification",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+        order_by="Notification.created_at.desc()",
+    )
 
-    def __repr__(self):
-        return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"
+    # ======================================================
+    # WALLET RELATIONSHIPS
+    # ======================================================
+
+    wallet = relationship(
+        "Wallet",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    wallet_transactions = relationship(
+        "WalletTransaction",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+        order_by="WalletTransaction.created_at.desc()",
+    )
+
+    withdrawals = relationship(
+        "Withdrawal",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+        order_by="Withdrawal.created_at.desc()",
+    )
+
+    # ======================================================
+    # DISPUTE RELATIONSHIPS
+    # ======================================================
+
+    opened_disputes = relationship(
+        "Dispute",
+        foreign_keys="Dispute.opened_by_user_id",
+        back_populates="opened_by",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    assigned_disputes = relationship(
+        "Dispute",
+        foreign_keys="Dispute.assigned_admin_id",
+        back_populates="assigned_admin",
+        lazy="selectin",
+    )
+
+    resolved_disputes = relationship(
+        "Dispute",
+        foreign_keys="Dispute.resolved_by_user_id",
+        back_populates="resolved_by",
+        lazy="selectin",
+    )
+
+    # ======================================================
+    # SERVICE ORDER RELATIONSHIPS
+    # ======================================================
+
+    service_orders = relationship(
+        "ServiceOrder",
+        back_populates="customer",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    # ======================================================
+    # RECOMMENDATION RELATIONSHIPS
+    # ======================================================
+
+    recommendations = relationship(
+        "Recommendation",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    def __repr__(self) -> str:
+        return (
+            "<User("
+            f"id={self.id}, "
+            f"username='{self.username}', "
+            f"email='{self.email}', "
+            f"is_active={self.is_active}"
+            ")>"
+        )

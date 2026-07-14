@@ -1,3 +1,5 @@
+# backend/src/presentation/routes/review_routes.py
+
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -6,24 +8,29 @@ from sqlalchemy.orm import Session
 from backend.src.config.database import get_db
 from backend.src.schemas.review import (
     ReviewCreate,
-    ReviewUpdate,
     ReviewResponse,
+    ReviewUpdate,
 )
 from backend.src.services.review_service import review_service
 
 
+# ==========================================================
+# ROUTER
+# Prefix /reviews đã được thêm trong all_routes.py.
+# Prefix /api đã được thêm trong app.py.
+# ==========================================================
+
 router = APIRouter(
-    prefix="/reviews",
     tags=["Reviews"],
 )
 
 
-# =====================================================
+# ==========================================================
 # GET ALL
-# =====================================================
+# ==========================================================
 
 @router.get(
-    "/",
+    "",
     response_model=list[ReviewResponse],
 )
 def get_all_reviews(
@@ -32,9 +39,9 @@ def get_all_reviews(
     return review_service.get_all(db)
 
 
-# =====================================================
+# ==========================================================
 # GET BY ID
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/{review_id}",
@@ -58,12 +65,12 @@ def get_review(
     return review
 
 
-# =====================================================
+# ==========================================================
 # CREATE
-# =====================================================
+# ==========================================================
 
 @router.post(
-    "/",
+    "",
     response_model=ReviewResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -77,9 +84,9 @@ def create_review(
     )
 
 
-# =====================================================
+# ==========================================================
 # UPDATE
-# =====================================================
+# ==========================================================
 
 @router.put(
     "/{review_id}",
@@ -105,9 +112,9 @@ def update_review(
     return review
 
 
-# =====================================================
+# ==========================================================
 # DELETE
-# =====================================================
+# ==========================================================
 
 @router.delete(
     "/{review_id}",

@@ -1,5 +1,4 @@
 from uuid import UUID
-from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -12,19 +11,19 @@ from backend.src.schemas.enterprise import (
 )
 from backend.src.services.enterprise_service import enterprise_service
 
+
 router = APIRouter(
-    prefix="/enterprises",
     tags=["Enterprises"],
 )
 
 
-# =====================================================
+# ==========================================================
 # GET ALL
-# =====================================================
+# ==========================================================
 
 @router.get(
     "",
-    response_model=List[EnterpriseResponse],
+    response_model=list[EnterpriseResponse],
 )
 def get_enterprises(
     db: Session = Depends(get_db),
@@ -32,9 +31,9 @@ def get_enterprises(
     return enterprise_service.get_all(db)
 
 
-# =====================================================
+# ==========================================================
 # GET BY ID
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/{enterprise_id}",
@@ -58,9 +57,9 @@ def get_enterprise(
     return enterprise
 
 
-# =====================================================
+# ==========================================================
 # CREATE
-# =====================================================
+# ==========================================================
 
 @router.post(
     "",
@@ -77,9 +76,9 @@ def create_enterprise(
     )
 
 
-# =====================================================
+# ==========================================================
 # UPDATE
-# =====================================================
+# ==========================================================
 
 @router.put(
     "/{enterprise_id}",
@@ -105,9 +104,9 @@ def update_enterprise(
     return enterprise
 
 
-# =====================================================
+# ==========================================================
 # DELETE
-# =====================================================
+# ==========================================================
 
 @router.delete(
     "/{enterprise_id}",
@@ -128,4 +127,4 @@ def delete_enterprise(
             detail="Enterprise not found",
         )
 
-    return
+    return None

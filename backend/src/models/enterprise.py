@@ -31,6 +31,15 @@ class Enterprise(Base):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+    
+    service_orders = relationship(
+    "ServiceOrder",
+    back_populates="enterprise",
+    cascade="all, delete-orphan",
+    passive_deletes=True,
+    lazy="selectin",
+    order_by="ServiceOrder.created_at.desc()",
+)
 
     def __repr__(self):
         return f"<Enterprise(id={self.id}, name='{self.name}')>"

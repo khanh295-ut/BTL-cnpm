@@ -27,31 +27,112 @@ class Project(Base):
         nullable=False,
         index=True,
     )
+
     enterprise_id = Column(
         UUID(as_uuid=True),
-        ForeignKey("enterprises.id", ondelete="CASCADE"),
+        ForeignKey(
+            "enterprises.id",
+            ondelete="CASCADE",
+        ),
         nullable=False,
         index=True,
     )
+
     category_id = Column(
         UUID(as_uuid=True),
-        ForeignKey("categories.id", ondelete="SET NULL"),
+        ForeignKey(
+            "categories.id",
+            ondelete="SET NULL",
+        ),
         nullable=True,
         index=True,
     )
-    title = Column(String(255), nullable=False, index=True)
-    description = Column(Text, nullable=False)
-    budget = Column(Numeric(12, 2), nullable=True)
-    deadline = Column(Date, nullable=True)
-    status = Column(String(30), nullable=False, default="OPEN", index=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
-    # Relationships
-    enterprise = relationship("Enterprise", back_populates="projects", lazy="joined")
-    category = relationship("Category", back_populates="projects", lazy="joined")
-    proposals = relationship("Proposal", back_populates="project", cascade="all, delete-orphan", passive_deletes=True)
-    reviews = relationship("Review", back_populates="project", cascade="all, delete-orphan", passive_deletes=True)
-    contracts = relationship("Contract", back_populates="project", cascade="all, delete-orphan", passive_deletes=True)
+    title = Column(
+        String(255),
+        nullable=False,
+        index=True,
+    )
 
-    def __repr__(self):
-        return f"<Project(id={self.id}, title='{self.title}', status='{self.status}')>"
+    description = Column(
+        Text,
+        nullable=False,
+    )
+
+    budget = Column(
+        Numeric(12, 2),
+        nullable=True,
+    )
+
+    deadline = Column(
+        Date,
+        nullable=True,
+    )
+
+    status = Column(
+        String(30),
+        nullable=False,
+        default="OPEN",
+        index=True,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+    )
+
+    # ======================================================
+    # RELATIONSHIPS
+    # ======================================================
+
+    enterprise = relationship(
+        "Enterprise",
+        back_populates="projects",
+        lazy="joined",
+    )
+
+    category = relationship(
+        "Category",
+        back_populates="projects",
+        lazy="joined",
+    )
+
+    proposals = relationship(
+        "Proposal",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    reviews = relationship(
+        "Review",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    contracts = relationship(
+        "Contract",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+    recommendations = relationship(
+        "Recommendation",
+        back_populates="project",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+        order_by="Recommendation.match_score.desc()",
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<Project("
+            f"id={self.id}, "
+            f"title='{self.title}', "
+            f"status='{self.status}'"
+            f")>"
+        )

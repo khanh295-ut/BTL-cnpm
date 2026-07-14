@@ -1,14 +1,16 @@
+# backend/src/presentation/routes/admin_routes.py
+
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from backend.src.config.database import get_db
 from backend.src.schemas.admin import (
-    DashboardResponse,
-    ChangeRoleRequest,
-    MessageResponse,
     AdminUserResponse,
+    ChangeRoleRequest,
+    DashboardResponse,
+    MessageResponse,
     ProjectStatistic,
     ProposalStatistic,
     RoleStatistic,
@@ -17,17 +19,22 @@ from backend.src.services.admin_service import AdminService
 from backend.src.services.jwt_service import get_current_admin
 
 
+# ==========================================================
+# ROUTER
+# Prefix /admin được thêm trong all_routes.py.
+# Prefix /api được thêm trong app.py.
+# ==========================================================
+
 router = APIRouter(
-    prefix="/admin",
     tags=["Admin"],
 )
 
 service = AdminService()
 
 
-# =====================================================
+# ==========================================================
 # DASHBOARD
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/dashboard",
@@ -40,9 +47,9 @@ def dashboard(
     return service.dashboard(db)
 
 
-# =====================================================
+# ==========================================================
 # LIST USERS
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/users",
@@ -55,9 +62,9 @@ def get_users(
     return service.get_all_users(db)
 
 
-# =====================================================
+# ==========================================================
 # USER DETAIL
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/users/{user_id}",
@@ -68,21 +75,23 @@ def get_user(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_admin),
 ):
-
-    user = service.get_user(db, user_id)
+    user = service.get_user(
+        db,
+        user_id,
+    )
 
     if user is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found",
         )
 
     return user
 
 
-# =====================================================
+# ==========================================================
 # DELETE USER
-# =====================================================
+# ==========================================================
 
 @router.delete(
     "/users/{user_id}",
@@ -93,23 +102,25 @@ def delete_user(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_admin),
 ):
-
-    success = service.delete_user(db, user_id)
+    success = service.delete_user(
+        db,
+        user_id,
+    )
 
     if not success:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found",
         )
 
     return {
-        "message": "User deleted successfully."
+        "message": "User deleted successfully.",
     }
 
 
-# =====================================================
+# ==========================================================
 # CHANGE ROLE
-# =====================================================
+# ==========================================================
 
 @router.put(
     "/users/{user_id}/role",
@@ -121,7 +132,6 @@ def change_role(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_admin),
 ):
-
     user = service.change_role(
         db,
         user_id,
@@ -130,16 +140,16 @@ def change_role(
 
     if user is None:
         raise HTTPException(
-            status_code=404,
-            detail="User or Role not found",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User or role not found",
         )
 
     return user
 
 
-# =====================================================
+# ==========================================================
 # PROJECT STATISTICS
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/statistics/projects",
@@ -152,9 +162,9 @@ def project_statistics(
     return service.project_statistics(db)
 
 
-# =====================================================
+# ==========================================================
 # PROPOSAL STATISTICS
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/statistics/proposals",
@@ -167,9 +177,9 @@ def proposal_statistics(
     return service.proposal_statistics(db)
 
 
-# =====================================================
+# ==========================================================
 # ROLE STATISTICS
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/statistics/roles",
@@ -182,9 +192,9 @@ def role_statistics(
     return service.users_by_role(db)
 
 
-# =====================================================
+# ==========================================================
 # REVIEW STATISTICS
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/statistics/reviews",
@@ -193,7 +203,6 @@ def review_statistics(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_admin),
 ):
-
     return {
-        "average_rating": service.average_rating(db)
+        "average_rating": service.average_rating(db),
     }

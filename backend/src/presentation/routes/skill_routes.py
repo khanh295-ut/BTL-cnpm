@@ -1,28 +1,36 @@
+# backend/src/presentation/routes/skill_routes.py
+
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from backend.src.config.database import get_db
 from backend.src.schemas.skill import (
     SkillCreate,
-    SkillUpdate,
     SkillResponse,
+    SkillUpdate,
 )
 from backend.src.services.skill_service import skill_service
 
+
+# ==========================================================
+# ROUTER
+# Prefix /skills được thêm trong all_routes.py.
+# Prefix /api được thêm trong app.py.
+# ==========================================================
+
 router = APIRouter(
-    prefix="/skills",
     tags=["Skills"],
 )
 
 
-# =====================================================
+# ==========================================================
 # GET ALL
-# =====================================================
+# ==========================================================
 
 @router.get(
-    "/",
+    "",
     response_model=list[SkillResponse],
 )
 def get_all_skills(
@@ -31,9 +39,28 @@ def get_all_skills(
     return skill_service.get_all(db)
 
 
-# =====================================================
+# ==========================================================
+# GET BY EXPERT
+# Đặt route tĩnh trước route /{skill_id}
+# ==========================================================
+
+@router.get(
+    "/expert/{expert_id}",
+    response_model=list[SkillResponse],
+)
+def get_skills_by_expert(
+    expert_id: UUID,
+    db: Session = Depends(get_db),
+):
+    return skill_service.get_by_expert(
+        db,
+        expert_id,
+    )
+
+
+# ==========================================================
 # GET BY ID
-# =====================================================
+# ==========================================================
 
 @router.get(
     "/{skill_id}",
@@ -50,38 +77,21 @@ def get_skill(
 
     if skill is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill not found",
         )
 
     return skill
 
 
-# =====================================================
-# GET BY EXPERT
-# =====================================================
-
-@router.get(
-    "/expert/{expert_id}",
-    response_model=list[SkillResponse],
-)
-def get_skills_by_expert(
-    expert_id: UUID,
-    db: Session = Depends(get_db),
-):
-    return skill_service.get_by_expert(
-        db,
-        expert_id,
-    )
-
-
-# =====================================================
+# ==========================================================
 # CREATE
-# =====================================================
+# ==========================================================
 
 @router.post(
-    "/",
+    "",
     response_model=SkillResponse,
+    status_code=status.HTTP_201_CREATED,
 )
 def create_skill(
     data: SkillCreate,
@@ -93,9 +103,9 @@ def create_skill(
     )
 
 
-# =====================================================
+# ==========================================================
 # UPDATE
-# =====================================================
+# ==========================================================
 
 @router.put(
     "/{skill_id}",
@@ -114,19 +124,20 @@ def update_skill(
 
     if skill is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill not found",
         )
 
     return skill
 
 
-# =====================================================
+# ==========================================================
 # DELETE
-# =====================================================
+# ==========================================================
 
 @router.delete(
     "/{skill_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_skill(
     skill_id: UUID,
@@ -139,11 +150,8 @@ def delete_skill(
 
     if not deleted:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Skill not found",
         )
 
-    return {
-        "success": True,
-        "message": "Skill deleted successfully",
-    }
+    return None
