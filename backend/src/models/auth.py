@@ -20,13 +20,15 @@ from backend.src.models.association import (
 )
 
 
+# ==========================================================
+# TIME HELPER
+# ==========================================================
+
 def utc_now() -> datetime:
     """
-    Trả về thời gian UTC có timezone.
-
-    Sử dụng thay cho datetime.utcnow() để tránh tạo datetime
-    không có thông tin múi giờ.
+    Trả về thời gian UTC có thông tin múi giờ.
     """
+
     return datetime.now(timezone.utc)
 
 
@@ -36,10 +38,14 @@ def utc_now() -> datetime:
 
 class PasswordResetToken(Base):
     """
-    Token dùng để đặt lại mật khẩu người dùng.
+    Token dùng để đặt lại mật khẩu.
+
+    Mỗi token thuộc về đúng một User.
+    Khi User bị xóa, các token liên quan cũng bị xóa.
     """
 
     __tablename__ = "password_reset_tokens"
+
     __table_args__ = {
         "extend_existing": True,
     }
@@ -63,8 +69,8 @@ class PasswordResetToken(Base):
 
     token = Column(
         String(255),
-        unique=True,
         nullable=False,
+        unique=True,
         index=True,
     )
 
@@ -83,6 +89,7 @@ class PasswordResetToken(Base):
     user = relationship(
         "User",
         back_populates="tokens",
+        foreign_keys=[user_id],
     )
 
     def __repr__(self) -> str:
@@ -101,10 +108,17 @@ class PasswordResetToken(Base):
 
 class Permission(Base):
     """
-    Quyền truy cập trong hệ thống.
+    Quyền thực hiện một hành động trong hệ thống.
+
+    Ví dụ:
+    - users.read
+    - users.create
+    - projects.update
+    - payments.manage
     """
 
     __tablename__ = "permissions"
+
     __table_args__ = {
         "extend_existing": True,
     }
@@ -118,8 +132,8 @@ class Permission(Base):
 
     name = Column(
         String(100),
-        unique=True,
         nullable=False,
+        unique=True,
         index=True,
     )
 
@@ -165,6 +179,7 @@ class Role(Base):
     """
 
     __tablename__ = "roles"
+
     __table_args__ = {
         "extend_existing": True,
     }
@@ -178,8 +193,8 @@ class Role(Base):
 
     name = Column(
         String(50),
-        unique=True,
         nullable=False,
+        unique=True,
         index=True,
     )
 
@@ -223,17 +238,45 @@ class Role(Base):
 
 class User(Base):
     """
-    Tài khoản người dùng chung của hệ thống.
+    Tài khoản chung của hệ thống AITasker.
 
     Hồ sơ nghiệp vụ chi tiết được lưu tại:
-    - Enterprise
-    - Expert
+
+    - Enterprise: nếu tài khoản thuộc doanh nghiệp.
+    - Expert: nếu tài khoản thuộc chuyên gia AI.
+
+    Quan hệ ví:
+
+        User
+          └── Wallet
+                ├── WalletTransaction
+                └── Withdrawal
+
+    Quan hệ ServiceOrder:
+
+        User
+          ├── Enterprise
+          │     └── ServiceOrder
+          │
+          └── Expert
+                └── ServiceOrder
+
+    Vì vậy User không khai báo trực tiếp:
+
+    - wallet_transactions
+    - withdrawals
+    - service_orders
     """
 
     __tablename__ = "users"
+
     __table_args__ = {
         "extend_existing": True,
     }
+
+    # ======================================================
+    # PRIMARY KEY
+    # ======================================================
 
     id = Column(
         UUID(as_uuid=True),
@@ -242,17 +285,21 @@ class User(Base):
         index=True,
     )
 
+    # ======================================================
+    # ACCOUNT INFORMATION
+    # ======================================================
+
     username = Column(
         String(50),
-        unique=True,
         nullable=False,
+        unique=True,
         index=True,
     )
 
     email = Column(
         String(120),
-        unique=True,
         nullable=False,
+        unique=True,
         index=True,
     )
 
@@ -288,40 +335,89 @@ class User(Base):
     tokens = relationship(
         "PasswordResetToken",
         back_populates="user",
+        foreign_keys="PasswordResetToken.user_id",
         cascade="all, delete-orphan",
         passive_deletes=True,
         lazy="selectin",
     )
 
     # ======================================================
-    # PROFILE RELATIONSHIPS
+    # ENTERPRISE PROFILE
+    #
+    # Enterprise phải có:
+    #
+    # user_id = Column(
+    #     UUID(as_uuid=True),
+    #     ForeignKey("users.id", ondelete="CASCADE"),
+    #     unique=True,
+    # )
     # ======================================================
 
     enterprise = relationship(
         "Enterprise",
         back_populates="user",
+        foreign_keys="Enterprise.user_id",
         uselist=False,
-        cascade="all, delete-orphan",
-        passive_deletes=True,
-        lazy="selectin",
-    )
-
-    expert = relationship(
-        "Expert",
-        back_populates="user",
-        uselist=False,
+        single_parent=True,
         cascade="all, delete-orphan",
         passive_deletes=True,
         lazy="selectin",
     )
 
     # ======================================================
-    # NOTIFICATION RELATIONSHIP
+    # EXPERT PROFILE
+    #
+    # Expert phải có:
+    #
+    # user_id = Column(
+    #     UUID(as_uuid=True),
+    #     ForeignKey("users.id", ondelete="CASCADE"),
+    #     unique=True,
+    # )
+    # ======================================================
+
+    expert = relationship(
+        "Expert",
+        back_populates="user",
+        foreign_keys="Expert.user_id",
+        uselist=False,
+        single_parent=True,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    # ======================================================
+    # WALLET
+    #
+    # Giao dịch được truy cập bằng:
+    #
+    # user.wallet.transactions
+    #
+    # Yêu cầu rút tiền được truy cập bằng:
+    #
+    # user.wallet.withdrawals
+    # ======================================================
+
+    wallet = relationship(
+        "Wallet",
+        back_populates="user",
+        foreign_keys="Wallet.user_id",
+        uselist=False,
+        single_parent=True,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        lazy="selectin",
+    )
+
+    # ======================================================
+    # NOTIFICATIONS
     # ======================================================
 
     notifications = relationship(
         "Notification",
         back_populates="user",
+        foreign_keys="Notification.user_id",
         cascade="all, delete-orphan",
         passive_deletes=True,
         lazy="selectin",
@@ -329,30 +425,14 @@ class User(Base):
     )
 
     # ======================================================
-    # WALLET RELATIONSHIPS
+    # WITHDRAWALS
+    # Withdrawal liên kết trực tiếp với User và Wallet.
     # ======================================================
-
-    wallet = relationship(
-        "Wallet",
-        back_populates="user",
-        uselist=False,
-        cascade="all, delete-orphan",
-        passive_deletes=True,
-        lazy="selectin",
-    )
-
-    wallet_transactions = relationship(
-        "WalletTransaction",
-        back_populates="user",
-        cascade="all, delete-orphan",
-        passive_deletes=True,
-        lazy="selectin",
-        order_by="WalletTransaction.created_at.desc()",
-    )
 
     withdrawals = relationship(
         "Withdrawal",
         back_populates="user",
+        foreign_keys="Withdrawal.user_id",
         cascade="all, delete-orphan",
         passive_deletes=True,
         lazy="selectin",
@@ -360,7 +440,7 @@ class User(Base):
     )
 
     # ======================================================
-    # DISPUTE RELATIONSHIPS
+    # DISPUTES
     # ======================================================
 
     opened_disputes = relationship(
@@ -387,28 +467,8 @@ class User(Base):
     )
 
     # ======================================================
-    # SERVICE ORDER RELATIONSHIPS
+    # REPRESENTATION
     # ======================================================
-
-    service_orders = relationship(
-        "ServiceOrder",
-        back_populates="customer",
-        cascade="all, delete-orphan",
-        passive_deletes=True,
-        lazy="selectin",
-    )
-
-    # ======================================================
-    # RECOMMENDATION RELATIONSHIPS
-    # ======================================================
-
-    recommendations = relationship(
-        "Recommendation",
-        back_populates="user",
-        cascade="all, delete-orphan",
-        passive_deletes=True,
-        lazy="selectin",
-    )
 
     def __repr__(self) -> str:
         return (

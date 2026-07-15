@@ -1,4 +1,5 @@
-from sqlalchemy import Column, ForeignKey, Integer, Table
+from sqlalchemy import Column, ForeignKey, Table
+from sqlalchemy.dialects.postgresql import UUID
 
 # ĐÃ SỬA: Thêm 'backend.' vào trước đường dẫn để đồng nhất với toàn bộ hệ thống
 from backend.src.config.database import Base
@@ -11,13 +12,13 @@ user_roles = Table(
     Base.metadata,
     Column(
         "user_id",
-        Integer,
+        UUID(as_uuid=True),
         ForeignKey("users.id", ondelete="CASCADE"),
         primary_key=True,
     ),
     Column(
         "role_id",
-        Integer,
+        UUID(as_uuid=True),
         ForeignKey("roles.id", ondelete="CASCADE"),
         primary_key=True,
     ),
@@ -31,13 +32,13 @@ role_permissions = Table(
     Base.metadata,
     Column(
         "role_id",
-        Integer,
+        UUID(as_uuid=True),
         ForeignKey("roles.id", ondelete="CASCADE"),
         primary_key=True,
     ),
     Column(
         "permission_id",
-        Integer,
+        UUID(as_uuid=True),
         ForeignKey("permissions.id", ondelete="CASCADE"),
         primary_key=True,
     ),

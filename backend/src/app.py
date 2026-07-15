@@ -10,8 +10,8 @@ Công nghệ:
 
 Quy ước router:
 - app.py chỉ thêm prefix /api đúng một lần.
-- all_routes.py thêm prefix tài nguyên.
-- các file *_routes.py không tự khai báo prefix.
+- presentation/router thêm prefix tài nguyên.
+- các file *_routes.py không tự thêm lại /api.
 """
 
 from __future__ import annotations
@@ -20,6 +20,7 @@ import logging
 import os
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, Request, status
@@ -53,15 +54,39 @@ load_dotenv(
 
 
 # ==========================================================
-# STATIC DIRECTORY
+# ENVIRONMENT
 # ==========================================================
 
-STATIC_DIRECTORY = Path(
+APP_ENV = os.getenv(
+    "APP_ENV",
+    "development",
+).strip().lower()
+
+IS_DEVELOPMENT = APP_ENV in {
+    "development",
+    "dev",
+    "local",
+}
+
+HOST = os.getenv(
+    "HOST",
+    "127.0.0.1",
+)
+
+PORT = int(
     os.getenv(
-        "STATIC_DIR",
-        str(PROJECT_ROOT / "static"),
+        "PORT",
+        "8000",
     )
-).resolve()
+)
+
+RELOAD = (
+    os.getenv(
+        "RELOAD",
+        "true",
+    ).strip().lower()
+    == "true"
+)
 
 
 # ==========================================================
@@ -74,7 +99,11 @@ LOG_LEVEL = os.getenv(
 ).upper()
 
 logging.basicConfig(
-    level=getattr(logging, LOG_LEVEL, logging.INFO),
+    level=getattr(
+        logging,
+        LOG_LEVEL,
+        logging.INFO,
+    ),
     format=(
         "%(asctime)s | "
         "%(levelname)s | "
@@ -87,6 +116,23 @@ logger = logging.getLogger("AITasker")
 
 
 # ==========================================================
+# STATIC DIRECTORY
+# ==========================================================
+
+STATIC_DIRECTORY = Path(
+    os.getenv(
+        "STATIC_DIR",
+        str(PROJECT_ROOT / "static"),
+    )
+).resolve()
+
+STATIC_DIRECTORY.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+
+
+# ==========================================================
 # DATABASE
 # ==========================================================
 
@@ -96,8 +142,8 @@ from backend.src.config.database import get_db, init_db
 # ==========================================================
 # IMPORT SQLALCHEMY MODELS
 #
-# Các model phải được import trước khi init_db() chạy để
-# SQLAlchemy đăng ký đầy đủ bảng và quan hệ trong metadata.
+# Các model phải được import trước init_db() để SQLAlchemy
+# đăng ký đầy đủ bảng, khóa ngoại và relationship.
 # ==========================================================
 
 import backend.src.models.association
@@ -117,12 +163,12 @@ try:
 except ModuleNotFoundError:
     logger.warning(
         "Không tìm thấy backend.src.models.payment. "
-        "Chức năng Payment có thể chưa hoạt động đầy đủ."
+        "Chức năng Payment có thể chưa hoạt động."
     )
 
 
 # ==========================================================
-# APPLICATION ROUTER
+# ROUTER
 # ==========================================================
 
 from backend.src.presentation import router as api_router
@@ -136,32 +182,38 @@ from backend.src.domain.exceptions import AppError
 
 
 # ==========================================================
-# CORS HELPERS
+# CORS CONFIGURATION
 # ==========================================================
 
 def get_allowed_origins() -> list[str]:
     """
-    Đọc danh sách CORS origins từ biến CORS_ORIGINS trong .env.
+    Đọc danh sách origin từ biến CORS_ORIGINS.
 
-    Ví dụ:
+    Ví dụ trong .env:
+
     CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
     """
 
-    raw_origins = os.getenv(
-        "CORS_ORIGINS",
-        (
-            "http://localhost:5173,"
-            "http://127.0.0.1:5173,"
-            "http://localhost:5000,"
-            "http://127.0.0.1:5000"
-        ),
+    default_origins = (
+        "http://localhost:5173,"
+        "http://127.0.0.1:5173"
     )
 
-    return [
-        origin.strip()
+    raw_origins = os.getenv(
+        "CORS_ORIGINS",
+        default_origins,
+    )
+
+    origins = [
+        origin.strip().rstrip("/")
         for origin in raw_origins.split(",")
         if origin.strip()
     ]
+
+    return list(dict.fromkeys(origins))
+
+
+ALLOWED_ORIGINS = get_allowed_origins()
 
 
 # ==========================================================
@@ -169,14 +221,19 @@ def get_allowed_origins() -> list[str]:
 # ==========================================================
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_: FastAPI):
     """
-    Xử lý công việc khi FastAPI khởi động và kết thúc.
+    Công việc được thực hiện khi backend khởi động và dừng.
     """
 
-    logger.info("=" * 60)
+    logger.info("=" * 70)
     logger.info("Starting AITasker Backend...")
-    logger.info("=" * 60)
+    logger.info("Environment: %s", APP_ENV)
+    logger.info("Project root: %s", PROJECT_ROOT)
+    logger.info("Environment file: %s", ENV_FILE)
+    logger.info("Static directory: %s", STATIC_DIRECTORY)
+    logger.info("Allowed origins: %s", ALLOWED_ORIGINS)
+    logger.info("=" * 70)
 
     try:
         init_db()
@@ -186,21 +243,25 @@ async def lifespan(app: FastAPI):
             "Database initialization failed: %s",
             exc,
         )
-        # Không raise để Swagger và endpoint health vẫn có thể
-        # khởi động, giúp kiểm tra lỗi cấu hình hoặc database.
+
+        # Không raise tại đây để /docs, /health và /api/ping
+        # vẫn có thể hoạt động phục vụ việc kiểm tra lỗi.
 
     yield
 
-    logger.info("=" * 60)
+    logger.info("=" * 70)
     logger.info("AITasker Backend stopped.")
-    logger.info("=" * 60)
+    logger.info("=" * 70)
 
 
 # ==========================================================
-# CREATE FASTAPI APPLICATION
+# CREATE INTERNAL FASTAPI APPLICATION
+#
+# Dùng internal_app để sau cùng bọc toàn bộ ứng dụng bằng
+# CORSMiddleware. Cách này bảo đảm lỗi 500 vẫn có header CORS.
 # ==========================================================
 
-app = FastAPI(
+internal_app = FastAPI(
     title="AITasker Backend API",
     version="4.0.0",
     description=(
@@ -222,17 +283,21 @@ app = FastAPI(
         {
             "name": "AI Chatbot",
             "description": (
-                "Trợ lý AI đọc dữ liệu thật từ PostgreSQL "
-                "và sử dụng Gemini để diễn giải."
+                "Trợ lý AI sử dụng dữ liệu PostgreSQL "
+                "và Gemini để hỗ trợ người dùng."
             ),
         },
         {
             "name": "Authentication",
-            "description": "Đăng ký, đăng nhập và đặt lại mật khẩu.",
+            "description": (
+                "Đăng ký, đăng nhập và đặt lại mật khẩu."
+            ),
         },
         {
             "name": "Users",
-            "description": "Quản lý tài khoản và hồ sơ người dùng.",
+            "description": (
+                "Quản lý tài khoản và hồ sơ người dùng."
+            ),
         },
         {
             "name": "Projects",
@@ -280,36 +345,19 @@ app = FastAPI(
         },
         {
             "name": "Uploads",
-            "description": "Tải avatar, logo, CV và portfolio.",
+            "description": (
+                "Tải avatar, logo, CV và portfolio."
+            ),
         },
     ],
 )
 
 
 # ==========================================================
-# CORS MIDDLEWARE
-# ==========================================================
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=get_allowed_origins(),
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# ==========================================================
 # SESSION MIDDLEWARE
-#
-# Chatbot dùng session để nhớ đối tượng được hỏi trước đó.
-# Frontend phải bật credentials:
-# - Axios: withCredentials: true
-# - fetch: credentials: "include"
 # ==========================================================
 
-app.add_middleware(
+internal_app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv(
         "SECRET_KEY",
@@ -333,7 +381,7 @@ app.add_middleware(
         os.getenv(
             "SESSION_HTTPS_ONLY",
             "false",
-        ).lower()
+        ).strip().lower()
         == "true"
     ),
 )
@@ -343,12 +391,7 @@ app.add_middleware(
 # STATIC FILES
 # ==========================================================
 
-STATIC_DIRECTORY.mkdir(
-    parents=True,
-    exist_ok=True,
-)
-
-app.mount(
+internal_app.mount(
     "/static",
     StaticFiles(
         directory=str(STATIC_DIRECTORY),
@@ -361,11 +404,11 @@ app.mount(
 # EXCEPTION HANDLER: APPLICATION ERROR
 # ==========================================================
 
-@app.exception_handler(AppError)
+@internal_app.exception_handler(AppError)
 async def app_error_handler(
     request: Request,
     exc: AppError,
-):
+) -> JSONResponse:
     logger.warning(
         "%s %s -> %s",
         request.method,
@@ -378,6 +421,7 @@ async def app_error_handler(
         content={
             "success": False,
             "message": exc.detail,
+            "error_type": type(exc).__name__,
         },
     )
 
@@ -386,23 +430,41 @@ async def app_error_handler(
 # EXCEPTION HANDLER: GLOBAL ERROR
 # ==========================================================
 
-@app.exception_handler(Exception)
+@internal_app.exception_handler(Exception)
 async def global_exception_handler(
     request: Request,
     exc: Exception,
-):
+) -> JSONResponse:
+    """
+    Ghi đầy đủ traceback vào terminal.
+
+    Trong development:
+    - Trả message thật để dễ sửa lỗi.
+
+    Trong production:
+    - Chỉ trả thông báo chung để không lộ thông tin hệ thống.
+    """
+
     logger.exception(
         "Unhandled error at %s %s",
         request.method,
         request.url.path,
     )
 
+    content: dict[str, Any] = {
+        "success": False,
+        "message": "Internal Server Error",
+        "error_type": type(exc).__name__,
+    }
+
+    if IS_DEVELOPMENT:
+        content["message"] = str(exc)
+        content["path"] = request.url.path
+        content["method"] = request.method
+
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={
-            "success": False,
-            "message": "Internal Server Error",
-        },
+        content=content,
     )
 
 
@@ -410,18 +472,20 @@ async def global_exception_handler(
 # ROOT ENDPOINT
 # ==========================================================
 
-@app.get(
+@internal_app.get(
     "/",
     tags=["System"],
     summary="Thông tin ứng dụng",
 )
-async def root():
+async def root() -> dict[str, Any]:
     return {
         "success": True,
         "application": "AITasker Backend",
         "version": "4.0.0",
         "status": "running",
+        "environment": APP_ENV,
         "documentation": "/docs",
+        "redoc": "/redoc",
         "api_prefix": "/api",
     }
 
@@ -430,90 +494,134 @@ async def root():
 # HEALTH CHECK
 # ==========================================================
 
-@app.get(
+@internal_app.get(
     "/health",
     tags=["System"],
     summary="Kiểm tra trạng thái backend",
 )
 def health_check(
     db: Session = Depends(get_db),
-):
+) -> dict[str, Any]:
     database_status = "disconnected"
+    database_error: str | None = None
 
     try:
         db.execute(text("SELECT 1"))
         database_status = "connected"
+
     except Exception as exc:
         db.rollback()
+
+        database_error = str(exc)
+
         logger.exception(
             "Database health check failed: %s",
             exc,
         )
 
-    gemini_status = (
-        "configured"
-        if os.getenv("GEMINI_API_KEY")
-        else "disabled"
-    )
-
-    return {
-        "success": True,
-        "status": "ok",
-        "database": database_status,
-        "gemini": gemini_status,
-        "environment": os.getenv(
-            "APP_ENV",
-            "development",
+    response: dict[str, Any] = {
+        "success": database_status == "connected",
+        "status": (
+            "ok"
+            if database_status == "connected"
+            else "degraded"
         ),
+        "database": database_status,
+        "gemini": (
+            "configured"
+            if os.getenv("GEMINI_API_KEY")
+            else "disabled"
+        ),
+        "environment": APP_ENV,
     }
+
+    if IS_DEVELOPMENT and database_error:
+        response["database_error"] = database_error
+
+    return response
 
 
 # ==========================================================
 # API PING
 # ==========================================================
 
-@app.get(
+@internal_app.get(
     "/api/ping",
     tags=["System"],
     summary="Kiểm tra API",
 )
-async def ping():
+async def ping() -> dict[str, Any]:
     return {
         "success": True,
         "message": "pong",
+        "environment": APP_ENV,
     }
 
 
 # ==========================================================
-# INCLUDE ALL BUSINESS ROUTERS
+# INCLUDE BUSINESS ROUTERS
 #
 # Prefix /api chỉ được thêm tại đây.
 #
 # Ví dụ:
-# app.py:        /api
-# all_routes.py: /projects
-# project route: ""
+# app.py:            /api
+# presentation:      /projects
+# project_routes.py: /
 #
-# Endpoint cuối: /api/projects
+# Endpoint cuối:
+# /api/projects
 # ==========================================================
 
-app.include_router(
+internal_app.include_router(
     api_router,
     prefix="/api",
 )
 
 
 # ==========================================================
-# STARTUP INFORMATION
+# WRAP ENTIRE APPLICATION WITH CORS
+#
+# Không dùng internal_app.add_middleware(CORSMiddleware, ...)
+# ở đây.
+#
+# Bọc toàn bộ application giúp response lỗi 500 vẫn có:
+# Access-Control-Allow-Origin
 # ==========================================================
 
-logger.info("=" * 60)
+app = CORSMiddleware(
+    app=internal_app,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=(
+        r"^https?://"
+        r"(localhost|127\.0\.0\.1)"
+        r"(:\d+)?$"
+    ),
+    allow_credentials=True,
+    allow_methods=[
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS",
+    ],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+
+
+# ==========================================================
+# STARTUP CONFIGURATION LOG
+# ==========================================================
+
+logger.info("=" * 70)
 logger.info("AITasker Backend configured successfully.")
+logger.info("Application environment: %s", APP_ENV)
 logger.info("Project root: %s", PROJECT_ROOT)
 logger.info("Environment file: %s", ENV_FILE)
 logger.info("Static directory: %s", STATIC_DIRECTORY)
-logger.info("Allowed origins: %s", get_allowed_origins())
-logger.info("=" * 60)
+logger.info("Allowed origins: %s", ALLOWED_ORIGINS)
+logger.info("=" * 70)
 
 
 # ==========================================================
@@ -525,23 +633,9 @@ if __name__ == "__main__":
 
     uvicorn.run(
         "backend.src.app:app",
-        host=os.getenv(
-            "HOST",
-            "127.0.0.1",
-        ),
-        port=int(
-            os.getenv(
-                "PORT",
-                "8000",
-            )
-        ),
-        reload=(
-            os.getenv(
-                "RELOAD",
-                "true",
-            ).lower()
-            == "true"
-        ),
+        host=HOST,
+        port=PORT,
+        reload=RELOAD,
         log_level=os.getenv(
             "UVICORN_LOG_LEVEL",
             "info",

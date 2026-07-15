@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from fastapi import (
     APIRouter,
@@ -21,15 +22,59 @@ from backend.src.schemas.auth import (
 from backend.src.services.auth_service import auth_service
 
 
-logger = logging.getLogger(
-    "AITasker.AuthRoutes"
-)
+# ==========================================================
+# LOGGING
+# ==========================================================
 
+logger = logging.getLogger("AITasker.AuthRoutes")
+
+
+# ==========================================================
+# ROUTER
+#
+# Không thêm prefix="/auth" tại đây.
+#
+# Prefix được ghép như sau:
+#
+# app.py:
+#     /api
+#
+# all_routes.py:
+#     /auth
+#
+# auth_routes.py:
+#     /login
+#
+# Endpoint cuối:
+#     /api/auth/login
+# ==========================================================
 
 router = APIRouter(
-    prefix="/auth",
     tags=["Authentication"],
 )
+
+
+# ==========================================================
+# RESPONSE HELPERS
+# ==========================================================
+
+def success_response(
+    message: str,
+    data: Any | None = None,
+) -> dict[str, Any]:
+    """
+    Chuẩn hóa response thành công.
+    """
+
+    response: dict[str, Any] = {
+        "success": True,
+        "message": message,
+    }
+
+    if data is not None:
+        response["data"] = data
+
+    return response
 
 
 # ==========================================================
@@ -44,11 +89,11 @@ router = APIRouter(
 def register(
     data: UserCreate,
     db: Session = Depends(get_db),
-) -> dict:
+) -> dict[str, Any]:
     """
     Đăng ký tài khoản mới.
 
-    Vai trò cho phép:
+    Vai trò được hỗ trợ:
     - ENTERPRISE
     - EXPERT
     """
@@ -59,21 +104,20 @@ def register(
             data=data,
         )
 
-        return {
-            "success": True,
-            "message": "Đăng ký tài khoản thành công.",
-            "data": {
+        return success_response(
+            message="Đăng ký tài khoản thành công.",
+            data={
                 "id": str(user.id),
                 "username": user.username,
                 "email": user.email,
                 "is_active": user.is_active,
-                "roles": auth_service.get_role_names(
-                    user
-                ),
+                "roles": auth_service.get_role_names(user),
             },
-        }
+        )
 
     except ValueError as exc:
+        db.rollback()
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
@@ -88,7 +132,10 @@ def register(
 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Không thể đăng ký tài khoản do lỗi cơ sở dữ liệu.",
+            detail=(
+                "Không thể đăng ký tài khoản "
+                "do lỗi cơ sở dữ liệu."
+            ),
         ) from exc
 
     except Exception as exc:
@@ -116,11 +163,14 @@ def register(
 def login(
     data: LoginRequest,
     db: Session = Depends(get_db),
-) -> dict:
+) -> dict[str, Any]:
     """
-    Xác thực người dùng bằng email và mật khẩu.
+    Xác thực người dùng.
 
-    Nếu thành công, hệ thống trả về JWT Access Token.
+    Nếu thành công, hệ thống trả về:
+    - access token
+    - token type
+    - thông tin người dùng
     """
 
     try:
@@ -132,17 +182,19 @@ def login(
         if result is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Email hoặc mật khẩu không chính xác.",
+                detail=(
+                    "Tài khoản hoặc mật khẩu "
+                    "không chính xác."
+                ),
                 headers={
                     "WWW-Authenticate": "Bearer",
                 },
             )
 
-        return {
-            "success": True,
-            "message": "Đăng nhập thành công.",
-            "data": result,
-        }
+        return success_response(
+            message="Đăng nhập thành công.",
+            data=result,
+        )
 
     except HTTPException:
         raise
@@ -154,13 +206,18 @@ def login(
         ) from exc
 
     except SQLAlchemyError as exc:
+        db.rollback()
+
         logger.exception(
             "Lỗi cơ sở dữ liệu khi đăng nhập."
         )
 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Không thể đăng nhập do lỗi cơ sở dữ liệu.",
+            detail=(
+                "Không thể đăng nhập "
+                "do lỗi cơ sở dữ liệu."
+            ),
         ) from exc
 
     except Exception as exc:
@@ -186,12 +243,11 @@ def login(
 def forgot_password(
     data: ForgotPasswordRequest,
     db: Session = Depends(get_db),
-) -> dict:
+) -> dict[str, Any]:
     """
-    Tạo JWT Password Reset Token.
+    Tạo token đặt lại mật khẩu.
 
-    Trong môi trường production, token nên được gửi qua email
-    thay vì trả trực tiếp cho người dùng.
+    Không tiết lộ email có tồn tại trong hệ thống hay không.
     """
 
     try:
@@ -200,21 +256,20 @@ def forgot_password(
             email=data.email,
         )
 
-        # Không tiết lộ email có tồn tại hay không.
         if reset_token is None:
-            return {
-                "success": True,
-                "message": (
+            return success_response(
+                message=(
                     "Nếu email tồn tại trong hệ thống, "
                     "hướng dẫn đặt lại mật khẩu sẽ được gửi."
-                ),
-            }
+                )
+            )
 
-        return {
-            "success": True,
-            "message": "Token đặt lại mật khẩu đã được tạo.",
-            "data": {
-                # Chỉ nên trả token trực tiếp khi đang phát triển.
+        return success_response(
+            message=(
+                "Token đặt lại mật khẩu "
+                "đã được tạo."
+            ),
+            data={
                 "reset_token": reset_token,
                 "token_type": "bearer",
                 "expires_in": (
@@ -222,9 +277,17 @@ def forgot_password(
                     * 60
                 ),
             },
-        }
+        )
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        ) from exc
 
     except SQLAlchemyError as exc:
+        db.rollback()
+
         logger.exception(
             "Lỗi cơ sở dữ liệu khi tạo reset token."
         )
@@ -232,8 +295,8 @@ def forgot_password(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=(
-                "Không thể xử lý yêu cầu đặt lại mật khẩu "
-                "do lỗi cơ sở dữ liệu."
+                "Không thể xử lý yêu cầu đặt lại "
+                "mật khẩu do lỗi cơ sở dữ liệu."
             ),
         ) from exc
 
@@ -244,7 +307,10 @@ def forgot_password(
 
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Không thể xử lý yêu cầu đặt lại mật khẩu.",
+            detail=(
+                "Không thể xử lý yêu cầu "
+                "đặt lại mật khẩu."
+            ),
         ) from exc
 
 
@@ -260,36 +326,37 @@ def forgot_password(
 def reset_password(
     data: ResetPasswordRequest,
     db: Session = Depends(get_db),
-) -> dict:
+) -> dict[str, Any]:
     """
-    Đặt lại mật khẩu bằng Password Reset Token.
+    Đặt lại mật khẩu bằng reset token.
     """
 
     try:
-        success = auth_service.reset_password(
+        result = auth_service.reset_password(
             db=db,
             token=data.token,
             new_password=data.new_password,
         )
 
-        if success is False:
+        if result is False:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=(
-                    "Token đặt lại mật khẩu không hợp lệ "
-                    "hoặc đã hết hạn."
+                    "Token đặt lại mật khẩu "
+                    "không hợp lệ hoặc đã hết hạn."
                 ),
             )
 
-        return {
-            "success": True,
-            "message": "Đặt lại mật khẩu thành công.",
-        }
+        return success_response(
+            message="Đặt lại mật khẩu thành công."
+        )
 
     except HTTPException:
         raise
 
     except ValueError as exc:
+        db.rollback()
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
@@ -332,12 +399,23 @@ def reset_password(
     status_code=status.HTTP_200_OK,
     summary="Kiểm tra Authentication API",
 )
-def auth_health_check() -> dict:
+def auth_health_check() -> dict[str, Any]:
     """
-    Kiểm tra nhanh trạng thái hoạt động của Authentication API.
+    Kiểm tra trạng thái Authentication API.
     """
 
-    return {
-        "success": True,
-        "message": "Authentication API is running.",
-    }
+    return success_response(
+        message="Authentication API is running.",
+        data={
+            "endpoints": {
+                "register": "/api/auth/register",
+                "login": "/api/auth/login",
+                "forgot_password": (
+                    "/api/auth/forgot-password"
+                ),
+                "reset_password": (
+                    "/api/auth/reset-password"
+                ),
+            },
+        },
+    )
