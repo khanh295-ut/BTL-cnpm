@@ -1,0 +1,195 @@
+
+% =========================================================
+% Chapter 2 - Overall Description
+% =========================================================
+
+\chapter{Mô tả tổng quan hệ thống}
+\label{chap:overall}
+
+\section{Giới thiệu}
+
+Chương này trình bày tổng quan về hệ thống AITasker, bao gồm góc nhìn sản phẩm, các nhóm người dùng, môi trường hoạt động, các ràng buộc, giả định và các yêu cầu tổng quát. Nội dung chương là cơ sở để hiểu phạm vi của hệ thống trước khi đi vào đặc tả chi tiết các yêu cầu chức năng.
+
+\section{Góc nhìn sản phẩm}
+
+AITasker là một hệ thống Web theo kiến trúc Client--Server.
+
+\begin{itemize}
+\item Frontend được phát triển bằng ReactJS.
+\item Backend được phát triển bằng FastAPI.
+\item PostgreSQL lưu trữ dữ liệu.
+\item JWT được sử dụng để xác thực.
+\item Azure Cloud Storage lưu trữ CV, Portfolio và tệp dự án.
+\item Email Service gửi email xác thực và thông báo.
+\item Payment Gateway xử lý thanh toán trực tuyến.
+\end{itemize}
+
+Hình Context Diagram, Component Diagram, Deployment Diagram và Architecture Diagram trong Chương 6 mô tả chi tiết mối quan hệ giữa các thành phần của hệ thống.
+
+\section{Chức năng chính}
+
+Hệ thống cung cấp các nhóm chức năng sau:
+
+\begin{enumerate}
+\item Quản lý người dùng.
+\item Quản lý doanh nghiệp.
+\item Quản lý chuyên gia AI.
+\item Quản lý dự án.
+\item Quản lý đề xuất (Proposal).
+\item Quản lý hợp đồng (Contract).
+\item Quản lý Milestone.
+\item Thanh toán trực tuyến.
+\item Nhắn tin giữa các bên.
+\item Đánh giá sau khi hoàn thành hợp đồng.
+\item Quản lý thông báo.
+\item Upload và quản lý tài liệu.
+\item Báo cáo và thống kê.
+\end{enumerate}
+
+\section{Nhóm người dùng}
+
+\subsection{Doanh nghiệp}
+
+Doanh nghiệp là khách hàng đăng dự án và thuê chuyên gia AI.
+
+Quyền chính:
+
+\begin{itemize}
+\item Đăng ký và đăng nhập.
+\item Quản lý hồ sơ.
+\item Tạo dự án.
+\item Quản lý proposal.
+\item Thuê chuyên gia.
+\item Quản lý milestone.
+\item Thanh toán.
+\item Đánh giá chuyên gia.
+\end{itemize}
+
+\subsection{Chuyên gia AI}
+
+Chuyên gia AI là người cung cấp dịch vụ.
+
+Có thể:
+
+\begin{itemize}
+\item Quản lý hồ sơ.
+\item Quản lý kỹ năng.
+\item Tìm kiếm dự án.
+\item Gửi proposal.
+\item Thực hiện milestone.
+\item Trao đổi với doanh nghiệp.
+\item Theo dõi thanh toán.
+\item Đánh giá doanh nghiệp.
+\end{itemize}
+
+\subsection{Quản trị viên}
+
+Quản trị viên quản lý toàn bộ hệ thống.
+
+Bao gồm:
+
+\begin{itemize}
+\item Quản lý người dùng.
+\item Quản lý danh mục.
+\item Quản lý dự án.
+\item Quản lý hợp đồng.
+\item Quản lý báo cáo.
+\item Khóa tài khoản.
+\item Theo dõi hoạt động hệ thống.
+\end{itemize}
+
+\section{Môi trường hoạt động}
+
+\begin{table}[H]
+\centering
+\caption{Môi trường triển khai}
+\begin{tabular}{|p{5cm}|p{9cm}|}
+\hline
+Frontend & ReactJS \\ \hline
+Backend & FastAPI (Python) \\ \hline
+ORM & SQLAlchemy \\ \hline
+Database & PostgreSQL \\ \hline
+Authentication & JWT + BCrypt \\ \hline
+API & REST API \\ \hline
+Storage & Azure Blob Storage \\ \hline
+Notification & SMTP Email Service \\ \hline
+Payment & Payment Gateway \\ \hline
+Version Control & Git + GitHub \\ \hline
+IDE & Visual Studio Code \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Ràng buộc hệ thống}
+
+\begin{itemize}
+\item Toàn bộ giao tiếp sử dụng HTTPS.
+\item API tuân theo RESTful.
+\item Mỗi Proposal chỉ thuộc một Project.
+\item Một Project chỉ có một Contract đang hoạt động.
+\item Chỉ thanh toán Milestone ở trạng thái DONE.
+\item Review chỉ được tạo khi Contract COMPLETED.
+\item Mật khẩu luôn được băm bằng BCrypt.
+\item Token đăng nhập sử dụng JWT.
+\end{itemize}
+
+\section{Giả định}
+
+\begin{itemize}
+\item Người dùng có kết nối Internet.
+\item Email người dùng hợp lệ.
+\item Cổng thanh toán hoạt động bình thường.
+\item Azure Storage sẵn sàng.
+\item PostgreSQL hoạt động ổn định.
+\end{itemize}
+
+\section{Đặc điểm người dùng}
+
+\begin{table}[H]
+\centering
+\caption{Đặc điểm người dùng}
+\begin{tabular}{|p{4cm}|p{3cm}|p{7cm}|}
+\hline
+Nhóm & Trình độ & Đặc điểm \\ \hline
+Doanh nghiệp & Trung bình & Quản lý dự án AI \\ \hline
+Chuyên gia AI & Cao & Có kỹ năng AI và CNTT \\ \hline
+Quản trị viên & Cao & Quản trị hệ thống \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Quy tắc nghiệp vụ}
+
+\begin{itemize}
+\item BR-001: Email là duy nhất.
+\item BR-002: Mỗi chuyên gia chỉ gửi một Proposal cho một Project.
+\item BR-003: Chấp nhận Proposal sẽ tự động từ chối Proposal còn lại.
+\item BR-004: Contract được tạo sau khi Proposal được chấp nhận.
+\item BR-005: Milestone phải hoàn thành trước khi thanh toán.
+\item BR-006: Review chỉ được đánh giá một lần.
+\item BR-007: Chỉ Admin mới được khóa tài khoản.
+\end{itemize}
+
+\section{Yêu cầu tổng quát}
+
+\subsection{Hiệu năng}
+
+\begin{itemize}
+\item Thời gian phản hồi nhỏ hơn 3 giây.
+\item Hỗ trợ tối thiểu 500 người dùng đồng thời.
+\end{itemize}
+
+\subsection{Bảo mật}
+
+\begin{itemize}
+\item JWT Authentication.
+\item BCrypt Password Hashing.
+\item RBAC.
+\item HTTPS.
+\end{itemize}
+
+\subsection{Khả năng mở rộng}
+
+Hệ thống được thiết kế theo kiến trúc module, cho phép bổ sung dịch vụ AI Recommendation, Chatbot hoặc Mobile App trong tương lai mà không ảnh hưởng đến các thành phần hiện tại.
+
+\section{Kết luận}
+
+AITasker là nền tảng quản lý toàn bộ vòng đời của dự án AI từ đăng dự án, gửi đề xuất, ký hợp đồng, quản lý milestone, thanh toán đến đánh giá. Kiến trúc module giúp hệ thống dễ mở rộng, bảo trì và đáp ứng yêu cầu triển khai thực tế.

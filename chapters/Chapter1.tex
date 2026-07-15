@@ -1,0 +1,274 @@
+% =========================================================
+% Chapter 1 - Introduction
+% Project: AITasker
+% =========================================================
+
+\chapter{Giới thiệu}
+\label{chap:introduction}
+
+\section{Tổng quan dự án}
+\label{sec:project-overview}
+
+AITasker là nền tảng kết nối doanh nghiệp có nhu cầu triển khai các giải pháp tự động hóa bằng trí tuệ nhân tạo với đội ngũ chuyên gia AI phù hợp. Hệ thống hỗ trợ toàn bộ quy trình từ đăng ký tài khoản, tạo hồ sơ, đăng dự án, gửi đề xuất, lựa chọn chuyên gia, ký kết hợp đồng, quản lý mốc công việc, thanh toán, trao đổi thông tin và đánh giá sau khi hoàn thành dự án.
+
+Mục tiêu của AITasker là xây dựng một môi trường làm việc trực tuyến minh bạch, có cấu trúc và thuận tiện cho cả doanh nghiệp lẫn chuyên gia. Doanh nghiệp có thể mô tả yêu cầu, ngân sách, thời hạn và lựa chọn chuyên gia dựa trên hồ sơ, kỹ năng, kinh nghiệm và đề xuất nhận được. Chuyên gia có thể tìm kiếm các dự án phù hợp, gửi đề xuất, theo dõi hợp đồng, cập nhật tiến độ và nhận đánh giá sau khi hoàn thành công việc.
+
+Phiên bản hiện tại của hệ thống được phát triển dưới dạng ứng dụng web với ReactJS ở phía giao diện, FastAPI ở phía máy chủ và PostgreSQL làm hệ quản trị cơ sở dữ liệu. Hệ thống sử dụng JWT cho xác thực, BCrypt để băm mật khẩu, SQLAlchemy để ánh xạ đối tượng--quan hệ và hỗ trợ tích hợp với dịch vụ lưu trữ tệp, dịch vụ email và cổng thanh toán.
+
+\section{Thông tin dự án}
+\label{sec:project-information}
+
+\begin{table}[H]
+    \centering
+    \caption{Thông tin chung của dự án}
+    \label{tab:project-information}
+    \begin{tabular}{|p{4.2cm}|p{9.2cm}|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Nội dung} \\ \hline
+        Tên dự án & AITasker \\ \hline
+        Tên tiếng Việt & Nền tảng kết nối chuyên gia AI và doanh nghiệp cần tự động hóa bằng AI \\ \hline
+        Tên tiếng Anh & AI Marketplace Platform for AI Automation Services \\ \hline
+        Loại phần mềm & Ứng dụng web \\ \hline
+        Nhóm người dùng chính & Doanh nghiệp, Chuyên gia AI, Quản trị viên \\ \hline
+        Công nghệ Frontend & ReactJS \\ \hline
+        Công nghệ Backend & FastAPI, Python \\ \hline
+        Cơ sở dữ liệu & PostgreSQL \\ \hline
+        Cơ chế xác thực & JWT, BCrypt, phân quyền theo vai trò \\ \hline
+        Công cụ phát triển & Visual Studio Code, Git, GitHub, PostgreSQL, PlantUML \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Bối cảnh sản phẩm}
+\label{sec:product-background}
+
+Nhu cầu tự động hóa quy trình bằng AI đang tăng nhanh trong nhiều lĩnh vực như chăm sóc khách hàng, phân tích dữ liệu, xử lý tài liệu, tạo nội dung, dự báo, nhận dạng hình ảnh và tối ưu vận hành. Tuy nhiên, nhiều doanh nghiệp gặp khó khăn khi tìm kiếm chuyên gia phù hợp, xác định phạm vi công việc, đánh giá đề xuất, theo dõi tiến độ và kiểm soát thanh toán.
+
+Ở chiều ngược lại, các chuyên gia AI thường gặp khó khăn trong việc tiếp cận khách hàng tiềm năng, chứng minh năng lực, quản lý hợp đồng và theo dõi lịch sử dự án. Quá trình kết nối hiện nay thường diễn ra rời rạc qua mạng xã hội, email hoặc các nền tảng việc làm chung, chưa tối ưu riêng cho dự án AI.
+
+AITasker được xây dựng để giải quyết các hạn chế trên bằng cách tập trung toàn bộ vòng đời của một dự án AI trên cùng một hệ thống. Nền tảng cung cấp cơ chế quản lý dự án, đề xuất, hợp đồng, mốc công việc, thanh toán, trao đổi và đánh giá trong một quy trình thống nhất.
+
+\section{Hệ thống hiện có và hạn chế}
+\label{sec:existing-systems}
+
+Một số nền tảng việc làm tự do và tuyển dụng trực tuyến hiện nay hỗ trợ đăng việc, gửi đề xuất và trao đổi giữa khách hàng với người thực hiện. Tuy nhiên, khi áp dụng cho các dự án AI, các hệ thống này vẫn tồn tại một số hạn chế:
+
+\begin{itemize}
+    \item Chưa tập trung vào lĩnh vực AI và tự động hóa.
+    \item Chưa hỗ trợ phân loại dự án theo nhóm kỹ năng AI chuyên biệt.
+    \item Việc quản lý mốc công việc và thanh toán theo từng giai đoạn còn hạn chế.
+    \item Chưa thể hiện rõ mối quan hệ giữa đề xuất, hợp đồng, milestone và thanh toán.
+    \item Cơ chế đánh giá chuyên gia và doanh nghiệp chưa gắn chặt với hợp đồng đã hoàn thành.
+    \item Khả năng quản lý tài liệu dự án, CV và portfolio chưa đồng nhất.
+    \item Thiếu chức năng thống kê riêng cho quản trị viên, doanh nghiệp và chuyên gia.
+\end{itemize}
+
+AITasker định hướng khắc phục những điểm trên bằng mô hình nghiệp vụ chuyên biệt cho thị trường dịch vụ AI.
+
+\section{Cơ hội nghiệp vụ}
+\label{sec:business-opportunity}
+
+AITasker tạo ra cơ hội xây dựng một hệ sinh thái kết nối chuyên gia AI và doanh nghiệp theo hướng chuyên nghiệp và minh bạch. Hệ thống có thể mang lại các giá trị sau:
+
+\begin{itemize}
+    \item Giúp doanh nghiệp rút ngắn thời gian tìm kiếm chuyên gia phù hợp.
+    \item Giúp chuyên gia tiếp cận nhiều dự án đúng với kỹ năng và kinh nghiệm.
+    \item Chuẩn hóa quy trình từ đăng dự án đến hoàn thành và đánh giá.
+    \item Giảm rủi ro nhờ hợp đồng, milestone và lịch sử thanh toán rõ ràng.
+    \item Hỗ trợ quản trị viên theo dõi hoạt động hệ thống và xử lý vi phạm.
+    \item Tạo nền tảng để phát triển các chức năng gợi ý chuyên gia bằng AI trong tương lai.
+\end{itemize}
+
+\section{Tầm nhìn sản phẩm}
+\label{sec:product-vision}
+
+Tầm nhìn của AITasker là trở thành nền tảng trực tuyến đáng tin cậy cho hoạt động thuê ngoài và hợp tác triển khai giải pháp AI. Hệ thống hướng đến việc cung cấp trải nghiệm xuyên suốt cho doanh nghiệp và chuyên gia, từ khi phát sinh nhu cầu đến khi hoàn tất hợp đồng.
+
+Trong các phiên bản tiếp theo, hệ thống có thể mở rộng thêm các chức năng như:
+
+\begin{itemize}
+    \item Gợi ý chuyên gia dựa trên kỹ năng, kinh nghiệm và lịch sử dự án.
+    \item Phân tích mức độ phù hợp giữa dự án và đề xuất.
+    \item Hỗ trợ ký hợp đồng điện tử.
+    \item Tích hợp nhiều cổng thanh toán.
+    \item Theo dõi chất lượng dự án bằng dashboard nâng cao.
+    \item Tích hợp chatbot hỗ trợ người dùng.
+    \item Phát hiện hành vi gian lận và nội dung không phù hợp.
+\end{itemize}
+
+\section{Mục đích của tài liệu}
+\label{sec:document-purpose}
+
+Tài liệu Đặc tả yêu cầu phần mềm này mô tả đầy đủ các yêu cầu chức năng và phi chức năng của hệ thống AITasker. Tài liệu được sử dụng làm cơ sở thống nhất giữa các bên liên quan trong quá trình phân tích, thiết kế, phát triển, kiểm thử và nghiệm thu sản phẩm.
+
+Các mục tiêu chính của tài liệu bao gồm:
+
+\begin{itemize}
+    \item Xác định phạm vi và giới hạn của hệ thống.
+    \item Mô tả các nhóm người dùng và quyền hạn tương ứng.
+    \item Liệt kê các chức năng nghiệp vụ chính.
+    \item Định nghĩa các quy tắc nghiệp vụ và điều kiện ràng buộc.
+    \item Mô tả các yêu cầu về hiệu năng, bảo mật, khả dụng và khả năng bảo trì.
+    \item Làm cơ sở xây dựng thiết kế hệ thống và kế hoạch kiểm thử.
+\end{itemize}
+
+\section{Phạm vi hệ thống}
+\label{sec:system-scope}
+
+Phạm vi của phiên bản hiện tại tập trung vào ba nhóm người dùng chính: doanh nghiệp, chuyên gia AI và quản trị viên.
+
+\subsection{Chức năng dành cho doanh nghiệp}
+
+\begin{itemize}
+    \item Đăng ký, đăng nhập và quản lý hồ sơ doanh nghiệp.
+    \item Tạo, cập nhật, xem và xóa dự án.
+    \item Đính kèm tài liệu cho dự án.
+    \item Xem danh sách đề xuất từ chuyên gia.
+    \item Chấp nhận hoặc từ chối đề xuất.
+    \item Tạo và quản lý hợp đồng.
+    \item Tạo và theo dõi các milestone.
+    \item Thực hiện thanh toán theo milestone.
+    \item Trao đổi với chuyên gia qua hội thoại.
+    \item Đánh giá chuyên gia sau khi hợp đồng hoàn thành.
+    \item Nhận thông báo liên quan đến dự án, đề xuất, hợp đồng và thanh toán.
+\end{itemize}
+
+\subsection{Chức năng dành cho chuyên gia AI}
+
+\begin{itemize}
+    \item Đăng ký, đăng nhập và quản lý hồ sơ chuyên gia.
+    \item Cập nhật kỹ năng, kinh nghiệm, CV và portfolio.
+    \item Tìm kiếm và xem chi tiết dự án.
+    \item Gửi hoặc rút đề xuất.
+    \item Theo dõi trạng thái đề xuất.
+    \item Xem và quản lý hợp đồng.
+    \item Cập nhật tiến độ milestone.
+    \item Trao đổi với doanh nghiệp.
+    \item Theo dõi lịch sử thanh toán.
+    \item Đánh giá doanh nghiệp sau khi hợp đồng hoàn thành.
+    \item Nhận thông báo từ hệ thống.
+\end{itemize}
+
+\subsection{Chức năng dành cho quản trị viên}
+
+\begin{itemize}
+    \item Quản lý tài khoản người dùng.
+    \item Khóa hoặc mở khóa tài khoản.
+    \item Quản lý danh mục dự án.
+    \item Theo dõi và quản lý dự án, hợp đồng và đánh giá.
+    \item Xem báo cáo và thống kê hệ thống.
+    \item Xử lý nội dung hoặc hành vi vi phạm.
+\end{itemize}
+
+\section{Giới hạn và loại trừ}
+\label{sec:limitations-exclusions}
+
+Phiên bản hiện tại của AITasker có các giới hạn sau:
+
+\begin{itemize}
+    \item Chưa tích hợp cơ chế ký hợp đồng điện tử có giá trị pháp lý.
+    \item Chưa hỗ trợ giải quyết tranh chấp tự động hoặc trọng tài trực tuyến.
+    \item Chưa triển khai hệ thống gợi ý chuyên gia bằng mô hình AI hoàn chỉnh.
+    \item Chưa hỗ trợ ứng dụng di động riêng.
+    \item Chưa hỗ trợ nhiều loại tiền tệ và thuế theo từng quốc gia.
+    \item Chưa tích hợp hệ thống định danh điện tử hoặc xác minh doanh nghiệp.
+    \item Phạm vi thanh toán phụ thuộc vào cổng thanh toán được tích hợp.
+    \item Khả năng lưu trữ tệp phụ thuộc vào dịch vụ cloud được cấu hình.
+\end{itemize}
+
+\section{Đối tượng sử dụng tài liệu}
+\label{sec:intended-audience}
+
+Tài liệu này dành cho:
+
+\begin{itemize}
+    \item Giảng viên hướng dẫn và giảng viên phản biện.
+    \item Thành viên nhóm phát triển.
+    \item Người phân tích nghiệp vụ.
+    \item Lập trình viên frontend và backend.
+    \item Người thiết kế cơ sở dữ liệu.
+    \item Nhân sự kiểm thử phần mềm.
+    \item Quản trị viên hệ thống.
+    \item Các bên liên quan cần đánh giá phạm vi và chất lượng sản phẩm.
+\end{itemize}
+
+\section{Định nghĩa và từ viết tắt}
+\label{sec:definitions-acronyms}
+
+\begin{longtable}{|p{3.2cm}|p{10.2cm}|}
+    \caption{Định nghĩa và từ viết tắt}
+    \label{tab:definitions-acronyms} \\ \hline
+    \textbf{Thuật ngữ} & \textbf{Định nghĩa} \\ \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Thuật ngữ} & \textbf{Định nghĩa} \\ \hline
+    \endhead
+
+    AI & Artificial Intelligence -- Trí tuệ nhân tạo. \\ \hline
+    API & Application Programming Interface -- Giao diện lập trình ứng dụng. \\ \hline
+    SRS & Software Requirements Specification -- Đặc tả yêu cầu phần mềm. \\ \hline
+    UML & Unified Modeling Language -- Ngôn ngữ mô hình hóa thống nhất. \\ \hline
+    JWT & JSON Web Token -- Chuẩn token dùng cho xác thực và phân quyền. \\ \hline
+    RBAC & Role-Based Access Control -- Kiểm soát truy cập dựa trên vai trò. \\ \hline
+    ORM & Object--Relational Mapping -- Kỹ thuật ánh xạ đối tượng với cơ sở dữ liệu quan hệ. \\ \hline
+    CRUD & Create, Read, Update, Delete -- Bốn thao tác dữ liệu cơ bản. \\ \hline
+    Enterprise & Doanh nghiệp sử dụng hệ thống để đăng dự án và thuê chuyên gia. \\ \hline
+    Expert & Chuyên gia AI tìm kiếm dự án, gửi đề xuất và thực hiện hợp đồng. \\ \hline
+    Proposal & Đề xuất do chuyên gia gửi cho một dự án. \\ \hline
+    Contract & Hợp đồng được tạo khi doanh nghiệp chấp nhận đề xuất. \\ \hline
+    Milestone & Mốc công việc hoặc giai đoạn thực hiện trong hợp đồng. \\ \hline
+    Payment & Giao dịch thanh toán được thực hiện cho hợp đồng hoặc milestone. \\ \hline
+    Review & Đánh giá giữa doanh nghiệp và chuyên gia sau khi hợp đồng hoàn thành. \\ \hline
+    Notification & Thông báo hệ thống gửi đến người dùng. \\ \hline
+    PostgreSQL & Hệ quản trị cơ sở dữ liệu quan hệ được sử dụng trong AITasker. \\ \hline
+    FastAPI & Framework Python dùng để xây dựng REST API cho backend. \\ \hline
+    ReactJS & Thư viện JavaScript dùng để xây dựng giao diện người dùng. \\ \hline
+\end{longtable}
+
+\section{Tài liệu tham khảo}
+\label{sec:references}
+
+Các tài liệu được sử dụng trong quá trình xây dựng SRS gồm:
+
+\begin{itemize}
+    \item IEEE 29148 -- Systems and Software Engineering -- Life Cycle Processes -- Requirements Engineering.
+    \item Tài liệu đặc tả và thiết kế mẫu của các dự án phần mềm.
+    \item Tài liệu chính thức của FastAPI.
+    \item Tài liệu chính thức của ReactJS.
+    \item Tài liệu chính thức của PostgreSQL.
+    \item Tài liệu chính thức của SQLAlchemy và Alembic.
+    \item Các sơ đồ Use Case, Activity, Sequence, State, Component, Deployment, ERD và Class Diagram của AITasker.
+\end{itemize}
+
+\section{Quy ước trình bày}
+\label{sec:document-conventions}
+
+Trong tài liệu này, các quy ước sau được sử dụng:
+
+\begin{itemize}
+    \item Mã yêu cầu chức năng sử dụng định dạng \textbf{FR-xxx}.
+    \item Mã yêu cầu phi chức năng sử dụng định dạng \textbf{NFR-xxx}.
+    \item Mã use case sử dụng định dạng \textbf{UC-xxx}.
+    \item Mã quy tắc nghiệp vụ sử dụng định dạng \textbf{BR-xxx}.
+    \item Tên trạng thái dữ liệu được viết bằng chữ in hoa, ví dụ: \texttt{OPEN}, \texttt{PENDING}, \texttt{ACTIVE}.
+    \item Tên endpoint API được trình bày bằng kiểu chữ \texttt{monospace}.
+\end{itemize}
+
+\section{Cấu trúc tài liệu}
+\label{sec:document-structure}
+
+Tài liệu SRS của AITasker được tổ chức thành các chương chính như sau:
+
+\begin{itemize}
+    \item Chương 1: Giới thiệu dự án, phạm vi, mục đích và thuật ngữ.
+    \item Chương 2: Mô tả tổng quan hệ thống và các nhóm người dùng.
+    \item Chương 3: Kiến trúc và môi trường hệ thống.
+    \item Chương 4: Yêu cầu chức năng.
+    \item Chương 5: Đặc tả use case.
+    \item Chương 6: Phân tích và thiết kế bằng các sơ đồ UML.
+    \item Chương 7: Thiết kế cơ sở dữ liệu.
+    \item Chương 8: Tổng quan REST API.
+    \item Chương 9: Yêu cầu phi chức năng.
+    \item Chương 10: Phạm vi và chiến lược kiểm thử.
+    \item Chương 11: Phụ lục, quy tắc nghiệp vụ và tài liệu tham khảo.
+\end{itemize}

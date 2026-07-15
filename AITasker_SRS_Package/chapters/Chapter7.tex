@@ -1,0 +1,281 @@
+% =========================================================
+% Chapter 7 - Conclusion and Future Development
+% =========================================================
+
+\chapter{Kết luận và hướng phát triển}
+\label{chap:conclusion}
+
+\section{Giới thiệu}
+
+Sau quá trình khảo sát yêu cầu, phân tích, thiết kế, hiện thực và kiểm thử, hệ thống AITasker đã được xây dựng thành công với đầy đủ các chức năng cốt lõi của một nền tảng kết nối doanh nghiệp với chuyên gia AI.
+
+Chương này tổng kết các kết quả đạt được, đánh giá hệ thống hiện tại, chỉ ra những hạn chế còn tồn tại và đề xuất các hướng phát triển trong tương lai nhằm hoàn thiện và nâng cao chất lượng hệ thống.
+
+%=========================================================
+\section{Kết quả đạt được}
+
+Trong quá trình thực hiện đồ án, nhóm đã hoàn thành các nội dung chính sau đây.
+
+\subsection{Hoàn thành khảo sát và phân tích yêu cầu}
+
+Nhóm đã khảo sát nhu cầu thực tế của doanh nghiệp và chuyên gia AI để xác định các chức năng cần thiết cho hệ thống. Từ đó xây dựng các yêu cầu chức năng và phi chức năng làm cơ sở cho quá trình thiết kế và hiện thực.
+
+Các yêu cầu được mô hình hóa thông qua:
+
+\begin{itemize}
+\item Context Diagram
+\item Use Case Diagram
+\item Activity Diagram
+\item Sequence Diagram
+\item State Diagram
+\end{itemize}
+
+Những mô hình này giúp mô tả rõ quy trình nghiệp vụ và luồng xử lý của hệ thống.
+
+%---------------------------------------------------------
+
+\subsection{Hoàn thành thiết kế hệ thống}
+
+Kiến trúc hệ thống được thiết kế theo mô hình Client--Server với Backend và Frontend tách biệt.
+
+Các mô hình thiết kế bao gồm:
+
+\begin{itemize}
+\item Kiến trúc tổng thể hệ thống
+\item Component Diagram
+\item Deployment Diagram
+\item Entity Relationship Diagram (ERD)
+\item Class Diagram
+\item Thiết kế cơ sở dữ liệu PostgreSQL
+\end{itemize}
+
+Thiết kế này đảm bảo khả năng mở rộng, bảo trì và phát triển lâu dài.
+
+%---------------------------------------------------------
+
+\subsection{Hiện thực hệ thống}
+
+Hệ thống đã được xây dựng bằng các công nghệ hiện đại:
+
+\begin{itemize}
+\item ReactJS và Vite cho Frontend.
+\item FastAPI cho Backend.
+\item PostgreSQL làm cơ sở dữ liệu.
+\item SQLAlchemy ORM.
+\item Alembic quản lý migration.
+\item JWT Authentication.
+\item BCrypt mã hóa mật khẩu.
+\end{itemize}
+
+Các module chính đã được triển khai gồm:
+
+\begin{itemize}
+\item Đăng ký tài khoản.
+\item Đăng nhập.
+\item Quản lý dự án.
+\item Quản lý chuyên gia AI.
+\item Quản lý doanh nghiệp.
+\item Quản lý đề xuất.
+\item Quản lý hợp đồng.
+\item Quản lý thanh toán.
+\item Dashboard.
+\item Thống kê.
+\item AI Job Assistant.
+\item Marketplace dịch vụ AI.
+\end{itemize}
+
+%---------------------------------------------------------
+
+\subsection{Kiểm thử hệ thống}
+
+Hệ thống đã được kiểm thử thông qua nhiều kịch bản khác nhau.
+
+Kết quả cho thấy:
+
+\begin{itemize}
+\item Các chức năng chính hoạt động đúng.
+\item Giao diện phản hồi ổn định.
+\item API hoạt động chính xác.
+\item Dữ liệu được lưu trữ nhất quán.
+\item Hệ thống đáp ứng đúng yêu cầu nghiệp vụ đã đề ra.
+\end{itemize}
+
+%=========================================================
+\section{Đánh giá hệ thống}
+
+\subsection{Ưu điểm}
+
+Hệ thống AITasker đạt được nhiều ưu điểm đáng chú ý.
+
+\begin{itemize}
+
+\item Kiến trúc Frontend và Backend tách biệt giúp dễ bảo trì.
+
+\item Thiết kế RESTful API thuận tiện cho việc mở rộng.
+
+\item Cơ sở dữ liệu PostgreSQL ổn định và dễ mở rộng.
+
+\item SQLAlchemy ORM giúp quản lý dữ liệu hiệu quả.
+
+\item Giao diện hiện đại, thân thiện với người dùng.
+
+\item Dashboard trực quan giúp quản trị dễ dàng.
+
+\item Tích hợp AI Job Assistant hỗ trợ lập kế hoạch dự án bằng trí tuệ nhân tạo.
+
+\item Có Marketplace để quản lý và tìm kiếm dịch vụ AI.
+
+\item Hệ thống phân quyền người dùng rõ ràng.
+
+\item Dễ dàng bổ sung các module mới trong tương lai.
+
+\end{itemize}
+
+%---------------------------------------------------------
+
+\subsection{Hạn chế}
+
+Mặc dù đạt được nhiều kết quả tích cực, hệ thống vẫn còn một số hạn chế.
+
+\begin{itemize}
+
+\item Chưa triển khai trên môi trường Cloud Production.
+
+\item Chưa tích hợp cổng thanh toán điện tử thực tế như VNPay, MoMo hoặc Stripe.
+
+\item Chưa có chức năng trò chuyện thời gian thực giữa doanh nghiệp và chuyên gia.
+
+\item Chưa triển khai thông báo thời gian thực bằng WebSocket.
+
+\item Chưa đánh giá hiệu năng với lượng dữ liệu rất lớn.
+
+\item Một số giao diện vẫn cần tối ưu khả năng hiển thị trên nhiều kích thước màn hình.
+
+\item AI Job Assistant hiện mới hỗ trợ sinh kế hoạch dự án, chưa hỗ trợ toàn bộ quy trình phát triển phần mềm.
+
+\end{itemize}
+
+%=========================================================
+\section{Hướng phát triển}
+
+Trong tương lai, hệ thống có thể tiếp tục được mở rộng theo các hướng sau.
+
+\subsection{Phát triển chức năng AI}
+
+\begin{itemize}
+
+\item AI Matching giữa doanh nghiệp và chuyên gia.
+
+\item AI đánh giá Proposal.
+
+\item AI dự đoán ngân sách dự án.
+
+\item AI gợi ý chuyên gia phù hợp.
+
+\item AI hỗ trợ đánh giá tiến độ dự án.
+
+\item AI phân tích rủi ro dự án.
+
+\end{itemize}
+
+%---------------------------------------------------------
+
+\subsection{Mở rộng nghiệp vụ}
+
+\begin{itemize}
+
+\item Chat trực tuyến.
+
+\item Video Meeting.
+
+\item Chữ ký số hợp đồng.
+
+\item Quản lý hóa đơn điện tử.
+
+\item Quản lý lịch làm việc.
+
+\item Quản lý lịch họp.
+
+\item Hệ thống Ticket hỗ trợ khách hàng.
+
+\item Quản lý tài liệu dự án.
+
+\end{itemize}
+
+%---------------------------------------------------------
+
+\subsection{Mở rộng hệ thống}
+
+\begin{itemize}
+
+\item Docker.
+
+\item Kubernetes.
+
+\item CI/CD Pipeline.
+
+\item Triển khai trên AWS, Azure hoặc Google Cloud.
+
+\item Redis Cache.
+
+\item Elasticsearch.
+
+\item RabbitMQ.
+
+\item Monitoring bằng Prometheus và Grafana.
+
+\end{itemize}
+
+%---------------------------------------------------------
+
+\subsection{Mở rộng nền tảng}
+
+\begin{itemize}
+
+\item Ứng dụng Android.
+
+\item Ứng dụng iOS.
+
+\item Progressive Web App (PWA).
+
+\item Desktop Application.
+
+\end{itemize}
+
+%=========================================================
+\section{Bài học kinh nghiệm}
+
+Trong quá trình thực hiện đồ án, nhóm đã tích lũy được nhiều kinh nghiệm về:
+
+\begin{itemize}
+
+\item Phân tích và đặc tả yêu cầu phần mềm.
+
+\item Thiết kế hệ thống hướng đối tượng.
+
+\item Thiết kế cơ sở dữ liệu quan hệ.
+
+\item Xây dựng RESTful API với FastAPI.
+
+\item Phát triển giao diện bằng ReactJS.
+
+\item Làm việc với PostgreSQL và SQLAlchemy.
+
+\item Quản lý mã nguồn bằng Git và GitHub.
+
+\item Kiểm thử và gỡ lỗi hệ thống.
+
+\item Làm việc nhóm và quản lý tiến độ dự án.
+
+\end{itemize}
+
+Những kinh nghiệm này là nền tảng quan trọng cho việc phát triển các dự án phần mềm có quy mô lớn hơn trong tương lai.
+
+%=========================================================
+\section{Kết luận}
+
+Đồ án đã xây dựng thành công hệ thống AITasker nhằm kết nối doanh nghiệp có nhu cầu ứng dụng trí tuệ nhân tạo với các chuyên gia AI. Hệ thống đáp ứng được các yêu cầu chức năng chính như quản lý dự án, quản lý chuyên gia, quản lý hợp đồng, thanh toán, thống kê và hỗ trợ lập kế hoạch dự án bằng AI.
+
+Thông qua quá trình phân tích, thiết kế, hiện thực và kiểm thử, nhóm đã vận dụng các kiến thức về công nghệ phần mềm, lập trình web, cơ sở dữ liệu và trí tuệ nhân tạo để xây dựng một hệ thống hoàn chỉnh. Mặc dù vẫn còn một số hạn chế cần tiếp tục cải thiện, AITasker đã tạo được nền tảng vững chắc để phát triển thành một hệ sinh thái kết nối doanh nghiệp và chuyên gia AI trong tương lai.
+
+Nhóm kỳ vọng rằng hệ thống sẽ tiếp tục được hoàn thiện, mở rộng quy mô và triển khai trong môi trường thực tế nhằm góp phần thúc đẩy quá trình chuyển đổi số và ứng dụng trí tuệ nhân tạo trong doanh nghiệp.
