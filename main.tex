@@ -1,0 +1,432 @@
+% =========================================================
+% MAIN.TEX - AITasker Software Requirements Specification
+% Compiler: XeLaTeX
+%
+% Biên dịch:
+%   xelatex main.tex
+%   xelatex main.tex
+%
+% Hoặc:
+%   latexmk -xelatex main.tex
+% =========================================================
+
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ---------------------------------------------------------
+% FONT VÀ NGÔN NGỮ
+% ---------------------------------------------------------
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setotherlanguage{english}
+
+% ---------------------------------------------------------
+% KHỔ GIẤY VÀ CĂN LỀ
+% ---------------------------------------------------------
+\usepackage[
+    a4paper,
+    left=3.5cm,
+    right=2cm,
+    top=2.5cm,
+    bottom=2.5cm,
+    headheight=16pt,
+    headsep=0.6cm,
+    footskip=1.2cm
+]{geometry}
+
+% ---------------------------------------------------------
+% GIÃN DÒNG VÀ ĐOẠN VĂN
+% ---------------------------------------------------------
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{indentfirst}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{0.2em}
+\emergencystretch=2em
+
+% ---------------------------------------------------------
+% HÌNH ẢNH
+% ---------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=centering,
+    singlelinecheck=true
+}
+
+% ---------------------------------------------------------
+% BẢNG
+% ---------------------------------------------------------
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{5pt}
+
+% ---------------------------------------------------------
+% DANH SÁCH
+% ---------------------------------------------------------
+\usepackage{enumitem}
+
+\setlist[itemize]{
+    leftmargin=1.2cm,
+    itemsep=0.2em,
+    topsep=0.3em
+}
+
+\setlist[enumerate]{
+    leftmargin=1.2cm,
+    itemsep=0.2em,
+    topsep=0.3em
+}
+
+% ---------------------------------------------------------
+% TOÁN HỌC VÀ KÝ HIỆU
+% ---------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ---------------------------------------------------------
+% MÃ NGUỒN
+% ---------------------------------------------------------
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    columns=fullflexible,
+    showstringspaces=false
+}
+
+% ---------------------------------------------------------
+% MÀU SẮC VÀ LIÊN KẾT
+% ---------------------------------------------------------
+\usepackage{xcolor}
+\definecolor{linkblue}{RGB}{0,70,140}
+
+\usepackage{xurl}
+\usepackage[
+    unicode=true,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=linkblue,
+    bookmarksopen=true,
+    bookmarksnumbered=true
+]{hyperref}
+
+\hypersetup{
+    pdftitle={AITasker Software Requirements Specification},
+    pdfauthor={Nhóm 7},
+    pdfsubject={Tài liệu đặc tả yêu cầu phần mềm},
+    pdfkeywords={AITasker, SRS, FastAPI, ReactJS, PostgreSQL}
+}
+
+% ---------------------------------------------------------
+% HEADER VÀ FOOTER
+% ---------------------------------------------------------
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{AITasker}
+\fancyhead[R]{Software Requirements Specification}
+\fancyfoot[C]{\thepage}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[L]{AITasker}
+    \fancyhead[R]{Software Requirements Specification}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% ---------------------------------------------------------
+% ĐỊNH DẠNG TIÊU ĐỀ
+% ---------------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\chapter}[hang]
+    {\normalfont\bfseries\fontsize{18pt}{22pt}\selectfont\raggedright\setstretch{1}}
+    {CHƯƠNG \thechapter.}
+    {0.7em}
+    {}
+
+\titlespacing*{\chapter}
+    {0pt}
+    {-5pt}
+    {18pt}
+
+\titleformat{\section}
+    {\normalfont\bfseries\fontsize{15pt}{18pt}\selectfont\raggedright\setstretch{1}}
+    {\thesection}
+    {0.7em}
+    {}
+
+\titlespacing*{\section}
+    {0pt}
+    {14pt}
+    {6pt}
+
+\titleformat{\subsection}
+    {\normalfont\bfseries\fontsize{13pt}{16pt}\selectfont\raggedright\setstretch{1}}
+    {\thesubsection}
+    {0.7em}
+    {}
+
+\titlespacing*{\subsection}
+    {0pt}
+    {10pt}
+    {4pt}
+
+\titleformat{\subsubsection}
+    {\normalfont\bfseries\fontsize{12pt}{15pt}\selectfont\raggedright\setstretch{1}}
+    {\thesubsubsection}
+    {0.7em}
+    {}
+
+\titlespacing*{\subsubsection}
+    {0pt}
+    {8pt}
+    {3pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+% ---------------------------------------------------------
+% ĐÁNH SỐ HÌNH VÀ BẢNG THEO CHƯƠNG
+% ---------------------------------------------------------
+\usepackage{chngcntr}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
+
+% ---------------------------------------------------------
+% DANH MỤC
+% ---------------------------------------------------------
+\usepackage[nottoc]{tocbibind}
+
+% ---------------------------------------------------------
+% BẮT ĐẦU TÀI LIỆU
+% ---------------------------------------------------------
+\begin{document}
+
+% =========================================================
+% TRANG BÌA
+% =========================================================
+\begin{titlepage}
+    \thispagestyle{empty}
+
+    \begin{center}
+
+        \includegraphics[width=3.4cm]{Logo_UTH.png}
+
+        \vspace{0.7cm}
+
+        {\large\bfseries
+        TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI\\
+        THÀNH PHỐ HỒ CHÍ MINH
+        }
+
+        \vspace{0.4cm}
+
+        {\large\bfseries
+        KHOA CÔNG NGHỆ THÔNG TIN
+        }
+
+        \vspace{1.2cm}
+
+        {\Large\bfseries
+        TÀI LIỆU ĐẶC TẢ YÊU CẦU PHẦN MỀM
+        }
+
+        \vspace{0.5cm}
+
+        {\Huge\bfseries
+        AITASKER
+        }
+
+        \vspace{0.4cm}
+
+        {\Large
+        Nền tảng kết nối chuyên gia AI và doanh nghiệp\\
+        cần tự động hóa bằng AI
+        }
+
+        \vfill
+
+        \renewcommand{\arraystretch}{1.35}
+        \begin{tabular}{>{\bfseries}p{5.0cm}p{8.2cm}}
+            Môn học: & Công nghệ phần mềm \\
+            Giảng viên hướng dẫn: & Nguyễn Văn Chiến \\
+            Nhóm thực hiện: & Nhóm 7 \\
+            Thành viên: &
+            1. Trương Tùng Hưng -- MSSV: 075206003322 \\
+            & 2. Hoàng Quốc Khánh -- MSSV: 044205005486 \\
+            & 3. Nguyễn Minh Cường -- MSSV: 052206005225 \\
+            & 4. Huỳnh Gia Văn -- MSSV: 083206012872 \\
+            Niên khóa: & 2025--2026
+        \end{tabular}
+
+        \vfill
+
+        {\large
+        Thành phố Hồ Chí Minh, năm 2026
+        }
+
+    \end{center}
+\end{titlepage}
+
+% =========================================================
+% PHẦN ĐẦU TÀI LIỆU
+% =========================================================
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\chapter*{Lời mở đầu}
+\addcontentsline{toc}{chapter}{Lời mở đầu}
+
+Tài liệu này trình bày đặc tả yêu cầu, phân tích, thiết kế, hiện thực và kiểm thử cho hệ thống AITasker. Hệ thống được xây dựng nhằm kết nối doanh nghiệp có nhu cầu tự động hóa bằng trí tuệ nhân tạo với các chuyên gia AI phù hợp.
+
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\listoffigures
+\clearpage
+
+\listoftables
+\clearpage
+
+% =========================================================
+% NỘI DUNG CHÍNH
+% =========================================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/Chapter1}
+\input{chapters/Chapter2}
+\input{chapters/Chapter3}
+\input{chapters/Chapter4}
+\input{chapters/Chapter5}
+\input{chapters/Chapter6}
+\input{chapters/Chapter7}
+
+% =========================================================
+% TÀI LIỆU THAM KHẢO
+% =========================================================
+\clearpage
+\chapter*{Tài liệu tham khảo}
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+
+\begin{thebibliography}{99}
+
+\bibitem{ieee29148}
+ISO/IEC/IEEE,
+\textit{ISO/IEC/IEEE 29148:2018 Systems and Software Engineering -- Life Cycle Processes -- Requirements Engineering},
+2018.
+
+\bibitem{pressman}
+Roger S. Pressman and Bruce R. Maxim,
+\textit{Software Engineering: A Practitioner's Approach},
+McGraw-Hill Education.
+
+\bibitem{fastapi}
+FastAPI Documentation,
+\url{https://fastapi.tiangolo.com/}.
+
+\bibitem{react}
+React Documentation,
+\url{https://react.dev/}.
+
+\bibitem{sqlalchemy}
+SQLAlchemy Documentation,
+\url{https://docs.sqlalchemy.org/}.
+
+\bibitem{postgresql}
+PostgreSQL Documentation,
+\url{https://www.postgresql.org/docs/}.
+
+\bibitem{plantuml}
+PlantUML Documentation,
+\url{https://plantuml.com/}.
+
+\end{thebibliography}
+
+% =========================================================
+% PHỤ LỤC
+% =========================================================
+\appendix
+\renewcommand{\chaptername}{PHỤ LỤC}
+
+\chapter{Hướng dẫn biên dịch tài liệu}
+\label{chap:appendix}
+
+\section{Biên dịch bằng XeLaTeX}
+
+\begin{lstlisting}
+xelatex main.tex
+xelatex main.tex
+\end{lstlisting}
+
+Hoặc:
+
+\begin{lstlisting}
+latexmk -xelatex main.tex
+\end{lstlisting}
+
+\section{Cấu trúc thư mục}
+
+\begin{lstlisting}
+AITasker_SRS_Package/
+|-- main.tex
+|-- chapters/
+|   |-- Chapter1.tex
+|   |-- Chapter2.tex
+|   |-- Chapter3.tex
+|   |-- Chapter4.tex
+|   |-- Chapter5.tex
+|   |-- Chapter6.tex
+|   `-- Chapter7.tex
+`-- figures/
+    |-- Logo_UTH.png
+    |-- architecture.png
+    |-- Context Diagram.png
+    |-- Component Diagram.png
+    |-- Deployment Diagram.png
+    |-- Usecase.png
+    |-- ERD.png
+    |-- Class.png
+    |-- login.png
+    |-- register.png
+    |-- dashboard.png
+    |-- projects.png
+    |-- contracts.png
+    |-- assistant.png
+    |-- payment.png
+    |-- analytics.png
+    |-- statistics_dashboard.png
+    `-- aiservices.png
+\end{lstlisting}
+
+\end{document}

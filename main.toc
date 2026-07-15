@@ -1,0 +1,189 @@
+\xpg@aux {}{vietnamese}
+\contentsline {chapter}{Lời mở đầu}{i}{chapter*.1}%
+\contentsline {chapter}{Danh sách hình vẽ}{viii}{chapter*.3}%
+\contentsline {chapter}{Danh sách bảng}{ix}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Giới thiệu}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Tổng quan dự án}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Thông tin dự án}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Bối cảnh sản phẩm}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Hệ thống hiện có và hạn chế}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Cơ hội nghiệp vụ}{2}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Tầm nhìn sản phẩm}{3}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Mục đích của tài liệu}{3}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Phạm vi hệ thống}{4}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}Chức năng dành cho doanh nghiệp}{4}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}Chức năng dành cho chuyên gia AI}{4}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}Chức năng dành cho quản trị viên}{5}{subsection.1.8.3}%
+\contentsline {section}{\numberline {1.9}Giới hạn và loại trừ}{5}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Đối tượng sử dụng tài liệu}{5}{section.1.10}%
+\contentsline {section}{\numberline {1.11}Định nghĩa và từ viết tắt}{6}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Tài liệu tham khảo}{7}{section.1.12}%
+\contentsline {section}{\numberline {1.13}Quy ước trình bày}{7}{section.1.13}%
+\contentsline {section}{\numberline {1.14}Cấu trúc tài liệu}{7}{section.1.14}%
+\contentsline {chapter}{\numberline {2}Mô tả tổng quan hệ thống}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Giới thiệu}{9}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Góc nhìn sản phẩm}{9}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Chức năng chính}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Nhóm người dùng}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Doanh nghiệp}{10}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Chuyên gia AI}{10}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Quản trị viên}{11}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Môi trường hoạt động}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Ràng buộc hệ thống}{11}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Giả định}{12}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Đặc điểm người dùng}{12}{section.2.8}%
+\contentsline {section}{\numberline {2.9}Quy tắc nghiệp vụ}{12}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Yêu cầu tổng quát}{12}{section.2.10}%
+\contentsline {subsection}{\numberline {2.10.1}Hiệu năng}{12}{subsection.2.10.1}%
+\contentsline {subsection}{\numberline {2.10.2}Bảo mật}{13}{subsection.2.10.2}%
+\contentsline {subsection}{\numberline {2.10.3}Khả năng mở rộng}{13}{subsection.2.10.3}%
+\contentsline {section}{\numberline {2.11}Kết luận}{13}{section.2.11}%
+\contentsline {chapter}{\numberline {3}Kiến trúc hệ thống}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Giới thiệu}{14}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Nguyên tắc thiết kế kiến trúc}{14}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Kiến trúc tổng thể}{14}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Presentation Layer}{15}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}API Layer}{16}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Business Service Layer}{16}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Data Access Layer}{17}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Infrastructure Layer}{17}{subsection.3.3.5}%
+\contentsline {section}{\numberline {3.4}Context Diagram}{17}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Doanh nghiệp}{18}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Chuyên gia AI}{19}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Quản trị viên}{19}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Các hệ thống bên ngoài}{19}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5}Component Diagram}{19}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}React Web Application}{20}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}REST API}{20}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Authentication Module}{20}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}User Management Module}{20}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Project Management Module}{20}{subsection.3.5.5}%
+\contentsline {subsection}{\numberline {3.5.6}Proposal Management Module}{20}{subsection.3.5.6}%
+\contentsline {subsection}{\numberline {3.5.7}Contract and Milestone Module}{20}{subsection.3.5.7}%
+\contentsline {subsection}{\numberline {3.5.8}Payment Module}{21}{subsection.3.5.8}%
+\contentsline {subsection}{\numberline {3.5.9}Review Module}{21}{subsection.3.5.9}%
+\contentsline {subsection}{\numberline {3.5.10}Messaging and Notification Module}{21}{subsection.3.5.10}%
+\contentsline {subsection}{\numberline {3.5.11}File Upload Module}{21}{subsection.3.5.11}%
+\contentsline {subsection}{\numberline {3.5.12}SQLAlchemy Repository}{21}{subsection.3.5.12}%
+\contentsline {section}{\numberline {3.6}Deployment Diagram}{21}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Client Device}{22}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Frontend Hosting}{22}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Backend Application Server}{22}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Database Server}{22}{subsection.3.6.4}%
+\contentsline {subsection}{\numberline {3.6.5}Payment Provider}{22}{subsection.3.6.5}%
+\contentsline {subsection}{\numberline {3.6.6}Email Provider}{22}{subsection.3.6.6}%
+\contentsline {subsection}{\numberline {3.6.7}Azure Blob Storage}{22}{subsection.3.6.7}%
+\contentsline {section}{\numberline {3.7}Luồng xử lý yêu cầu}{22}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Giao tiếp giữa các thành phần}{23}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Kiến trúc bảo mật}{23}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Quản lý lỗi và transaction}{24}{section.3.10}%
+\contentsline {section}{\numberline {3.11}Khả năng mở rộng và bảo trì}{24}{section.3.11}%
+\contentsline {section}{\numberline {3.12}Công nghệ sử dụng}{25}{section.3.12}%
+\contentsline {section}{\numberline {3.13}Ưu điểm và hạn chế}{25}{section.3.13}%
+\contentsline {subsection}{\numberline {3.13.1}Ưu điểm}{25}{subsection.3.13.1}%
+\contentsline {subsection}{\numberline {3.13.2}Hạn chế}{25}{subsection.3.13.2}%
+\contentsline {section}{\numberline {3.14}Kết luận}{26}{section.3.14}%
+\contentsline {chapter}{\numberline {4}Yêu cầu chức năng và đặc tả Use Case}{27}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Giới thiệu}{27}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Tác nhân hệ thống}{27}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Sơ đồ Use Case tổng quát}{27}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Danh sách yêu cầu chức năng}{29}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Nhóm xác thực và tài khoản}{29}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Nhóm hồ sơ doanh nghiệp và chuyên gia}{29}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Nhóm quản lý dự án}{30}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Nhóm quản lý Proposal}{31}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Nhóm hợp đồng và milestone}{31}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Nhóm thanh toán}{32}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.4.7}Nhóm trao đổi, thông báo và đánh giá}{33}{subsection.4.4.7}%
+\contentsline {subsection}{\numberline {4.4.8}Nhóm quản trị và thống kê}{33}{subsection.4.4.8}%
+\contentsline {section}{\numberline {4.5}Đặc tả Use Case chi tiết}{34}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}UC-01: Đăng nhập}{34}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}UC-02: Đăng ký tài khoản}{35}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}UC-03: Tạo dự án}{36}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}UC-04: Tìm kiếm dự án}{36}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}UC-05: Gửi Proposal}{37}{subsection.4.5.5}%
+\contentsline {subsection}{\numberline {4.5.6}UC-06: Chấp nhận Proposal và thuê chuyên gia}{38}{subsection.4.5.6}%
+\contentsline {subsection}{\numberline {4.5.7}UC-07: Quản lý Milestone}{39}{subsection.4.5.7}%
+\contentsline {subsection}{\numberline {4.5.8}UC-08: Thanh toán Milestone}{40}{subsection.4.5.8}%
+\contentsline {subsection}{\numberline {4.5.9}UC-09: Gửi tin nhắn}{40}{subsection.4.5.9}%
+\contentsline {subsection}{\numberline {4.5.10}UC-10: Tạo Review}{41}{subsection.4.5.10}%
+\contentsline {subsection}{\numberline {4.5.11}UC-11: Quản lý người dùng}{42}{subsection.4.5.11}%
+\contentsline {subsection}{\numberline {4.5.12}UC-12: Quản lý danh mục}{42}{subsection.4.5.12}%
+\contentsline {subsection}{\numberline {4.5.13}UC-13: Xem thống kê hệ thống}{43}{subsection.4.5.13}%
+\contentsline {section}{\numberline {4.6}Quy tắc nghiệp vụ}{44}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Quy tắc kiểm tra dữ liệu}{44}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Ma trận truy vết yêu cầu}{45}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Kết luận}{46}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Thiết kế cơ sở dữ liệu}{47}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Giới thiệu}{47}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Mục tiêu thiết kế}{47}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Entity Relationship Diagram}{48}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Class Diagram}{49}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Các thực thể chính}{49}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}User}{49}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Enterprise}{50}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Expert}{50}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Category}{51}{subsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.5.5}Project}{51}{subsection.5.5.5}%
+\contentsline {subsection}{\numberline {5.5.6}ProjectFile}{52}{subsection.5.5.6}%
+\contentsline {subsection}{\numberline {5.5.7}Proposal}{52}{subsection.5.5.7}%
+\contentsline {subsection}{\numberline {5.5.8}Contract}{53}{subsection.5.5.8}%
+\contentsline {subsection}{\numberline {5.5.9}Milestone}{53}{subsection.5.5.9}%
+\contentsline {subsection}{\numberline {5.5.10}Payment}{54}{subsection.5.5.10}%
+\contentsline {subsection}{\numberline {5.5.11}Conversation}{54}{subsection.5.5.11}%
+\contentsline {subsection}{\numberline {5.5.12}Message}{55}{subsection.5.5.12}%
+\contentsline {subsection}{\numberline {5.5.13}Review}{55}{subsection.5.5.13}%
+\contentsline {subsection}{\numberline {5.5.14}Notification}{55}{subsection.5.5.14}%
+\contentsline {subsection}{\numberline {5.5.15}Skill và ExpertSkill}{55}{subsection.5.5.15}%
+\contentsline {section}{\numberline {5.6}Quan hệ giữa các bảng}{56}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Từ điển dữ liệu}{56}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Các ràng buộc toàn vẹn}{57}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Chuẩn hóa dữ liệu}{57}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Chỉ mục và hiệu năng truy vấn}{58}{section.5.10}%
+\contentsline {section}{\numberline {5.11}Sao lưu và phục hồi}{58}{section.5.11}%
+\contentsline {section}{\numberline {5.12}Kết luận}{58}{section.5.12}%
+\contentsline {chapter}{\numberline {6}Hiện thực, kiểm thử và đánh giá hệ thống}{59}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Giới thiệu}{59}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Môi trường hiện thực và kiểm thử}{59}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Giao diện xác thực người dùng}{59}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Giao diện đăng nhập}{59}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Giao diện đăng ký}{60}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.4}Dashboard tổng quan}{61}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Giao diện quản lý dự án}{62}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Giao diện quản lý hợp đồng và ký quỹ}{63}{section.6.6}%
+\contentsline {section}{\numberline {6.7}AI Job Assistant}{64}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Giao diện quản lý thanh toán}{65}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Giao diện phân tích và thống kê}{66}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Trung tâm phân tích và báo cáo}{66}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Dashboard thống kê}{67}{subsection.6.9.2}%
+\contentsline {section}{\numberline {6.10}Marketplace dịch vụ AI}{68}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Đánh giá tính nhất quán giao diện}{69}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Kiểm thử chức năng}{70}{section.6.12}%
+\contentsline {section}{\numberline {6.13}Kiểm thử tích hợp}{71}{section.6.13}%
+\contentsline {section}{\numberline {6.14}Kiểm thử giao diện}{71}{section.6.14}%
+\contentsline {section}{\numberline {6.15}Đánh giá kết quả hiện thực}{71}{section.6.15}%
+\contentsline {subsection}{\numberline {6.15.1}Ưu điểm}{72}{subsection.6.15.1}%
+\contentsline {subsection}{\numberline {6.15.2}Hạn chế}{72}{subsection.6.15.2}%
+\contentsline {section}{\numberline {6.16}Kết luận}{72}{section.6.16}%
+\contentsline {chapter}{\numberline {7}Kết luận và hướng phát triển}{73}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Giới thiệu}{73}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Kết quả đạt được}{73}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Hoàn thành khảo sát và phân tích yêu cầu}{73}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Hoàn thành thiết kế hệ thống}{73}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Hiện thực hệ thống}{74}{subsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.2.4}Kiểm thử hệ thống}{74}{subsection.7.2.4}%
+\contentsline {section}{\numberline {7.3}Đánh giá hệ thống}{75}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Ưu điểm}{75}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Hạn chế}{75}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Hướng phát triển}{76}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Phát triển chức năng AI}{76}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Mở rộng nghiệp vụ}{76}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Mở rộng hệ thống}{76}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.4.4}Mở rộng nền tảng}{77}{subsection.7.4.4}%
+\contentsline {section}{\numberline {7.5}Bài học kinh nghiệm}{77}{section.7.5}%
+\contentsline {section}{\numberline {7.6}Kết luận}{77}{section.7.6}%
+\contentsline {chapter}{Tài liệu tham khảo}{78}{chapter*.28}%
+\contentsline {chapter}{Tài liệu tham khảo}{79}{chapter*.29}%
+\contentsline {chapter}{\numberline {A}Hướng dẫn biên dịch tài liệu}{80}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Biên dịch bằng XeLaTeX}{80}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Cấu trúc thư mục}{80}{section.A.2}%
