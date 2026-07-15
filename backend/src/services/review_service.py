@@ -1,62 +1,123 @@
+from uuid import UUID
+
 from sqlalchemy.orm import Session
-from src.models.review import Review
-from src.models.project import Project
-from src.schemas.review import ReviewCreate
+
+from backend.src.models.review import Review
+from backend.src.schemas.review import (
+    ReviewCreate,
+    ReviewUpdate,
+)
 
 
-def create_review(db: Session, data: ReviewCreate):
-    project = db.query(Project).filter(Project.id == data.project_id).first()
-    if not project:
-        return None
+class ReviewService:
 
-    review = Review(
-        project_id=data.project_id,
-        reviewer_id=data.reviewer_id,
-        expert_id=data.expert_id,
-        rating=data.rating,
-        comment=data.comment
-    )
+    def get_all(
+        self,
+        db: Session,
+    ):
 
-    db.add(review)
-    db.commit()
-    db.refresh(review)
-    return review
+        return (
+            db.query(Review)
+            .all()
+        )
 
 
-def get_reviews(db: Session, expert_id: int = None, project_id: int = None):
-    query = db.query(Review)
+    def get_by_id(
+        self,
+        db: Session,
+        review_id: UUID,
+    ):
 
-    if expert_id:
-        query = query.filter(Review.expert_id == expert_id)
-
-    if project_id:
-        query = query.filter(Review.project_id == project_id)
-
-    return query.all()
-
-
-def get_review_by_id(db: Session, review_id: int):
-    return db.query(Review).filter(Review.id == review_id).first()
-
-
-def update_review(db: Session, review_id: int, data: ReviewCreate):
-    review = db.query(Review).filter(Review.id == review_id).first()
-    if not review:
-        return None
-
-    review.rating = data.rating
-    review.comment = data.comment
-
-    db.commit()
-    db.refresh(review)
-    return review
+        return (
+            db.query(Review)
+            .filter(
+                Review.id == review_id
+            )
+            .first()
+        )
 
 
-def delete_review(db: Session, review_id: int):
-    review = db.query(Review).filter(Review.id == review_id).first()
-    if not review:
-        return False
+    def create(
+        self,
+        db: Session,
+        data: ReviewCreate,
+    ) -> Review:
 
-    db.delete(review)
-    db.commit()
-    return True
+        review = Review(
+
+            project_id=data.project_id,
+
+            expert_id=data.expert_id,
+
+            rating=data.rating,
+
+            comment=data.comment,
+
+        )
+
+        db.add(review)
+
+        db.commit()
+
+        db.refresh(review)
+
+        return review
+
+    # UPDATE
+
+    def update(
+        self,
+        db: Session,
+        review_id: UUID,
+        data: ReviewUpdate,
+    ):
+
+        review = self.get_by_id(
+            db,
+            review_id,
+        )
+
+        if review is None:
+            return None
+
+        update_data = data.model_dump(
+            exclude_unset=True
+        )
+
+        for key, value in update_data.items():
+
+            setattr(
+                review,
+                key,
+                value,
+            )
+
+        db.commit()
+
+        db.refresh(review)
+
+        return review
+
+
+    def delete(
+        self,
+        db: Session,
+        review_id: UUID,
+    ) -> bool:
+
+        review = self.get_by_id(
+            db,
+            review_id,
+        )
+
+        if review is None:
+            return False
+
+        db.delete(review)
+
+        db.commit()
+
+        return True
+
+
+review_service = ReviewService()

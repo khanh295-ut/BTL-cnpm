@@ -1,25 +1,54 @@
+from datetime import datetime
+from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class ReviewCreate(BaseModel):
-    project_id: int
-    expert_id: int
-    rating: int = Field(ge=1, le=5)
-    comment: str
+# CREATE
 
+class ReviewCreate(BaseModel):
+
+    project_id: UUID
+
+    expert_id: UUID
+
+    rating: int = Field(
+        ge=1,
+        le=5,
+    )
+
+    comment: str | None = None
+
+
+# UPDATE
+
+class ReviewUpdate(BaseModel):
+
+    rating: int | None = Field(
+        default=None,
+        ge=1,
+        le=5,
+    )
+
+    comment: str | None = None
+
+
+# RESPONSE
 
 class ReviewResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
 
-    id: int
-    project_id: int
-    expert_id: int
-    rating: int
-    comment: str
-from pydantic import BaseModel
+    model_config = ConfigDict(
+        from_attributes=True
+    )
 
-class ReviewCreate(BaseModel):
-    project_id: int
-    expert_id: int
+    id: UUID
+
+    project_id: UUID
+
+    expert_id: UUID
+
     rating: int
-    comment: str
+
+    comment: str | None
+
+    created_at: datetime
