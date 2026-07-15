@@ -1,0 +1,216 @@
+\chapter{Giới thiệu}
+
+\section{Mục đích tài liệu}
+
+Tài liệu Đặc tả Yêu cầu Phần mềm (Software Requirements Specification -- SRS)
+được xây dựng nhằm mô tả đầy đủ các yêu cầu chức năng và phi chức năng của hệ
+thống AITasker.
+
+Tài liệu đóng vai trò là cơ sở thống nhất giữa nhóm phát triển, giảng viên hướng
+dẫn và các bên liên quan trong suốt quá trình phân tích, thiết kế, triển khai và
+kiểm thử hệ thống.
+
+Ngoài ra, tài liệu còn được sử dụng làm cơ sở để:
+
+\begin{itemize}
+
+\item Phân tích và xác định phạm vi hệ thống.
+
+\item Thiết kế kiến trúc phần mềm.
+
+\item Thiết kế cơ sở dữ liệu.
+
+\item Xây dựng giao diện người dùng.
+
+\item Triển khai các chức năng của hệ thống.
+
+\item Kiểm thử và đánh giá chất lượng phần mềm.
+
+\item Bảo trì và mở rộng hệ thống trong tương lai.
+
+\end{itemize}
+
+%=========================================================
+
+\section{Phạm vi hệ thống}
+
+AITasker (AI Marketplace Platform for AI Automation Services) là nền tảng trực
+tuyến hỗ trợ kết nối giữa doanh nghiệp có nhu cầu triển khai các giải pháp Trí tuệ
+nhân tạo (Artificial Intelligence -- AI) với các chuyên gia AI có đủ năng lực thực
+hiện dự án.
+
+Hệ thống hướng đến việc số hóa toàn bộ quy trình thuê chuyên gia AI, từ việc tạo
+dự án, tìm kiếm chuyên gia, gửi đề xuất, ký kết hợp đồng, quản lý tiến độ, thanh
+toán cho đến đánh giá sau khi hoàn thành dự án.
+
+Ngoài chức năng Marketplace truyền thống, hệ thống còn tích hợp các công cụ AI
+nhằm hỗ trợ người dùng trong quá trình xây dựng yêu cầu dự án, tư vấn giải pháp,
+gợi ý chuyên gia phù hợp và nâng cao trải nghiệm sử dụng.
+
+Đối tượng sử dụng chính của hệ thống bao gồm:
+
+\begin{itemize}
+
+\item Doanh nghiệp.
+
+\item Chuyên gia AI.
+
+\item Quản trị viên hệ thống.
+
+\end{itemize}
+
+%=========================================================
+
+\section{Đối tượng sử dụng tài liệu}
+
+Tài liệu này được xây dựng dành cho các đối tượng sau:
+
+\begin{itemize}
+
+\item Giảng viên hướng dẫn và hội đồng đánh giá.
+
+\item Nhóm phát triển phần mềm.
+
+\item Kiểm thử viên.
+
+\item Nhà phân tích hệ thống.
+
+\item Người bảo trì hệ thống.
+
+\item Các bên liên quan đến dự án.
+
+\end{itemize}
+
+%=========================================================
+
+\section{Mục tiêu của hệ thống}
+
+Hệ thống AITasker được xây dựng nhằm đạt được các mục tiêu sau:
+
+\begin{enumerate}
+
+\item Kết nối doanh nghiệp với các chuyên gia AI trên cùng một nền tảng.
+
+\item Chuẩn hóa quy trình thuê chuyên gia AI.
+
+\item Quản lý xuyên suốt vòng đời của dự án AI.
+
+\item Hỗ trợ doanh nghiệp xây dựng yêu cầu dự án bằng AI.
+
+\item Tăng tính minh bạch trong quá trình hợp tác giữa các bên.
+
+\item Hỗ trợ thanh toán an toàn thông qua cơ chế quản lý hợp đồng và giao dịch.
+
+\item Cung cấp hệ thống đánh giá nhằm nâng cao chất lượng dịch vụ.
+
+\item Hỗ trợ quản trị viên quản lý toàn bộ hoạt động của hệ thống.
+
+\end{enumerate}
+
+%=========================================================
+
+\section{Định nghĩa, thuật ngữ và từ viết tắt}
+
+\begin{table}[H]
+\centering
+\caption{Các thuật ngữ và từ viết tắt}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Thuật ngữ} & \textbf{Ý nghĩa} \\ \hline
+
+AI &
+Artificial Intelligence (Trí tuệ nhân tạo). \\ \hline
+
+Marketplace &
+Nền tảng kết nối giữa doanh nghiệp và chuyên gia AI. \\ \hline
+
+Enterprise &
+Doanh nghiệp có nhu cầu thuê chuyên gia AI. \\ \hline
+
+Expert &
+Chuyên gia AI cung cấp dịch vụ cho doanh nghiệp. \\ \hline
+
+Proposal &
+Đề xuất của chuyên gia gửi cho dự án. \\ \hline
+
+Project &
+Dự án AI do doanh nghiệp tạo. \\ \hline
+
+Contract &
+Hợp đồng giữa doanh nghiệp và chuyên gia. \\ \hline
+
+Milestone &
+Mốc công việc trong hợp đồng. \\ \hline
+
+Payment &
+Khoản thanh toán theo từng mốc công việc. \\ \hline
+
+Review &
+Đánh giá giữa doanh nghiệp và chuyên gia sau khi hoàn thành dự án. \\ \hline
+
+JWT &
+JSON Web Token dùng để xác thực người dùng. \\ \hline
+
+REST API &
+Giao diện lập trình ứng dụng theo kiến trúc REST. \\ \hline
+
+ORM &
+Object Relational Mapping. \\ \hline
+
+SRS &
+Software Requirements Specification. \\ \hline
+
+\end{tabular}
+\end{table}
+
+%=========================================================
+
+\section{Tài liệu tham khảo}
+
+Trong quá trình phân tích và thiết kế hệ thống, nhóm tham khảo các tài liệu sau:
+
+\begin{enumerate}
+
+\item IEEE Std 830-1998 -- Software Requirements Specification.
+
+\item IEEE Std 29148-2018 -- Requirements Engineering.
+
+\item UML 2.5 Specification.
+
+\item Tài liệu FastAPI.
+
+\item Tài liệu SQLAlchemy.
+
+\item Tài liệu PostgreSQL.
+
+\item Tài liệu ReactJS.
+
+\item Tài liệu JWT (JSON Web Token).
+
+\item Google Gemini API Documentation.
+
+\end{enumerate}
+
+%=========================================================
+
+\section{Cấu trúc tài liệu}
+
+Tài liệu SRS được tổ chức thành các chương như sau:
+
+\begin{itemize}
+
+\item Chương 1: Giới thiệu.
+
+\item Chương 2: Mô tả tổng quan hệ thống.
+
+\item Chương 3: Đặc tả yêu cầu chức năng.
+
+\item Chương 4: Yêu cầu phi chức năng.
+
+\item Chương 5: Thiết kế hệ thống.
+
+\item Chương 6: Thiết kế cơ sở dữ liệu.
+
+\item Chương 7: Phụ lục.
+
+\end{itemize}

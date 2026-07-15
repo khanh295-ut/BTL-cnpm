@@ -1,0 +1,297 @@
+\chapter{Mô tả tổng quan hệ thống}
+
+\section{Giới thiệu}
+
+AITasker là nền tảng trực tuyến hỗ trợ kết nối giữa doanh nghiệp có nhu cầu
+triển khai các giải pháp trí tuệ nhân tạo và các chuyên gia AI có chuyên môn
+phù hợp để thực hiện dự án.
+
+Hệ thống hỗ trợ toàn bộ quy trình hợp tác, bao gồm đăng ký tài khoản, đăng nhập,
+tạo dự án, tìm kiếm dự án, gửi đề xuất, chấp nhận đề xuất, tạo hợp đồng,
+quản lý mốc công việc, thanh toán, trao đổi tin nhắn, gửi thông báo và đánh giá
+sau khi hợp đồng hoàn thành.
+
+AITasker được xây dựng dưới dạng ứng dụng Web. Frontend sử dụng ReactJS,
+Backend sử dụng FastAPI, dữ liệu được lưu trữ trong PostgreSQL và được ánh xạ
+thông qua SQLAlchemy ORM. Hệ thống sử dụng JWT để xác thực và BCrypt để băm
+mật khẩu người dùng.
+
+%==============================================================
+
+\section{Mục tiêu của hệ thống}
+
+Hệ thống AITasker được phát triển nhằm đạt được các mục tiêu sau:
+
+\begin{enumerate}
+    \item Kết nối doanh nghiệp với các chuyên gia AI có năng lực phù hợp.
+    \item Chuẩn hóa quy trình tuyển chọn và thuê chuyên gia AI.
+    \item Hỗ trợ doanh nghiệp tạo và quản lý dự án trên một nền tảng thống nhất.
+    \item Hỗ trợ chuyên gia tìm kiếm dự án và gửi đề xuất thực hiện.
+    \item Quản lý hợp đồng, mốc công việc và tiến độ triển khai dự án.
+    \item Minh bạch hóa quá trình thanh toán và lịch sử giao dịch.
+    \item Hỗ trợ trao đổi thông tin giữa doanh nghiệp và chuyên gia.
+    \item Cung cấp cơ chế đánh giá sau khi hoàn thành hợp đồng.
+    \item Hỗ trợ quản trị viên giám sát và quản lý hoạt động toàn hệ thống.
+\end{enumerate}
+
+%==============================================================
+
+\section{Kiến trúc tổng quan hệ thống}
+
+AITasker được thiết kế theo kiến trúc phân lớp, bao gồm lớp giao diện,
+lớp xử lý nghiệp vụ và lớp dữ liệu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=0.78\textheight,
+        keepaspectratio
+    ]{architecture.png}
+    \caption{Kiến trúc tổng quan hệ thống AITasker}
+    \label{fig:architecture-overview}
+\end{figure}
+
+Như thể hiện tại Hình~\ref{fig:architecture-overview}, ba nhóm người dùng gồm
+doanh nghiệp, chuyên gia AI và quản trị viên truy cập hệ thống thông qua ứng
+dụng Web ReactJS.
+
+Frontend gửi các yêu cầu HTTP đến REST API được xây dựng bằng FastAPI.
+Backend tiếp nhận yêu cầu, thực hiện xác thực, kiểm tra quyền truy cập và điều
+phối yêu cầu đến các dịch vụ nghiệp vụ tương ứng.
+
+Các dịch vụ nghiệp vụ truy cập PostgreSQL để lưu trữ và truy vấn dữ liệu.
+Hệ thống có thể được triển khai trên môi trường điện toán đám mây để tăng
+khả năng sẵn sàng và mở rộng.
+
+%--------------------------------------------------------------
+
+\subsection{Lớp giao diện người dùng}
+
+Lớp giao diện được phát triển bằng ReactJS và cung cấp các màn hình phù hợp
+với vai trò của từng người dùng.
+
+Các chức năng giao diện chính gồm:
+
+\begin{itemize}
+    \item Đăng ký và đăng nhập.
+    \item Quản lý hồ sơ cá nhân.
+    \item Quản lý dự án.
+    \item Tìm kiếm dự án và chuyên gia.
+    \item Quản lý đề xuất.
+    \item Quản lý hợp đồng và mốc công việc.
+    \item Quản lý thanh toán.
+    \item Trao đổi tin nhắn.
+    \item Xem thông báo.
+    \item Đánh giá người dùng.
+    \item Xem Dashboard và báo cáo thống kê.
+\end{itemize}
+
+%--------------------------------------------------------------
+
+\subsection{Lớp xử lý nghiệp vụ}
+
+Backend được xây dựng bằng FastAPI và được chia thành các dịch vụ nghiệp vụ.
+
+Các thành phần chính gồm:
+
+\begin{itemize}
+    \item Authentication Service.
+    \item User Service.
+    \item Enterprise Service.
+    \item Expert Service.
+    \item Category Service.
+    \item Skill Service.
+    \item Project Service.
+    \item Proposal Service.
+    \item Contract Service.
+    \item Milestone Service.
+    \item Payment Service.
+    \item Conversation Service.
+    \item Message Service.
+    \item Notification Service.
+    \item Review Service.
+    \item Dashboard Service.
+    \item Statistics Service.
+\end{itemize}
+
+%--------------------------------------------------------------
+
+\subsection{Lớp dữ liệu}
+
+Hệ thống sử dụng PostgreSQL làm hệ quản trị cơ sở dữ liệu và SQLAlchemy làm
+công cụ ánh xạ đối tượng quan hệ.
+
+Các nhóm dữ liệu chính gồm:
+
+\begin{itemize}
+    \item Người dùng, vai trò và quyền.
+    \item Hồ sơ doanh nghiệp và chuyên gia.
+    \item Danh mục và kỹ năng.
+    \item Dự án và tệp đính kèm.
+    \item Đề xuất và hợp đồng.
+    \item Mốc công việc và thanh toán.
+    \item Hội thoại và tin nhắn.
+    \item Thông báo và đánh giá.
+\end{itemize}
+
+%==============================================================
+
+\section{Các tác nhân của hệ thống}
+
+Hệ thống có ba tác nhân chính:
+
+\begin{itemize}
+    \item Quản trị viên.
+    \item Doanh nghiệp.
+    \item Chuyên gia AI.
+\end{itemize}
+
+Biểu đồ Use Case tổng thể được trình bày trong
+Hình~\ref{fig:usecase-overview}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=0.82\textwidth,
+        height=0.85\textheight,
+        keepaspectratio
+    ]{Usecase.png}
+    \caption{Biểu đồ Use Case tổng thể của hệ thống AITasker}
+    \label{fig:usecase-overview}
+\end{figure}
+
+%--------------------------------------------------------------
+
+\subsection{Quản trị viên}
+
+Quản trị viên chịu trách nhiệm quản lý và giám sát hệ thống.
+
+Các chức năng chính gồm:
+
+\begin{itemize}
+    \item Quản lý người dùng.
+    \item Quản lý danh mục.
+    \item Quản lý các dự án trên hệ thống.
+    \item Xem báo cáo và số liệu thống kê.
+    \item Theo dõi tình trạng hoạt động của hệ thống.
+\end{itemize}
+
+%--------------------------------------------------------------
+
+\subsection{Doanh nghiệp}
+
+Doanh nghiệp là tác nhân tạo dự án và thuê chuyên gia AI.
+
+Các chức năng chính gồm:
+
+\begin{itemize}
+    \item Đăng ký và đăng nhập.
+    \item Quản lý hồ sơ cá nhân.
+    \item Tạo, cập nhật và xóa dự án.
+    \item Xem danh sách và chi tiết dự án.
+    \item Xem, chấp nhận hoặc từ chối đề xuất.
+    \item Tạo và quản lý hợp đồng.
+    \item Tạo mốc công việc.
+    \item Theo dõi tiến độ.
+    \item Thanh toán theo mốc công việc.
+    \item Gửi tin nhắn và xem hội thoại.
+    \item Nhận thông báo.
+    \item Đánh giá chuyên gia.
+\end{itemize}
+
+%--------------------------------------------------------------
+
+\subsection{Chuyên gia AI}
+
+Chuyên gia AI là tác nhân tìm kiếm và thực hiện các dự án do doanh nghiệp đăng.
+
+Các chức năng chính gồm:
+
+\begin{itemize}
+    \item Đăng ký và đăng nhập.
+    \item Quản lý hồ sơ và kỹ năng.
+    \item Tìm kiếm và xem chi tiết dự án.
+    \item Gửi hoặc rút đề xuất.
+    \item Xem và quản lý hợp đồng.
+    \item Cập nhật tiến độ thực hiện.
+    \item Gửi tin nhắn và xem hội thoại.
+    \item Xem lịch sử thanh toán.
+    \item Nhận thông báo.
+    \item Đánh giá doanh nghiệp.
+\end{itemize}
+
+%==============================================================
+
+\section{Quy trình nghiệp vụ tổng quát}
+
+Quy trình hợp tác chính của hệ thống được thực hiện như sau:
+
+\begin{enumerate}
+    \item Người dùng đăng ký và đăng nhập vào hệ thống.
+    \item Doanh nghiệp tạo một dự án mới.
+    \item Chuyên gia tìm kiếm và xem thông tin dự án.
+    \item Chuyên gia gửi đề xuất cho dự án.
+    \item Doanh nghiệp xem và lựa chọn một đề xuất phù hợp.
+    \item Hệ thống chấp nhận đề xuất và tạo hợp đồng.
+    \item Doanh nghiệp và chuyên gia thực hiện công việc theo các Milestone.
+    \item Doanh nghiệp thanh toán sau khi Milestone hoàn thành.
+    \item Khi toàn bộ công việc hoàn thành, hợp đồng chuyển sang trạng thái
+    \texttt{COMPLETED}.
+    \item Hai bên thực hiện đánh giá lẫn nhau.
+\end{enumerate}
+
+%==============================================================
+
+\section{Môi trường hoạt động}
+
+Hệ thống hoạt động trên nền Web và hỗ trợ các thành phần sau:
+
+\begin{itemize}
+    \item Hệ điều hành Windows, Linux hoặc macOS.
+    \item Trình duyệt Google Chrome, Microsoft Edge và Mozilla Firefox.
+    \item Python 3.12.
+    \item FastAPI.
+    \item ReactJS.
+    \item PostgreSQL.
+    \item SQLAlchemy.
+    \item JWT và BCrypt.
+\end{itemize}
+
+%==============================================================
+
+\section{Các ràng buộc nghiệp vụ}
+
+Các ràng buộc chính của hệ thống gồm:
+
+\begin{itemize}
+    \item Người dùng phải đăng nhập để sử dụng các chức năng nghiệp vụ.
+    \item Email và tên đăng nhập phải là duy nhất.
+    \item Chỉ doanh nghiệp được phép tạo dự án.
+    \item Chỉ chuyên gia được phép gửi đề xuất.
+    \item Chuyên gia không được gửi nhiều đề xuất cho cùng một dự án.
+    \item Đề xuất chỉ được gửi khi dự án đang ở trạng thái \texttt{OPEN}.
+    \item Khi một đề xuất được chấp nhận, các đề xuất còn lại phải bị từ chối.
+    \item Chấp nhận đề xuất phải dẫn đến việc tạo hợp đồng.
+    \item Chỉ hợp đồng \texttt{ACTIVE} mới được tiếp tục thực hiện.
+    \item Milestone phải hoàn thành trước khi được thanh toán.
+    \item Chỉ hợp đồng \texttt{COMPLETED} mới được đánh giá.
+    \item Mỗi người dùng chỉ được đánh giá một lần cho cùng một hợp đồng.
+    \item Mật khẩu phải được băm trước khi lưu vào cơ sở dữ liệu.
+    \item Access Token phải có thời hạn sử dụng.
+\end{itemize}
+
+%==============================================================
+
+\section{Giả định và phụ thuộc}
+
+Hệ thống được xây dựng dựa trên các giả định sau:
+
+\begin{itemize}
+    \item Người dùng có kết nối Internet ổn định.
+    \item Frontend có thể kết nối đến REST API của Backend.
+    \item Máy chủ PostgreSQL hoạt động bình thường.
+    \item Dịch vụ lưu trữ tệp luôn khả dụng.
+    \item Hệ thống triển khai thực tế sử dụng kết nối HTTPS.
+    \item Người dùng cung cấp thông tin chính xác khi tạo hồ sơ và dự án.
+\end{itemize}
