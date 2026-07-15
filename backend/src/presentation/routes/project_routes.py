@@ -1,103 +1,30 @@
-from uuid import UUID
-
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from backend.src.config.database import get_db
-from backend.src.schemas.project import (
-    ProjectCreate,
-    ProjectResponse,
-    ProjectUpdate,
+from src.config.database import get_db
+from src.schemas.project import ProjectCreate
+from src.services.project_service import (
+    create_project,
+    get_projects,
+    update_project,
 )
-from backend.src.services.project_service import ProjectService
 
-router = APIRouter(tags=["Projects"])
-
-service = ProjectService()
+router = APIRouter(prefix="/projects", tags=["Projects"])
 
 
-@router.get(
-    "",
-    response_model=list[ProjectResponse],
-)
-def get_projects(
-    db: Session = Depends(get_db),
-):
-    return service.get_all(db)
+@router.post("/")
+def create(data: ProjectCreate, db: Session = Depends(get_db)):
+    return create_project(db, data)
 
 
-@router.get(
-    "/{project_id}",
-    response_model=ProjectResponse,
-)
-def get_project(
-    project_id: UUID,
-    db: Session = Depends(get_db),
-):
-    project = service.get_by_id(db, project_id)
+@router.get("/")
+def get_all(db: Session = Depends(get_db)):
+    return get_projects(db)
 
-    if project is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Project not found",
-        )
 
+@router.put("/{project_id}")
+def update(project_id: int, data: ProjectCreate, db: Session = Depends(get_db)):
+    project = update_project(db, project_id, data)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
     return project
-
-
-@router.post(
-    "",
-    response_model=ProjectResponse,
-    status_code=status.HTTP_201_CREATED,
-)
-def create_project(
-    payload: ProjectCreate,
-    db: Session = Depends(get_db),
-):
-    return service.create(db, payload)
-
-
-@router.put(
-    "/{project_id}",
-    response_model=ProjectResponse,
-)
-def update_project(
-    project_id: UUID,
-    payload: ProjectUpdate,
-    db: Session = Depends(get_db),
-):
-    project = service.update(
-        db,
-        project_id,
-        payload,
-    )
-
-    if project is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Project not found",
-        )
-
-    return project
-
-
-@router.delete(
-    "/{project_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-)
-def delete_project(
-    project_id: UUID,
-    db: Session = Depends(get_db),
-):
-    deleted = service.delete(
-        db,
-        project_id,
-    )
-
-    if not deleted:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Project not found",
-        )
-
-    return None

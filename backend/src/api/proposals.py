@@ -1,29 +1,63 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
-from uuid import UUID
 
-from backend.src.config.database import get_db
-from backend.src.schemas.proposal import ProposalCreate, ProposalUpdate, ProposalResponse, ProposalStatusUpdate
-from backend.src.services.proposal_service import proposal_service
+from src.config.database import get_db
+from src.schemas.proposal import ProposalCreate
+from src.crud.proposal import (
+    create_proposal,
+    get_proposals,
+    get_proposal_by_id,
+    update_proposal,
+    delete_proposal,
+    accept_proposal,
+)
 
-# 🔴 THÊM "/api" VÀO TRƯỚC PREFIX
 router = APIRouter(
-    prefix="/api/proposals",
+    prefix="/proposals",
     tags=["Proposals"]
 )
 
-@router.get("/", response_model=List[ProposalResponse])
-def get_proposals(db: Session = Depends(get_db)):
-    return proposal_service.get_all(db)
 
-@router.post("/", response_model=ProposalResponse, status_code=status.HTTP_201_CREATED)
-def create_proposal(payload: ProposalCreate, db: Session = Depends(get_db)):
-    return proposal_service.create(db, payload)
+@router.post("/")
+def create(data: ProposalCreate, db: Session = Depends(get_db)):
+    proposal = create_proposal(db, data)
+    if not proposal:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return proposal
 
-@router.get("/{proposal_id}/", response_model=ProposalResponse)
-def get_proposal(proposal_id: UUID, db: Session = Depends(get_db)):
-    proposal = proposal_service.get_by_id(db, proposal_id)
+
+@router.get("/")
+def read_all(db: Session = Depends(get_db)):
+    return get_proposals(db)
+
+
+@router.get("/{proposal_id}")
+def read_one(proposal_id: int, db: Session = Depends(get_db)):
+    proposal = get_proposal_by_id(db, proposal_id)
+    if not proposal:
+        raise HTTPException(status_code=404, detail="Proposal not found")
+    return proposal
+
+
+@router.put("/{proposal_id}")
+def update(proposal_id: int, data: ProposalCreate, db: Session = Depends(get_db)):
+    proposal = update_proposal(db, proposal_id, data)
+    if not proposal:
+        raise HTTPException(status_code=404, detail="Proposal not found")
+    return proposal
+
+
+@router.delete("/{proposal_id}")
+def delete(proposal_id: int, db: Session = Depends(get_db)):
+    success = delete_proposal(db, proposal_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Proposal not found")
+    return {"message": "Proposal deleted successfully"}
+
+
+@router.put("/{proposal_id}/accept")
+def accept(proposal_id: int, db: Session = Depends(get_db)):
+    proposal = accept_proposal(db, proposal_id)
     if not proposal:
         raise HTTPException(status_code=404, detail="Proposal not found")
     return proposal
